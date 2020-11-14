@@ -1,0 +1,26 @@
+name: NugetPush
+
+on:
+  release:
+      types: [released, prereleased]
+
+jobs:
+  Push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+    - name: Install dependencies
+      run: dotnet restore ./src/*.sln
+    - name: Build
+      run: dotnet build ./src/SemanticBlazor.sln --configuration Release --no-restore
+    - name: Pack
+      run: dotnet pack ./src/SemanticBlazor/SemanticBlazor.csproj -p:PackageVersion=${{github.event.release.tag_name}} --configuration Release --no-restore -o out
+    - uses: actions/upload-artifact@v2
+      with:
+        name: SemanticBlazor_${{github.event.release.tag_name}}
+        path: ./out
+    - name: Push
+      run: dotnet nuget push "./out/*.nupkg" -s https://api.nuget.org/v3/index.json -k ${{ secrets.Nuget_Token }}
