@@ -9,7 +9,7 @@ SemanticBlazor is implementation of Semantic UI components for Blazor.
 **Latest versions:**
 
 [![NuGet](https://img.shields.io/nuget/v/SemanticBlazor.svg?style=for-the-badge)](https://www.nuget.org/packages/SemanticBlazor/)
-[![NuGet](https://img.shields.io/nuget/vpre/SemanticBlazor.svg?style=for-the-badge)](https://www.nuget.org/packages/SemanticBlazor/)
+[![NuGet](https://img.shields.io/nuget/vpre/SemanticBlazor.svg?style=for-the-badge)](https://www.nuget.org/packages/SemanticBlazor/absoluteLatest)
 
 ## Live demo
 * [SemBlazor.azurewebsite.com - Documentation and live demo website of tha latest stable release.](http://semblazor.azurewebsites.net)
