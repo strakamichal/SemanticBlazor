@@ -2,9 +2,9 @@
 SemanticBlazor is implementation of Semantic UI components for Blazor.
 
 [![GitHub Stars](https://img.shields.io/github/stars/strakamichal/SemanticBlazor.svg?style=for-the-badge)](https://github.com/strakamichal/SemanticBlazor/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/Strakamichal/SemanticBlazor.svg?style=for-the-badge)](https://github.com/SamProf/MatBlazor/issues)
-[![Live Demo](https://img.shields.io/badge/demo-online-green.svg?style=for-the-badge)]([https://](http://semblazor.azurewebsites.net))
-[![MIT](https://img.shields.io/github/license/SamProf/MatBlazor.svg?style=for-the-badge)](LICENSE)
+[![GitHub Issues](https://img.shields.io/github/issues/Strakamichal/SemanticBlazor.svg?style=for-the-badge)](https://github.com/strakamichal/SemanticBlazor/issues)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg?style=for-the-badge)](http://semblazor.azurewebsites.net)
+[![MIT](https://img.shields.io/github/license/strakamichal/SemanticBlazor.svg?style=for-the-badge)](LICENSE)
 
 **Latest versions:**
 
@@ -34,11 +34,11 @@ User Interface is the language of the web.
 ## Installation 
 **Nuget Package**
 ```
-Install-Package MatBlazor
+Install-Package SemanticBlazor
 ```
 or 
 ```
-dotnet add package MatBlazor
+dotnet add package SemanticBlazor
 ```
 
 **_Imports.razor**
