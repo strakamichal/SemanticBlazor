@@ -8,7 +8,14 @@
   </CascadingValue>
   <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
     <input type="hidden" value="@stringValue" @onchange="OnValueChanged" />
-    <i class="dropdown icon"></i>
+    @if (!IsButton)
+    {
+      <i class="dropdown icon"></i>
+    }
+    @if (IsButton && ButtonIcon != null)
+    {
+      <SemIcon Icon="ButtonIcon"></SemIcon>
+    }
     <div class="default text">@DefaultText</div>
     <div class="menu">
       @foreach (var item in Items)
@@ -29,13 +36,21 @@
 }
 
 @code {
-
-  /*
-    TODO: Implement init options:
-    clearable (true/false)
-    maxSelections(number)
-    useLabels(true/false)
-  */
+  [Parameter] public int? MaxSelections { get; set; }
+  [Parameter] public bool UseLabels { get; set; } = true;
+  protected override Dictionary<string, object> initSettings
+  {
+    get
+    {
+      var retval = new Dictionary<string, object>();
+      retval.Add("fullTextSearch", FullTextSearch ? true : false);
+      retval.Add("clearable", Clearable ? true : false);
+      retval.Add("allowAdditions", AllowAdditions ? true : false);
+      retval.Add("useLabels", !UseLabels || IsButton ? false : true);
+      if (MaxSelections != null) retval.Add("maxSelections", MaxSelections);
+      return retval;
+    }
+  }
 
   public SemDropdownMultiSelection()
   {

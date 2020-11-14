@@ -18,9 +18,9 @@ namespace SemanticBlazor
 
     public class DropDown
     {
-      public static async Task Init(IJSRuntime jsRuntime, string id)
+      public static async Task Init(IJSRuntime jsRuntime, string id, Dictionary<string, object> settings)
       {
-        await jsRuntime.InvokeAsync<object>("SemanticDropdown.Init", id);
+        await jsRuntime.InvokeAsync<object>("SemanticDropdown.Init", id, settings);
       }
       public static async ValueTask<object> GetValue(IJSRuntime jsRuntime, string id)
       {

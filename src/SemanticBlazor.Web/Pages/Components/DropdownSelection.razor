@@ -51,6 +51,30 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
     </ListItems>
   </SemDropdownSelection>") />
 
+<h3>Clearable</h3>
+<p>
+  <SemDropdownSelection @bind-Value="SelectedValue" DefaultText="Select..." Clearable="true">
+    <ListItems>
+      <SemSelectListItem Text="Option 1" Value="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2" Value="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3" Value="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4" Value="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>
+</p>
+<p>
+  Selected value: @(SelectedValue)
+</p>
+<CodeHighlight Code=@(@"
+  <SemDropdownSelection @bind-Value=""SelectedValue"" DefaultText=""Select..."" Clearable=""true"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1"" Value=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2"" Value=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3"" Value=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4"" Value=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>") />
+
 <h3>Searching</h3>
 <p>
   <SemDropdownSelection @bind-Value="SelectedValue" DefaultText="Select..." Search="true">
@@ -74,6 +98,69 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
       <SemSelectListItem Text=""Option 4""></SemSelectListItem>
     </ListItems>
   </SemDropdownSelection>") />
+
+<h3>Allow additions</h3>
+<p>
+  <SemDropdownSelection @bind-Value="SelectedValue3" DefaultText="Select..." Search="true" AllowAdditions="true">
+    <ListItems>
+      <SemSelectListItem Text="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>
+</p>
+<p>
+  Selected value: @(SelectedValue3)
+</p>
+<CodeHighlight Code=@(@"
+  <SemDropdownSelection @bind-Value=""SelectedValue"" DefaultText=""Select..."" Search=""true"" AllowAdditions=""true"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>") />
+
+<h3>Button variant</h3>
+<p>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true" ButtonColor="ButtonColor.Green"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true" ButtonEmphasis="Emphasis.Primary"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true" ButtonIcon="Icon.Tag"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true" ButtonIcon="Icon.Tag" ButtonIconLabeled="false"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true" ButtonIcon="Icon.Tag" ButtonIconPosition="IconPosition.Right"></SemDropdownSelection>
+</p>
+<p>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Mini" IsButton="true" ButtonSize="Size.Mini"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Tiny" IsButton="true" ButtonSize="Size.Tiny"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Small" IsButton="true" ButtonSize="Size.Small"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Medium" IsButton="true" ButtonSize="Size.Medium"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Large" IsButton="true" ButtonSize="Size.Large"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Big" IsButton="true" ButtonSize="Size.Big"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Huge" IsButton="true" ButtonSize="Size.Huge"></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Massive" IsButton="true" ButtonSize="Size.Massive"></SemDropdownSelection>
+</p>
+<p>
+  Selected value: @(SelectedValue)
+</p>
+<CodeHighlight Code=@(@"
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Select..."" IsButton=""true""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Select..."" IsButton=""true"" ButtonColor=""ButtonColor.Green""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Select..."" IsButton=""true"" ButtonEmphasis=""Emphasis.Primary""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Select..."" IsButton=""true"" ButtonIcon=""Icon.Tag""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Select..."" IsButton=""true"" ButtonIcon=""Icon.Tag"" ButtonIconLabeled=""false""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Select..."" IsButton=""true"" ButtonIcon=""Icon.Tag"" ButtonIconPosition=""IconPosition.Right""></SemDropdownSelection>
+
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Mini..."" IsButton=""true"" ButtonSize=""Size.Mini""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Tiny..."" IsButton=""true"" ButtonSize=""Size.Tiny""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Small..."" IsButton=""true"" ButtonSize=""Size.Small""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Medium..."" IsButton=""true"" ButtonSize=""Size.Medium""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Large..."" IsButton=""true"" ButtonSize=""Size.Large""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Big..."" IsButton=""true"" ButtonSize=""Size.Big""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Huge..."" IsButton=""true"" ButtonSize=""Size.Huge""></SemDropdownSelection>
+  <SemDropdownSelection @bind-Value=""SelectedValue"" Items=""options"" DefaultText=""Massive..."" IsButton=""true"" ButtonSize=""Size.Massive""></SemDropdownSelection>") />
 
 <h3>Custom item template</h3>
 <p>
@@ -145,10 +232,18 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
   private bool dropdownEnabled { get; set; } = false;
   public string SelectedValue { get; set; }
   public string SelectedValue2 { get; set; }
+  public string SelectedValue3 { get; set; }
   public int SelectedDummyId { get; set; } = 4;
   public string SelectedDummyName { get; set; } = "Lorem";
   public int? SelectedNullDummyId { get; set; } = 3;
   List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  List<ListItem> options { get; set; } = new List<ListItem>()
+{
+    new ListItem() { Text="Option 1" },
+    new ListItem() { Text="Option 2" },
+    new ListItem() { Text="Option 3" },
+    new ListItem() { Text="Option 4" }
+  };
 
   protected override async Task OnInitializedAsync()
   {

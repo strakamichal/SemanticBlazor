@@ -9,16 +9,16 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <Version>1.3.2</Version>
+    <Version>1.4.0-alpha-7</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
+    <FileVersion>1.4.0.0</FileVersion>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <Company>Michal Straka</Company>
     <Authors>Michal Straka</Authors>
     <Description>SemanticBlazor is implementation of some Semantic UI components for Blazor.</Description>
-    <PackageReleaseNotes>http://semblazor.wmsapps.cz/release-notes</PackageReleaseNotes>
-    <PackageProjectUrl>http://semblazor.wmsapps.cz/</PackageProjectUrl>
+    <PackageReleaseNotes>http://semblazor.azurewebsites.net/release-notes</PackageReleaseNotes>
+    <PackageProjectUrl>http://semblazor.azurewebsites.net</PackageProjectUrl>
     <Copyright>Copyright Michal Straka 2020</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageIcon>semblazor-icon.png</PackageIcon>
