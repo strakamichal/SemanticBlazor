@@ -12,8 +12,8 @@ SemanticBlazor is implementation of Semantic UI components for Blazor.
 [![NuGet](https://img.shields.io/nuget/vpre/SemanticBlazor.svg?style=for-the-badge)](https://www.nuget.org/packages/SemanticBlazor/absoluteLatest)
 
 ## Live demo
-* [SemBlazor.azurewebsite.com - Documentation and live demo website of tha latest stable release.](http://semblazor.azurewebsites.net)
-* [SemBlazor-dev.azurewebsite.com - Live demo website of the prerelease version.](http://semblazor-dev.azurewebsites.net)
+* [SemBlazor.azurewebsite.com](http://semblazor.azurewebsites.net) - Documentation and live demo website of tha latest stable release.
+* [SemBlazor-dev.azurewebsite.com](http://semblazor-dev.azurewebsites.net) - Live demo website of the prerelease version.
 
 ### What si Semantic UI ###
 User Interface is the language of the web.
