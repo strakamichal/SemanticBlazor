@@ -12,15 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="SemanticBlazor.Web.csproj.vspscc" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SemanticBlazor\SemanticBlazor.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SemanticBlazor.Web.Data;
+using Microsoft.Extensions;
 
 namespace SemanticBlazor.Web
 {

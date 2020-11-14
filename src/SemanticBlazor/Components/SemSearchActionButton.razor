@@ -1,14 +1,17 @@
 ﻿@inherits SemInputControlBase<string>
-
 @if (Visible)
 {
-  <SemActionInput Value="Value" ValueChanged="ValueChanged" OnClick="SearchClicked" ActionText="@SearchActionText" Clearable="true" 
-                  ButtonIcon="Icon.Search" OnClickLoading="true" Style="@Style" Class="@Class" @attributes="Attributes" Enabled="@Enabled"></SemActionInput>
+  <SemActionInput Value="Value" ValueChanged="ValueChanged" OnClick="SearchClicked" ActionText="@SearchActionText" Clearable="true"
+                  ButtonIcon="Icon.Search" ButtonIconLabeled="false" Size="Size" OnClickLoading="true" Style="@Style" Class="@Class" @attributes="Attributes" Enabled="@Enabled"></SemActionInput>
 }
+
+
 
 @code {
   [Parameter] public string SearchActionText { get; set; } = "Search";
   [Parameter] public EventCallback<object> OnSearch { get; set; }
+  [Parameter] public InputSize? Size { get; set; }
+  [Parameter] public ButtonColor? ButtonColor { get; set; }
 
   private async Task SearchClicked()
   {

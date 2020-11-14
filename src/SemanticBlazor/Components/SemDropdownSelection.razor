@@ -12,7 +12,14 @@
     {
       <SemIcon Icon="@Icon"></SemIcon>
     }
-    <i class="dropdown icon"></i>
+    @if (!IsButton)
+    {
+      <i class="dropdown icon"></i>
+    }
+    @if (IsButton && ButtonIcon != null)
+    {
+      <SemIcon Icon="ButtonIcon"></SemIcon>
+    }
     <div class="default text">@DefaultText</div>
     <div class="menu">
       @if (Items != null)
@@ -47,27 +54,37 @@
   [Parameter] public Icon? Icon { get; set; }
   [Parameter] public bool Search { get; set; }
   [Parameter] public bool Scrolling { get; set; }
+  [Parameter] public bool FullTextSearch { get; set; } = true;
+  [Parameter] public bool Clearable { get; set; } = false;
+  [Parameter] public bool AllowAdditions { get; set; } = false;
 
-  //TODO: Show as dropdown button
-  //[Parameter] public bool IsButton { get; set; }
-  //[Parameter] public Icon? ButtonIcon { get; set; }
-  //[Parameter] public IconPosition? ButtonIconPosition { get; set; }
-  //[Parameter] public bool ButtonIconLabeled { get; set; } = true;
-  //[Parameter] public ButtonColor? ButtonColor { get; set; }
-  //[Parameter] public Emphasis? ButtonEmphasis { get; set; }
-  //[Parameter] public Size? ButtonSize { get; set; }
-  //[Parameter] public ButtonClass[] ButtonClasses { get; set; }
+  // Button paremeters
+  [Parameter] public bool IsButton { get; set; }
+  [Parameter] public Icon? ButtonIcon { get; set; }
+  [Parameter] public IconPosition? ButtonIconPosition { get; set; }
+  [Parameter] public bool ButtonIconLabeled { get; set; } = true;
+  [Parameter] public ButtonColor? ButtonColor { get; set; }
+  [Parameter] public Emphasis? ButtonEmphasis { get; set; }
+  [Parameter] public Size? ButtonSize { get; set; }
+  [Parameter] public ButtonClass[] ButtonClasses { get; set; }
 
   /*
     Not implemented parameters:
     - compact
     - fluid
-
-    TODO: Implement init options:
-    clearable (true/false)
-    allowAdditions ?
   */
 
+  protected virtual Dictionary<string, object> initSettings
+  {
+    get
+    {
+      var retval = new Dictionary<string, object>();
+      retval.Add("fullTextSearch", FullTextSearch ? true : false);
+      retval.Add("clearable", Clearable ? true : false);
+      retval.Add("allowAdditions", AllowAdditions ? true : false);
+      return retval;
+    }
+  }
   public string lastVal { get; set; }
   protected string lastStringValue { get; set; }
   protected bool guiValueChangeInprogress { get; set; }
@@ -80,18 +97,23 @@
       .Add("ui")
       .If("search", () => Search)
       .If("scrolling", () => Scrolling)
-      .Add("selection")
-      //.If("selection", () => !this.ShowButton)
-      //.If("floating", () => this.ShowButton)
-      //.If("button", () => this.ShowButton);
+      .If("selection", () => !this.IsButton)
+      .If("floating", () => this.IsButton)
+      .GetIf(() => Enums.GetClass(ButtonIconPosition), () => ButtonIcon != null)
+      .If("labeled", () => this.ButtonIcon != null && (ButtonClasses == null || !ButtonClasses.Contains(ButtonClass.Basic)) && ButtonIconLabeled)
+      .If("icon", () => this.ButtonIcon != null && (ButtonClasses == null || !ButtonClasses.Contains(ButtonClass.Basic)) && ButtonIconLabeled)
+      .Get(() => Enums.GetClasses(ButtonClasses))
+      .Get(() => ButtonEmphasis?.ToString().ToLower())
+      .Get(() => ButtonColor?.ToString().ToLower())
+      .Get(() => ButtonSize?.ToString().ToLower())
+      .If("button", () => this.IsButton)
       .Add("dropdown");
-
   }
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
-      await SemanticBlazor.JsFunc.DropDown.Init(js, Id);
+      await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
     }
     await base.OnAfterRenderAsync(firstRender);
   }
