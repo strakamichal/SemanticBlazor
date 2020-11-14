@@ -1,4 +1,4 @@
 # SemanticBlazor
 SemanticBlazor is implementation of some Semantic UI components for Blazor.
 
-Update 11:04
+Update 11:08
