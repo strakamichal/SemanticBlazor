@@ -1,0 +1,31 @@
+name: DevAzureDeploy
+
+on:
+  release:
+      types: [prereleased]
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+    - name: Install dependencies
+      run: dotnet restore ./src/*.sln
+    - name: Build
+      run: dotnet publish ./src/SemanticBlazor.Web/SemanticBlazor.Web.csproj --configuration Release --no-restore -o out
+    - uses: actions/upload-artifact@v2
+      with:
+        name: SemanticBlazor.Web_${{github.event.release.tag_name}}
+        path: ./out
+    - name: Azure Login
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_TOKEN }}
+    - name: Azure WebApp
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: semblazor-dev
+        package: ./out
