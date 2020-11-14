@@ -1,0 +1,67 @@
+﻿@typeparam ValueType
+@inherits SemControlBase
+@implements IDisposable
+
+@if (Visible)
+{
+  <CascadingValue Value="EditContext">
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (FieldValidationPosition == ValidationPosition.Top)
+      {
+        <SemValidationMessage For="@For" style="float: right; padding: 0px;"></SemValidationMessage>
+      }
+      @if (LabelVisible)
+      {
+        <label>@(Label != null ? Label : Annotations.GetNameFor(For))</label>
+      }
+      <CascadingValue Value="For">
+        @ChildContent
+      </CascadingValue>
+      @if (FieldValidationPosition == ValidationPosition.Bottom)
+      {
+        <SemValidationMessage For="@For"></SemValidationMessage>
+      }
+    </div>
+  </CascadingValue>
+}
+
+@code {
+  [CascadingParameter] Microsoft.AspNetCore.Components.Forms.EditContext EditContext { get; set; }
+  [CascadingParameter] public ValidationPosition FieldValidationPosition { get; set; }
+  [Parameter] public System.Linq.Expressions.Expression<Func<ValueType>> For { get; set; }
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public string Label { get; set; }
+  [Parameter] public bool LabelVisible { get; set; } = true;
+  [Parameter] public bool Editable { get; set; } = true;
+  [Parameter] public bool Required { get; set; }
+  [Parameter] public GridUnit? Wide { get; set; }
+  [Parameter] public FieldClass[] Classes { get; set; }
+  private bool validationError = false;
+
+  public SemFormField()
+  {
+    ClassMapper
+      .If("required", () => Required)
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Wide?.ToString().ToLower())
+      .If("wide", () => Wide != null)
+      .If("error", () => validationError)
+      .Add("field");
+  }
+  protected override void OnInitialized()
+  {
+    Required = Editable && Annotations.GetRequiredFor(For);
+    if (EditContext != null)
+    {
+      EditContext.OnValidationStateChanged += HandleValidationStateChanged;
+    }
+  }
+  private void HandleValidationStateChanged(object o, ValidationStateChangedEventArgs args) => validationError = (EditContext != null && EditContext.GetValidationMessages(FieldIdentifier.Create(For)).Any());
+  public void Dispose()
+  {
+    if (EditContext != null)
+    {
+      EditContext.OnValidationStateChanged -= HandleValidationStateChanged;
+    }
+  }
+}

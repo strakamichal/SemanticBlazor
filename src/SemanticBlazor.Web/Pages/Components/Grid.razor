@@ -1,0 +1,132 @@
+﻿@page "/Components/Grid"
+
+@inherits PageBase
+@layout ComponentsLayout
+
+<h1>Grid</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/collections/grid.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Automatic width</h3>
+<p>Only number of columns is specified. Each column width is calculated automatically.</p>
+<SemGrid Columns="GridUnit.Four">
+  <SemGridColumn><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn><p style="@columnStyle"></p></SemGridColumn>
+</SemGrid>
+<CodeHighlight Code=@(@"
+  <SemGrid Columns=""GridUnit.Four"">
+    <SemGridColumn></SemGridColumn>
+    <SemGridColumn></SemGridColumn>
+    <SemGridColumn></SemGridColumn>
+    <SemGridColumn></SemGridColumn>
+  </SemGrid>
+") />
+
+<h3>Custom columns width</h3>
+<p>Width of each column could be set manually.</p>
+<SemGrid>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Two"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Eight"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Six"><p style="@columnStyle"></p></SemGridColumn>
+</SemGrid>
+<CodeHighlight Code=@(@"
+  <SemGrid>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Two""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Eight""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Six""></SemGridColumn>
+  </SemGrid>
+") />
+
+<h3>Manual rows</h3>
+<p>You are able to create specific row.</p>
+<SemGrid>
+  <SemGridRow>
+    <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+    <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+    <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  </SemGridRow>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+</SemGrid>
+<CodeHighlight Code=@(@"
+  <SemGrid>
+    <SemGridRow>
+      <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+      <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+      <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    </SemGridRow>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+  </SemGrid>") />
+
+<h3>Relaxed</h3>
+<p>Relaxed grid has bigger margins between columns.</p>
+<SemGrid Classes="@(new[] { GridClass.Relaxed })">
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Four"><p style="@columnStyle"></p></SemGridColumn>
+</SemGrid>
+<CodeHighlight Code=@(@"
+  <SemGrid Classes=""@(new[] { GridClass.Relaxed })"">
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+    <SemGridColumn Wide=""GridUnit.Four""></SemGridColumn>
+  </SemGrid>") />
+
+
+<h3>Floating</h3>
+<p>Allows you to set float position for column.</p>
+<SemGrid Columns="GridUnit.Four">
+  <SemGridColumn Classes="@(new[] { ColumnClass.Left_Floated })"><p style="@columnStyle">Left floated</p></SemGridColumn>
+  <SemGridColumn Classes="@(new[] { ColumnClass.Right_Floated })"><p style="@columnStyle">Right floated</p></SemGridColumn>
+</SemGrid>
+<CodeHighlight Code=@(@"
+  <SemGrid Columns=""GridUnit.Four"">
+    <SemGridColumn Classes=""@(new[] { ColumnClass.Left_Floated })""><p>Left floated</p></SemGridColumn>
+    <SemGridColumn Classes=""@(new[] { ColumnClass.Right_Floated })""><p>Right floated</p></SemGridColumn>
+  </SemGrid>") />
+
+<h3>Centered grid with text align</h3>
+<p>Grid could be centered to align columns in the middle. You are also able to set text align.</p>
+<SemGrid Columns="GridUnit.Three" Classes="@(new [] {GridClass.Centered})">
+  <SemGridColumn Classes="@(new[] { ColumnClass.Left_Aligned, ColumnClass.Left_Floated })"><p style="@columnStyle">Left aligned text</p></SemGridColumn>
+  <SemGridColumn Classes="@(new[] { ColumnClass.Right_Aligned, ColumnClass.Right_Floated })"><p style="@columnStyle">Right aligned text</p></SemGridColumn>
+  <SemGridRow Columns="GridUnit.Two">
+    <SemGridColumn Classes="@(new[] { ColumnClass.Center_Aligned })"><p style="@columnStyle">Center aligned text</p></SemGridColumn>
+  </SemGridRow>
+</SemGrid>
+<CodeHighlight Code=@(@"
+  <SemGrid Columns=""GridUnit.Three"" Classes=""@(new [] {GridClass.Centered})"">
+    <SemGridColumn Classes=""@(new[] { ColumnClass.Left_Aligned, ColumnClass.Left_Floated })""><p>Left aligned text</p></SemGridColumn>
+    <SemGridColumn Classes=""@(new[] { ColumnClass.Right_Aligned, ColumnClass.Right_Floated })""><p>Right aligned text</p></SemGridColumn>
+    <SemGridRow Columns=""GridUnit.Two"">
+      <SemGridColumn Classes=""@(new[] { ColumnClass.Center_Aligned })""><p>Center aligned text</p></SemGridColumn>
+    </SemGridRow>
+  </SemGrid>") />
+
+@code {
+  string columnStyle = "background-color: rgba(86, 61, 124, .1); -webkit-box-shadow: 0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset; box-shadow: 0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset; display: block; min-height: 50px; line-height: 20px; padding: 15px;";
+}

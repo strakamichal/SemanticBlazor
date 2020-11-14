@@ -1,0 +1,33 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <SemModal Class="tiny" @ref="confirmationModal" Style="@Style" @attributes="Attributes">
+    <Header>
+      @Header
+    </Header>
+    <Content>
+      @Content
+    </Content>
+    <Actions>
+      <SemButton Class="red deny">@CancelButtonText</SemButton>
+      <SemButton Class="positive icon labeled" @onclick="OnClick"><SemIcon Class="@ConfirmButtonIconClass"></SemIcon>@ConfirmButtonText</SemButton>
+    </Actions>
+  </SemModal>
+}
+
+@code {
+  [Parameter] public string Header { get; set; }
+  [Parameter] public RenderFragment Content { get; set; }
+  [Parameter] public string CancelButtonText { get; set; } = "No";
+  [Parameter] public string ConfirmButtonText { get; set; } = "Yes";
+  [Parameter] public string ConfirmButtonIconClass { get; set; } = "checkmark";
+
+  SemModal confirmationModal;
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+  public async Task Show()
+  {
+    await confirmationModal.Show();
+  }
+}

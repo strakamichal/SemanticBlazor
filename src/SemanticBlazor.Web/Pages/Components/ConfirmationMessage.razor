@@ -1,0 +1,37 @@
+﻿@page "/Components/ConfirmationMessage"
+@layout ComponentsLayout
+
+<h1>Confirmation message</h1>
+
+<h3>Button with built-in confirmation message</h3>
+<p>
+  Clicked: @currentCountConfirmed<br />
+</p>
+<p>
+  <SemButton OnClickLoading="true" OnClick="AsyncConfirmedFunc" NeedsConfirmation="true" ConfirmationHeader="Click button?" ConfirmationMessage="Are you sure to click this button?">Click me!</SemButton>
+</p>
+
+<h3>Confirmation for other action (with custom content)</h3>
+<p>
+  <a @onclick="(() => customModalConfirmation.Show())">Blow up the world</a>
+</p>
+
+<SemModalConfirmation @ref="customModalConfirmation" Header="Blow up the world" ConfirmButtonText="Let's do it!" ConfirmButtonIconClass="globe" CancelButtonText="Nope, save all the people" @onclick="AsyncConfirmedFunc">
+  <Content>
+    <div>Are you sure you want to kill all <b>7733695838</b> people on the planet?</div>
+    <div>Check actual world population at: <a href="https://www.worldometers.info/world-population/">worldometer.info</a>.</div>
+  </Content>
+</SemModalConfirmation>
+
+@code {
+  int currentCountConfirmed = 0;
+
+  SemModalConfirmation customModalConfirmation;
+
+  async Task AsyncConfirmedFunc()
+  {
+    await Task.Delay(1);
+    currentCountConfirmed++;
+    await Task.CompletedTask;
+  }
+}

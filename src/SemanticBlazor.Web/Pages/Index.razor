@@ -1,0 +1,11 @@
+﻿@page "/"
+@inherits PageBase
+
+@code {
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    navigationManager.NavigateTo("/Components/");
+    await Task.CompletedTask;
+  }
+}

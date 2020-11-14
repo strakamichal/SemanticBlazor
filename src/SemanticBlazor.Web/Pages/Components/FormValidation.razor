@@ -1,0 +1,160 @@
+﻿@page "/Components/FormValidation/{id:int}"
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject IJSRuntime jsRuntime
+
+<h1>Form with fields and validation</h1>
+<p>Functional example of SemForm with validation. See the full documentation at <NavLink href="https://semantic-ui.com/collections/form.html" target="_blank">Semantic UI</NavLink>.</p>
+
+<div class="ui equal width grid">
+  <div class="column">
+    <SemForm @ref="form" Model="item" OnValidSubmit="FormSubmited" FormValidationPosition="formValidPos" FieldValidationPosition="fieldValidPos">
+      <SemFormField For="@(() => item.DummyId)" Editable="false">
+        @item.DummyId
+      </SemFormField>
+      <SemFormField For="@(() => item.Name)">
+        <SemInput @bind-Value="item.Name" Placeholder="Enter name..."></SemInput>
+      </SemFormField>
+      <SemFormField For="@(() => item.Enabled)" LabelVisible="false">
+        <SemCheckbox @bind-Value="item.Enabled" Label="@Annotations.GetNameFor(() => item.Enabled)"></SemCheckbox>
+      </SemFormField>
+      <SemFormField For="@(() => item.Description)">
+        <InputTextArea id="description" @bind-Value="item.Description" placeholder="Enter description..."></InputTextArea>
+      </SemFormField>
+      <SemFormFields Fields="GridUnit.Two">
+        <SemFormField For="@(() => item.Type)">
+          <SemDropdownSelection @bind-Value="item.Type" Items="@(types.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownSelection>
+        </SemFormField>
+        <SemFormField For="@(() => item.Flags)">
+          <SemDropdownMultiSelection @bind-Value="item.Flags" Items="@(flags.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownMultiSelection>
+        </SemFormField>
+      </SemFormFields>
+      <SemFormFields Fields="GridUnit.Two">
+        <SemFormField For="@(() => item.Created)" Editable="false">
+          @item.Created
+        </SemFormField>
+        <SemFormField For="@(() => item.LastUpdate)" Editable="false">
+          @item.LastUpdate
+        </SemFormField>
+      </SemFormFields>
+      <SemButton IsSubmitButton="true">Save</SemButton>
+    </SemForm>
+    <div style="margin-top: 20px">
+      <b>Form validation position:</b><br />
+      <SemButtonSwitch Value="(int)formValidPos" ValueChanged="@((e) => ChangeFormValidationPosition(e))" ValueType="int" Class="basic">
+        <ListItems>
+          <SemSelectListItem Text="Hidden" Value="0" />
+          <SemSelectListItem Text="Top" Value="1" />
+          <SemSelectListItem Text="Bottom" Value="2" />
+        </ListItems>
+      </SemButtonSwitch>
+    </div>
+    <div style="margin-top: 20px">
+      <b>Fields validation position:</b><br />
+      <div class="ui buttons">
+        <SemButtonSwitch Value="(int)fieldValidPos" ValueChanged="@((e) => ChangeFieldValidationPosition(e))" ValueType="int" Class="basic">
+          <ListItems>
+            <SemSelectListItem Text="Hidden" Value="0" />
+            <SemSelectListItem Text="Top" Value="1" />
+            <SemSelectListItem Text="Bottom" Value="2" />
+          </ListItems>
+        </SemButtonSwitch>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <h3>Result</h3>
+    <p>
+      <b>@item.Name</b>
+      @if (item.Enabled)
+      {
+        <SemLabel Class="mini green"><SemIcon Class="check" /> Enabled</SemLabel>
+      }
+      else
+      {
+        <SemLabel Class="mini"><SemIcon Class="pause" /> Disabled</SemLabel>
+      }
+    </p>
+    <p>
+      @item.Description
+    </p>
+    <p>
+      <span class="ui label">@item.Type</span>
+    </p>
+    <p>
+      @foreach (var flag in item.Flags)
+      {
+        if (!String.IsNullOrEmpty(flag))
+        {
+          <span class="ui label">@flag</span>
+        }
+      }
+    </p>
+    <p>
+      Created: <b>@item.Created</b>
+      @if (@item.LastUpdate != null)
+      {<br /><span>Updated: @item.LastUpdate</span>}
+    </p>
+  </div>
+</div>
+<CodeHighlight Code=@(@"
+    <SemForm @ref=""form"" Model=""item"" OnValidSubmit=""FormSubmited"" FormValidationPosition=""formValidPos"" FieldValidationPosition=""fieldValidPos"">
+      <SemFormField For=""@(() => item.DummyId)"" Editable=""false"">
+        @item.DummyId
+      </SemFormField>
+      <SemFormField For=""@(() => item.Name)"">
+        <SemInput @bind-Value=""item.Name"" Placeholder=""Enter name...""></SemInput>
+      </SemFormField>
+      <SemFormField For=""@(() => item.Enabled)"" LabelVisible=""false"">
+        <SemCheckbox @bind-Value=""item.Enabled"" Label=""@Annotations.GetNameFor(() => item.Enabled)""></SemCheckbox>
+      </SemFormField>
+      <SemFormField For=""@(() => item.Description)"">
+        <InputTextArea id=""description"" @bind-Value=""item.Description"" placeholder=""Enter description...""></InputTextArea>
+      </SemFormField>
+      <SemFormFields Fields=""GridUnit.Two"">
+        <SemFormField For=""@(() => item.Type)"">
+          <SemDropdownSelection @bind-Value=""item.Type"" Items=""@(types.Select(li => new Models.ListItem() { Value = li }))""></SemDropdownSelection>
+        </SemFormField>
+        <SemFormField For=""@(() => item.Flags)"">
+          <SemDropdownMultiSelection @bind-Value=""item.Flags"" Items=""@(flags.Select(li => new Models.ListItem() { Value = li }))""></SemDropdownMultiSelection>
+        </SemFormField>
+      </SemFormFields>
+      <SemFormFields Fields=""GridUnit.Two"">
+        <SemFormField For=""@(() => item.Created)"" Editable=""false"">
+          @item.Created
+        </SemFormField>
+        <SemFormField For=""@(() => item.LastUpdate)"" Editable=""false"">
+          @item.LastUpdate
+        </SemFormField>
+      </SemFormFields>
+      <SemButton IsSubmitButton=""true"">Save</SemButton>
+    </SemForm>") />
+
+@code {
+  SemForm form = new SemForm();
+  Data.DummyData item;
+  [Parameter] public int id { get; set; } = 1;
+  string[] types = { "Dummy type 1", "Dummy type 2", "Dummy type 3" };
+  string[] flags = { "DM1", "ABC", "DEF", "GHI", "JKL", "MNO", "PRQ", "STU", "VWX", "XYZ" };
+  ValidationPosition formValidPos = ValidationPosition.Top;
+  ValidationPosition fieldValidPos = ValidationPosition.Top;
+
+  protected override async Task OnParametersSetAsync()
+  {
+    item = await DummyDataService.GetByIdAsync(id);
+  }
+  async Task FormSubmited()
+  {
+    await Task.Delay(2000);
+    item.LastUpdate = DateTime.Now;
+
+  }
+  void ChangeFormValidationPosition(int value)
+  {
+    formValidPos = (ValidationPosition)value;
+  }
+  void ChangeFieldValidationPosition(int value)
+  {
+    fieldValidPos = (ValidationPosition)value;
+  }
+}

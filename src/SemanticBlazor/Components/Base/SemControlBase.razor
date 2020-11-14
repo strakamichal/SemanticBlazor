@@ -1,0 +1,41 @@
+﻿@inject IJSRuntime jsRuntime
+
+
+@code {
+  [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+  [Parameter] public string Class { get; set; }
+  [Parameter] public string Style { get; set; }
+  [Parameter] public bool Visible { get; set; } = true;
+  [Parameter] public bool Enabled { get; set; } = true;
+  [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> Attributes { get; set; }
+  protected IJSRuntime js => jsRuntime;
+  protected bool Rendered { get; set; } = false;
+  protected ClassMapper ClassMapper { get; set; } = new ClassMapper();
+
+  protected SemControlBase()
+  {
+    ClassMapper.Get(() => this.Class)
+               .If("disabled", () => !this.Enabled);
+  }
+  protected Dictionary<string, object> disabledAttribute
+  {
+    get
+    {
+      var retval = new Dictionary<string, object>();
+      if (!Enabled) retval.Add("disabled", "disabled");
+      return retval;
+    }
+  }
+  internal virtual void RegistedChildControl(object control) { }
+  public void InvokeStateHasChanged()
+  {
+    StateHasChanged();
+  }
+  protected override void OnAfterRender(bool firstRender)
+  {
+    if (firstRender)
+    {
+      Rendered = true;
+    }
+  }
+}

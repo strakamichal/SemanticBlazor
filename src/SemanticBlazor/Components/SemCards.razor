@@ -1,0 +1,78 @@
+﻿@typeparam ItemType
+@inherits SemListBase<ItemType>
+
+@if (Visible)
+{
+  @if (currentItems == null)
+  {
+    @if (PlaceHolderTemplate != null)
+    {
+      @for (int i = 0; i < PlaceHolderCount; i++)
+      {
+        @PlaceHolderTemplate
+      }
+    }
+    else
+    {
+      <div>
+        <span><i class="icon spinner loading"></i>@LoadingMessage</span>
+      </div>
+    }
+  }
+  else if (currentItems.Count() == 0)
+  {
+    @if (EmptyDataTemplate != null)
+    {
+      @EmptyDataTemplate
+    }
+    else
+    {
+      <div class="ui message">@EmptyDataMessage</div>
+    }
+  }
+  else
+  {
+    <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0px;">
+      <div class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+        @foreach (var item in currentItems)
+        {
+          @ItemTemplate(item)
+        }
+      </div>
+    </div>
+    @if (AllowPaging)
+    {
+      <SemPagination TotalPages="totalPages" PageIndex="pageIndex" PageIndexChanged="(async (int indx) => await SetPageIndex(indx))"></SemPagination>
+    }
+  }}
+
+@code {
+  [Parameter] public string SegmentClass { get; set; } = "basic";
+  [Parameter] public RenderFragment<ItemType> ItemTemplate { get; set; }
+  [Parameter] public RenderFragment PlaceHolderTemplate { get; set; }
+  [Parameter] public RenderFragment EmptyDataTemplate { get; set; }
+  [Parameter] public string EmptyDataMessage { get; set; } = "No records has been found...";
+  [Parameter] public string LoadingMessage { get; set; } = "Loading...";
+  [Parameter] public int PlaceHolderCount { get; set; } = 1;
+  [Parameter] public bool ScrollOnTopOnPageChanged { get; set; } = true;
+  ClassMapper SegmentClassMapper { get; set; } = new ClassMapper();
+
+  public SemCards()
+  {
+    SegmentClassMapper
+    .Add("ui")
+    .Get(() => SegmentClass)
+    .If("loading", () => loading)
+    .Add("segment");
+
+    ClassMapper
+    .Add("ui")
+    .Get(() => Class)
+    .Add("cards");
+  }
+  public override async Task SetPageIndex(int pageIndx)
+  {
+    await base.SetPageIndex(pageIndx);
+    if (ScrollOnTopOnPageChanged) await SemanticBlazor.JsFunc.Lists.ScrollTop(js, Id);
+  }
+}

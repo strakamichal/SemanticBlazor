@@ -1,0 +1,20 @@
+﻿@inherits SemControlBase
+
+<div class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+  @ChildContent
+</div>
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public GridUnit? Fields { get; set; }
+  [Parameter] public FieldsClass[] Classes { get; set; }
+
+  public SemFormFields()
+  {
+    ClassMapper
+    .Add("ui")
+    .Get(() => Fields?.ToString().ToLower())
+    .Get(() => Enums.GetClasses(Classes))
+    .Add("fields");
+  }
+}

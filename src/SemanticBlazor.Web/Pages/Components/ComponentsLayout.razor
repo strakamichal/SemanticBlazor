@@ -1,0 +1,106 @@
+﻿@inherits LayoutComponentBase
+@layout BaseLayout
+
+<LeftMenu Title="Components">
+  <Content>
+    <SemMenuItem>
+      <Header>Elements</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Href="Components/Grid">Grid<SemLabel Color="Color.Teal" Size="Size.Tiny" Style="float: none">1.3</SemLabel></SemMenuItem>
+          <SemMenuItem Href="Components/Segment">Segment<SemLabel Color="Color.Teal" Size="Size.Tiny" Style="float: none">1.3</SemLabel></SemMenuItem>
+          <SemMenuItem Href="Components/Menu">Menu</SemMenuItem>
+          <SemMenuItem Href="Components/Tabs">Tabs<SemLabel Color="Color.Teal" Size="Size.Tiny" Style="float: none">1.3</SemLabel></SemMenuItem>
+          <SemMenuItem Href="Components/Label">Label</SemMenuItem>
+          <SemMenuItem Href="Components/Button">Button</SemMenuItem>
+          <SemMenuItem Href="Components/Message">Message</SemMenuItem>
+          <SemMenuItem Href="Components/Modal">Modal</SemMenuItem>
+          <SemMenuItem Href="Components/Divider">Divider<SemLabel Color="Color.Teal" Size="Size.Tiny" Style="float: none">1.3</SemLabel></SemMenuItem>
+          <SemMenuItem Href="Components/Icon">Icon</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+    <SemMenuItem>
+      <Header>Forms & Inputs</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Href="Components/Input">Input</SemMenuItem>
+          <SemMenuItem Href="Components/ActionInput">ActionInput</SemMenuItem>
+          <SemMenuItem Href="Components/DropdownSelection">DropdownSelection</SemMenuItem>
+          <SemMenuItem Href="Components/DropdownMultiSelection">DropdownMultiSelection</SemMenuItem>
+          <SemMenuItem Href="Components/Checkbox">Checkbox</SemMenuItem>
+          <SemMenuItem Href="Components/Checkboxlist">CheckboxList</SemMenuItem>
+          <SemMenuItem Href="Components/RadioButtonList">RadioButtonList</SemMenuItem>
+          <SemMenuItem Href="Components/ButtonSwitch">ButtonSwitchList</SemMenuItem>
+          <SemMenuItem Href="Components/Form">Form</SemMenuItem>
+          <SemMenuItem Href="Components/FormValidation/1">Form validation</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+    <SemMenuItem>
+      <Header>DataTable (grid)</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Href="Components/Table">Basic</SemMenuItem>
+          <SemMenuItem Href="Components/TablePaged">Pagination (local)</SemMenuItem>
+          <SemMenuItem Href="Components/TableModalEdit">Advanced (search, editation)</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+    <SemMenuItem>
+      <Header>DataList</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Href="Components/List">Basic</SemMenuItem>
+          <SemMenuItem Href="Components/ListPaged">Server pagination</SemMenuItem>
+          <SemMenuItem Href="Components/ListItems">Items</SemMenuItem>
+          <SemMenuItem Href="Components/ListFeed">Feed</SemMenuItem>
+          <SemMenuItem Href="Components/ListComments">Comments</SemMenuItem>
+          <SemMenuItem Href="Components/ListCards">Cards</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+    <SemMenuItem>
+      <Header>Other</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Href="Components/Notification">Notification</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+    <SemMenuItem>
+      <Header>Roadmap</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Enabled="false">Header</SemMenuItem>
+          <SemMenuItem Enabled="false">Accordion</SemMenuItem>
+          <SemMenuItem Enabled="false">Progress</SemMenuItem>
+          <SemMenuItem Enabled="false">Image</SemMenuItem>
+          <SemMenuItem Enabled="false">Rating</SemMenuItem>
+          <SemMenuItem Enabled="false">Breadcrumb</SemMenuItem>
+          <SemMenuItem Enabled="false">Statistic</SemMenuItem>
+          <SemMenuItem Enabled="false">Loader</SemMenuItem>
+          <SemMenuItem Enabled="false">Placeholder</SemMenuItem>
+          <SemMenuItem Enabled="false">Dimmer</SemMenuItem>
+          <SemMenuItem Enabled="false">Sidebar</SemMenuItem>
+          <SemMenuItem Enabled="false">Sticky</SemMenuItem>
+          <SemMenuItem Enabled="false">Shape?</SemMenuItem>
+          <SemMenuItem Enabled="false">Popup (tooltip)?</SemMenuItem>
+          <SemMenuItem Enabled="false">Table (static)?</SemMenuItem>
+          <SemMenuItem Enabled="false">Reveal?</SemMenuItem>
+          <SemMenuItem Enabled="false">Step?</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+  </Content>
+</LeftMenu>
+<div class="right-content">
+  <div class="ui fluid container">
+    @Body
+  </div>
+</div>
+
+@code
+{
+
+}

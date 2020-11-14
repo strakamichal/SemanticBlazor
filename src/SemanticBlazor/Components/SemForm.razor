@@ -1,0 +1,66 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <CascadingValue Value="FieldValidationPosition">
+    <EditForm id="@Id" class="@ClassMapper.ToString()" Model="@Model" style="@Style"
+              OnInvalidSubmit="@((EditContext e) => HandleSubmit(e, OnInvalidSubmit))"
+              OnValidSubmit="@((EditContext e) => HandleSubmit(e, OnValidSubmit))">
+      <RecursiveDataAnnotationsValidator jSRuntime="js"></RecursiveDataAnnotationsValidator>
+      @if (FormValidationPosition == ValidationPosition.Top)
+      {
+        <SemValidationSummary></SemValidationSummary>
+      }
+      @ChildContent
+      <FormHiddenSubmit></FormHiddenSubmit>
+      @if (FormValidationPosition == ValidationPosition.Bottom)
+      {
+        <SemValidationSummary></SemValidationSummary>
+      }
+    </EditForm>
+  </CascadingValue>
+}
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext> OnInvalidSubmit { get; set; }
+  [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext> OnValidSubmit { get; set; }
+  [Parameter] public EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext> OnSubmit { get; set; }
+  [Parameter] public object Model { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public State? State { get; set; }
+  [Parameter] public FormClass[] Classes { get; set; }
+  [Parameter] public ValidationPosition FormValidationPosition { get; set; } = ValidationPosition.Hidden;
+  [Parameter] public ValidationPosition FieldValidationPosition { get; set; } = ValidationPosition.Hidden;
+  [Parameter] public bool ShowLoadingOnSubmit { get; set; } = true;
+  private bool validationError = false;
+  private bool submitInProgress = false;
+
+  public SemForm()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Size?.ToString().ToLower())
+      .Get(() => State?.ToString().ToLower())
+      .If("loading", () => this.submitInProgress && this.ShowLoadingOnSubmit)
+      .Add("form");
+  }
+  public async Task Submit()
+  {
+    await JsFunc.Form.Submit(js, Id);
+  }
+  async Task HandleSubmit(EditContext editContext, EventCallback<EditContext> callback)
+  {
+    submitInProgress = true;
+    if (callback.HasDelegate)
+    {
+      await callback.InvokeAsync(editContext);
+    }
+    else
+    {
+      await OnSubmit.InvokeAsync(editContext);
+    }
+    submitInProgress = false;
+  }
+}

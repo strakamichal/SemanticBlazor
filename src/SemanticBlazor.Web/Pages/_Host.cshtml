@@ -1,0 +1,61 @@
+﻿@page "/"
+@namespace SemanticBlazor.Web.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+  Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <title>Semantic Blazor Live Demo</title>
+  <base href="~/" />
+</head>
+<body>
+  <app>
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
+  </app>
+
+  <div id="blazor-error-ui">
+    <environment include="Staging,Production">
+      An error has occurred. This application may no longer respond until reloaded.
+    </environment>
+    <environment include="Development">
+      An unhandled exception has occurred. See browser dev tools for details.
+    </environment>
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+  </div>
+
+  <div id="components-reconnect-modal" class="my-reconnect-modal components-reconnect-hide">
+    <div class="show">
+      <div class="ui active huge loader"></div>
+    </div>
+    <div class="failed">
+      <div class="ui active huge loader"></div>
+    </div>
+    <div class="refused">
+      <div class="ui active huge loader"></div>
+    </div>
+  </div>
+  <script src="_framework/blazor.server.js"></script>
+
+  <script src="~/_content/SemanticBlazor/modules/jquery/jquery.min.js"></script>
+  <script src="~/_content/SemanticBlazor/modules/semantic/semantic.min.js"></script>
+  <link href="~/_content/SemanticBlazor/modules/semantic/semantic.min.css" rel="stylesheet" />
+  <script src="~/_content/SemanticBlazor/modules/semantic/calendar.min.js"></script>
+  <link href="~/_content/SemanticBlazor/modules/semantic/calendar.min.css" rel="stylesheet" />
+  <link href="~/_content/SemanticBlazor/SemanticBlazor.css" rel="stylesheet" />
+  <script src="~/_content/SemanticBlazor/SemanticBlazor.js"></script>
+
+  <link href="/modules/prism/prism.css" rel="stylesheet" />
+  <script src="/modules/prism/prism.js" data-manual></script>
+
+  <link href="css/site.css" rel="stylesheet" />
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿@page "/Components/Checkbox"
+@layout ComponentsLayout
+@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+
+<h1>Checkbox</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/modules/checkbox.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Standard</h3>
+<p>
+  <SemCheckbox @bind-Value="BoolValue" Label="Checkbox"></SemCheckbox>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckbox @bind-Value=""BoolValue"" Label=""Checkbox""></SemCheckbox>") />
+
+<h3>Slider</h3>
+<p>
+  <SemCheckbox @bind-Value="BoolValue" Type="CheckboxType.Toggle" Label="Toggle"></SemCheckbox>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckbox @bind-Value=""BoolValue"" Type=""CheckboxType.Toggle"" Label=""Toggle""></SemCheckbox>") />
+
+<h3>Toggle</h3>
+<p>
+  <SemCheckbox @bind-Value="BoolValue" Type="CheckboxType.Slider" Label="Slider"></SemCheckbox>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckbox @bind-Value=""BoolValue"" Type=""CheckboxType.Slider"" Label=""Slider""></SemCheckbox>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemCheckbox @bind-Value="BoolValue" Label="Disabled"></SemCheckbox>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckbox @bind-Value=""BoolValue"" Label=""Disabled""></SemCheckbox>") />
+
+
+<h3>Custom content</h3>
+<p>
+  <SemCheckbox @bind-Value="BoolValue">
+    <label>I agree to the <a href="/">Terms & Conditions</a></label>
+  </SemCheckbox>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckbox @bind-Value=""BoolValue"">
+    <label>I agree to the <a href=""/"">Terms & Conditions</a></label>
+  </SemCheckbox>") />
+
+
+@code {
+  public bool BoolValue { get; set; } = false;
+}

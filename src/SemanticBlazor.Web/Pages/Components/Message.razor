@@ -1,0 +1,133 @@
+﻿@page "/Components/Message"
+@layout ComponentsLayout
+
+<h1>Message</h1>
+<div>
+  <h3>Standard</h3>
+  <SemMessage Header="Information" Message="Standard message"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemMessage Header=""Information"" Message=""Standard message""></SemMessage>") />
+
+  <h3>Show/hide</h3>
+  <SemButton OnClick="@(() => msgBasic.Show("New message!", null, MessageColor.Info, Icon.Check))">Info</SemButton>
+  <SemButton OnClick="@(() => msgBasic.Show("Everything ok!", null, MessageColor.Positive, Icon.Check))">Positive</SemButton>
+  <SemButton OnClick="@(() => msgBasic.Show("Something is bad!", null, MessageColor.Warning, Icon.Exclamation_Triangle))">Warning</SemButton>
+  <SemButton OnClick="@(() => msgBasic.Show("Error in application!", null, MessageColor.Negative, Icon.Exclamation_Circle))">Error</SemButton>
+  <SemButton OnClick="@(() => msgBasic.Show("Waiting...", null, MessageColor.Info, Icon.Spinner_Loading))">Loading</SemButton>
+  <SemButton OnClick="@(() => msgBasic.Hide())">Hide</SemButton>
+  <SemMessage @ref="msgBasic"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemButton OnClick=""@(() => msgBasic.Show(""New message!"", null, MessageColor.Info, Icon.Check))"">Info</SemButton>
+    <SemButton OnClick=""@(() => msgBasic.Show(""Everything ok!"", null, MessageColor.Positive, Icon.Check))"">Positive</SemButton>
+    <SemButton OnClick=""@(() => msgBasic.Show(""Something is bad!"", null, MessageColor.Warning, Icon.Exclamation_Triangle))"">Warning</SemButton>
+    <SemButton OnClick=""@(() => msgBasic.Show(""Error in application!"", null, MessageColor.Negative, Icon.Exclamation_Circle))"">Error</SemButton>
+    <SemButton OnClick=""@(() => msgBasic.Show(""Waiting..."", null, MessageColor.Info, Icon.Spinner_Loading))"">Loading</SemButton>
+    <SemButton OnClick=""@(() => msgBasic.Hide())"">Hide</SemButton>
+    <SemMessage @ref=""msgBasic""></SemMessage>") />
+
+  <h3>Icon</h3>
+  <SemMessage Icon="Icon.Truck" Message="Truck has been saved"></SemMessage>
+  <SemMessage Icon="Icon.Truck" Header="Thank you!" Message="Truck has been saved"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemMessage Icon=""Icon.Truck"" Message=""Truck has been saved""></SemMessage>
+    <SemMessage Icon=""Icon.Truck"" Header=""Thank you!"" Message=""Truck has been saved""></SemMessage>") />
+
+  <h3>Info</h3>
+  <SemMessage Color="MessageColor.Info" Message="This is information message" Icon="Icon.Info"></SemMessage>
+  <SemMessage Header="Information" Color="MessageColor.Info" Message="This is information message" Icon="Icon.Info"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemMessage Color=""MessageColor.Info"" Message=""This is information message"" Icon=""Icon.Info""></SemMessage>
+    <SemMessage Header=""Information"" Color=""MessageColor.Info"" Message=""This is information message"" Icon=""Icon.Info""></SemMessage>") />
+
+  <h3>Warning</h3>
+  <SemMessage Color="MessageColor.Warning" Message="This is warning message" Icon="Icon.Exclamation_Triangle"></SemMessage>
+  <SemMessage Header="Warning" Color="MessageColor.Warning" Message="This is warning message" Icon="Icon.Exclamation_Triangle"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemMessage Color=""MessageColor.Warning"" Message=""This is warning message"" Icon=""Icon.Exclamation_Triangle""></SemMessage>
+    <SemMessage Header=""Warning"" Color=""MessageColor.Warning"" Message=""This is warning message"" Icon=""Icon.Exclamation_Triangle""></SemMessage>") />
+
+  <h3>Positive</h3>
+  <SemMessage Color="MessageColor.Positive" Message="This is positive message" Icon="Icon.Check_Circle"></SemMessage>
+  <SemMessage Header="Thank you" Color="MessageColor.Positive" Message="This is positive message" Icon="Icon.Check_Circle"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemMessage Color=""MessageColor.Positive"" Message=""This is positive message"" Icon=""Icon.Check_Circle""></SemMessage>
+    <SemMessage Header=""Thank you"" Color=""MessageColor.Positive"" Message=""This is positive message"" Icon=""Icon.Check_Circle""></SemMessage>") />
+
+  <h3>Negative</h3>
+  <SemMessage Color="MessageColor.Negative" Message="This is negative message" Icon="Icon.Exclamation_Circle"></SemMessage>
+  <SemMessage Header="Error" Color="MessageColor.Negative" Message="This is negative message" Icon="Icon.Exclamation_Circle"></SemMessage>
+  <CodeHighlight Code=@(@"
+    <SemMessage Color=""MessageColor.Negative"" Message=""This is negative message"" Icon=""Icon.Exclamation_Circle""></SemMessage>
+    <SemMessage Header=""Error"" Color=""MessageColor.Negative"" Message=""This is negative message"" Icon=""Icon.Exclamation_Circle""></SemMessage>") />
+
+  <h3>Custom HTML Content</h3>
+  <SemMessage Class="info">
+    <div class="header">
+      Message header
+    </div>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus.</p>
+    <NavLink href="/Components/Message" class="ui primary button">Continue</NavLink>
+  </SemMessage>
+  <CodeHighlight Code=@(@"
+  <SemMessage Class=""info"">
+    <div class=""header"">
+      Message header
+    </div>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus.</p>
+    <NavLink href=""/Components/Message"" class=""ui primary button"">Continue</NavLink>
+  </SemMessage>") />
+
+  <h3>Sizes & colors</h3>
+  <p>
+    <SemMessage Size="Size.Mini">Mini</SemMessage>
+    <SemMessage Size="Size.Tiny">Tiny</SemMessage>
+    <SemMessage Size="Size.Small">Small</SemMessage>
+    <SemMessage Size="Size.Medium">Medium</SemMessage>
+    <SemMessage Size="Size.Large">Large</SemMessage>
+    <SemMessage Size="Size.Big">Big</SemMessage>
+    <SemMessage Size="Size.Huge">Huge</SemMessage>
+    <SemMessage Size="Size.Massive">Massive</SemMessage>
+  </p>
+  <CodeHighlight Code=@(@"
+    <SemMessage Size=""Size.Mini"">Mini</SemMessage>
+    <SemMessage Size=""Size.Tiny"">Tiny</SemMessage>
+    <SemMessage Size=""Size.Small"">Small</SemMessage>
+    <SemMessage Size=""Size.Medium"">Medium</SemMessage>
+    <SemMessage Size=""Size.Large"">Large</SemMessage>
+    <SemMessage Size=""Size.Big"">Big</SemMessage>
+    <SemMessage Size=""Size.Huge"">Huge</SemMessage>
+    <SemMessage Size=""Size.Massive"">Massive</SemMessage>") />
+  <p>
+    <SemMessage Color="MessageColor.Red">Red</SemMessage>
+    <SemMessage Color="MessageColor.Orange">Orange</SemMessage>
+    <SemMessage Color="MessageColor.Yellow">Yellow</SemMessage>
+    <SemMessage Color="MessageColor.Olive">Olive</SemMessage>
+    <SemMessage Color="MessageColor.Green">Green</SemMessage>
+    <SemMessage Color="MessageColor.Teal">Teal</SemMessage>
+    <SemMessage Color="MessageColor.Blue">Blue</SemMessage>
+    <SemMessage Color="MessageColor.Violet">Violet</SemMessage>
+    <SemMessage Color="MessageColor.Purple">Purple</SemMessage>
+    <SemMessage Color="MessageColor.Pink">Pink</SemMessage>
+    <SemMessage Color="MessageColor.Brown">Brown</SemMessage>
+    <SemMessage Color="MessageColor.Grey">Grey</SemMessage>
+    <SemMessage Color="MessageColor.Black">Black</SemMessage>
+  </p>
+  <CodeHighlight Code=@(@"
+    <SemMessage Color=""MessageColor.Red"">Red</SemMessage>
+    <SemMessage Color=""MessageColor.Orange"">Orange</SemMessage>
+    <SemMessage Color=""MessageColor.Yellow"">Yellow</SemMessage>
+    <SemMessage Color=""MessageColor.Olive"">Olive</SemMessage>
+    <SemMessage Color=""MessageColor.Green"">Green</SemMessage>
+    <SemMessage Color=""MessageColor.Teal"">Teal</SemMessage>
+    <SemMessage Color=""MessageColor.Blue"">Blue</SemMessage>
+    <SemMessage Color=""MessageColor.Violet"">Violet</SemMessage>
+    <SemMessage Color=""MessageColor.Purple"">Purple</SemMessage>
+    <SemMessage Color=""MessageColor.Pink"">Pink</SemMessage>
+    <SemMessage Color=""MessageColor.Brown"">Brown</SemMessage>
+    <SemMessage Color=""MessageColor.Grey"">Grey</SemMessage>
+    <SemMessage Color=""MessageColor.Black"">Black</SemMessage>") />
+</div>
+
+@code {
+  public SemMessage msgBasic { get; set; }
+}

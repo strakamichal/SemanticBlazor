@@ -1,0 +1,154 @@
+﻿@page "/Components/ButtonSwitch"
+@layout ComponentsLayout
+@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+
+<h1>RadioButtonList</h1>
+@*See the full documentation at <NavLink href="https://semantic-ui.com/modules/checkbox.html" target="_blank">Semantic UI</NavLink>.*@
+
+<h3>Standard</h3>
+<p>
+  <SemButtonSwitch @bind-Value="SelectedValue">
+    <ListItems>
+      <SemSelectListItem Text="Option 1" Value="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2" Value="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3" Value="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4" Value="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemButtonSwitch>
+</p>
+<p>
+  Selected value: @(SelectedValue)
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedValue"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1"" Value=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2"" Value=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3"" Value=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4"" Value=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemButtonSwitch>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemButtonSwitch @bind-Value="SelectedValue" Enabled="@dropdownEnabled">
+    <ListItems>
+      <SemSelectListItem Text="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemButtonSwitch>
+  <SemButton OnClick="@(() => dropdownEnabled = !dropdownEnabled)" Classes="@(new[] { ButtonClass.Basic })" Color="ButtonColor.Teal">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Enabled=""@dropdownEnabled"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemButtonSwitch>") />
+
+<h3>Basic</h3>
+<p>
+  <SemButtonSwitch @bind-Value="SelectedValue" Items="options" Classes="@(new [] { ButtonClass.Basic })"></SemButtonSwitch>
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Items=""options"" Classes=""@(new [] { ButtonClass.Basic })""></SemButtonSwitch>") />
+
+<h3>Sizes & colors</h3>
+<p>
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Mini" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Tiny" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Small" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Medium" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Large" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Big" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Huge" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Size="Size.Massive" Items="options"></SemButtonSwitch>
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Mini"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Tiny"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Small"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Medium"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Large"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Big"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Huge"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Size=""Size.Massive"" Items=""options""></SemButtonSwitch>") />
+<p>
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Red" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Orange" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Yellow" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Olive" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Green" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Teal" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Blue" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Violet" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Purple" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Pink" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Brown" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Grey" Items="options"></SemButtonSwitch><br /><br />
+  <SemButtonSwitch @bind-Value="SelectedValue" Color="ButtonColor.Black" Items="options"></SemButtonSwitch>
+</p>
+<p>
+  Selected value: @(SelectedValue)
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Red"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Orange"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Yellow"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Olive"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Green"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Teal"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Blue"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Violet"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Purple"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Pink"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Brown"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Grey"" Items=""options""></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value=""SelectedValue"" Color=""ButtonColor.Black"" Items=""options""></SemButtonSwitch>") />
+
+<h3>Databinding items - String value</h3>
+<p>
+  <SemButtonSwitch @bind-Value="SelectedDummyName" Items="@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))"></SemButtonSwitch>
+</p>
+<p>
+  Selected value: @(SelectedDummyName)
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedDummyName"" Items=""@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))""></SemButtonSwitch>") />
+
+<h3>Databinding items - Int value</h3>
+<p>
+  <SemButtonSwitch @bind-Value="SelectedDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))"></SemButtonSwitch>
+</p>
+<p>
+  Selected value: @(SelectedDummyId)
+</p>
+<CodeHighlight Code=@(@"
+  <SemButtonSwitch @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))""></SemButtonSwitch>") />
+
+@code {
+  private bool dropdownEnabled { get; set; } = false;
+  public string SelectedValue { get; set; }
+  public string SelectedValue2 { get; set; }
+  public int SelectedDummyId { get; set; } = 1;
+  public string SelectedDummyName { get; set; } = "Lorem";
+  List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  List<ListItem> options { get; set; } = new List<ListItem>()
+{
+    new ListItem() { Text="Option 1" },
+    new ListItem() { Text="Option 2" },
+    new ListItem() { Text="Option 3" },
+    new ListItem() { Text="Option 4" }
+  };
+
+  protected override async Task OnInitializedAsync()
+  {
+    dummies = await dummyData.GetAllDataAsync();
+    dummies = dummies.Take(5).ToList();
+  }
+}

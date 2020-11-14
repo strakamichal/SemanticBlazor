@@ -1,0 +1,39 @@
+﻿@page "/Components/ListComments"
+@inherits PageBase
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService notificationService
+
+<h1>Comments view type</h1>
+<p>Collection of &lt;comment&gt; in &lt;comments&gt;.</p>
+<div style="max-width: 600px; padding-top: 20px">
+  <SemDataList ViewType="ListViewType.Comments" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true">
+    <ItemTemplate>
+      <SemDataListItem>
+        <div class="content">
+          <a class="author">@context.Name</a>
+          <div class="metadata">
+            <span class="date">@context.Created.ToString("dd.MM.yyyy")</span>
+          </div>
+          <div class="text">
+            @context.Description
+          </div>
+          <div class="actions">
+            <a class="reply">Reply</a>
+          </div>
+        </div>
+      </SemDataListItem>
+    </ItemTemplate>
+  </SemDataList>
+</div>
+
+@code {
+  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  {
+    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, null);
+  }
+  async Task<int> GetCount()
+  {
+    return await DummyDataService.GetCountAsync(null);
+  }
+}

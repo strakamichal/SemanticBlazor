@@ -1,0 +1,129 @@
+﻿@page "/Components/Checkboxlist"
+@layout ComponentsLayout
+@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+
+<h1>CheckboxList</h1>
+
+<h3>Standard</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedValue">
+    <ListItems>
+      <SemSelectListItem Text="Option 1" Value="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2" Value="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3" Value="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4" Value="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>
+</p>
+<p>
+  Selected value: @(SelectedValue != null ? String.Join(",", SelectedValue): "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckboxList @bind-Value=""SelectedValue"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1"" Value=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2"" Value=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3"" Value=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4"" Value=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedValue" Enabled="@dropdownEnabled">
+    <ListItems>
+      <SemSelectListItem Text="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>
+  <SemButton OnClick="@(() => dropdownEnabled = !dropdownEnabled)" Classes="@(new[] { ButtonClass.Basic })" Color="ButtonColor.Teal" Style="vertical-align: bottom">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckboxList @bind-Value=""SelectedValue"" Enabled=""@dropdownEnabled"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>") />
+
+<h3>Slider</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedValue" Type="CheckboxType.Slider">
+    <ListItems>
+      <SemSelectListItem Text="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckboxList @bind-Value=""SelectedValue"" Enabled=""@dropdownEnabled"" Type=""CheckboxType.Slider"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>") />
+
+<h3>Toggle</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedValue" Type="CheckboxType.Toggle">
+    <ListItems>
+      <SemSelectListItem Text="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckboxList @bind-Value=""SelectedValue"" Enabled=""@dropdownEnabled"" Type=""CheckboxType.Toggle"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>") />
+
+<h3>Databinding items - List&lt;string&gt; value</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedDummyName" Items="@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))"></SemCheckboxList>
+</p>
+<p>
+  Selected value: @(SelectedDummyName != null ? String.Join(",", SelectedDummyName) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckboxList @bind-Value=""SelectedDummyName"" Items=""@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))""></SemCheckboxList>") />
+
+<h3>Databinding items - List&lt;int&gt; value</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))"></SemCheckboxList>
+</p>
+<p>
+  Selected value: @(SelectedDummyId != null ? String.Join(",", SelectedDummyId) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemCheckboxList @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))""></SemCheckboxList>") />
+
+
+@code {
+  private bool dropdownEnabled { get; set; } = false;
+  public List<string> SelectedValue { get; set; }
+  public List<string> SelectedValue2 { get; set; }
+  public List<int> SelectedDummyId { get; set; }
+  public List<string> SelectedDummyName { get; set; }
+  List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    dummies = await dummyData.GetAllDataAsync();
+    dummies = dummies.Take(5).ToList();
+  }
+}

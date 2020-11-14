@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemanticBlazor", "SemanticBlazor\SemanticBlazor.csproj", "{1554DB14-37C1-494A-A5F6-CA32BD78563F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemanticBlazor.Web", "SemanticBlazor.Web\SemanticBlazor.Web.csproj", "{62530769-F458-43D1-95C9-66ECFEED49AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1554DB14-37C1-494A-A5F6-CA32BD78563F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1554DB14-37C1-494A-A5F6-CA32BD78563F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1554DB14-37C1-494A-A5F6-CA32BD78563F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1554DB14-37C1-494A-A5F6-CA32BD78563F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62530769-F458-43D1-95C9-66ECFEED49AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62530769-F458-43D1-95C9-66ECFEED49AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62530769-F458-43D1-95C9-66ECFEED49AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62530769-F458-43D1-95C9-66ECFEED49AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BC566B9-9AD7-4162-8CF3-99A7E90929D7}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://mosoftware.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SemanticBlazor.Web\\SemanticBlazor.Web.csproj
+		SccProjectName1 = SemanticBlazor.Web
+		SccLocalPath1 = SemanticBlazor.Web
+		SccProjectUniqueName2 = SemanticBlazor\\SemanticBlazor.csproj
+		SccProjectName2 = SemanticBlazor
+		SccLocalPath2 = SemanticBlazor
+	EndGlobalSection
+EndGlobal

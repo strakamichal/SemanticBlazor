@@ -1,0 +1,140 @@
+﻿@page "/Components/Modal"
+@layout ComponentsLayout
+@using System.Threading;
+
+<h1>Modal</h1>
+<p>See the full documentation at <NavLink href="https://semantic-ui.com/modules/modal.html" target="_blank">Semantic UI</NavLink>.</p>
+
+<h3>Standard</h3>
+<SemModal @ref="standardModal">
+  <Header>
+    Example @dialogClass modal dialog
+  </Header>
+  <Content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Content>
+  <Actions>
+    <SemButton Class="deny">Cancel</SemButton>
+    <SemButton Emphasis="Emphasis.Primary" Icon="Icon.Check" OnClick="@(() => standardModal.Hide())">Confirm</SemButton>
+  </Actions>
+</SemModal>
+<p>
+  <SemButton Class="teal basic" OnClick="() => standardModal.Show()">Show modal</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+<SemModal @ref=""standardModal"">
+  <Header>
+    Example @dialogClass modal dialog
+  </Header>
+  <Content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Content>
+  <Actions>
+    <SemButton Class=""deny"">Cancel</SemButton>
+    <SemButton Emphasis=""Emphasis.Primary"" Icon=""Icon.Check"" OnClick=""@(() => standardModal.Hide())"">Confirm</SemButton>
+  </Actions>
+</SemModal>
+") />
+
+<h3>Basic</h3>
+<SemModal @ref="basicModal" Class="basic">
+  <Header>
+    Example @dialogClass modal dialog
+  </Header>
+  <Content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Content>
+  <Actions>
+    <SemButton Class="deny basic inverted">Cancel</SemButton>
+    <SemButton Class="inverted" Color="ButtonColor.Green" Icon="Icon.Check" IconLabeled="false" OnClick="@(() => basicModal.Hide())">Confirm</SemButton>
+  </Actions>
+</SemModal>
+<p>
+  <SemButton Class="teal basic" OnClick="() => basicModal.Show()">Show modal</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+<SemModal @ref=""basicModal"" Class=""basic"">
+  <Header>
+    Example @dialogClass modal dialog
+  </Header>
+  <Content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Content>
+  <Actions>
+    <SemButton Class=""deny"">Cancel</SemButton>
+    <SemButton Class=""inverted"" Color=""ButtonColor.Green"" Icon=""Icon.Check"" IconLabeled=""false"" OnClick=""@(() => basicModal.Hide())"">Confirm</SemButton>
+  </Actions>
+</SemModal>
+") />
+
+<h3>Sizes</h3>
+<SemModal @ref="sizeModal" Class="@dialogClass">
+  <Header>
+    Example @dialogClass modal dialog
+  </Header>
+  <Content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Content>
+  <Actions>
+    <SemButton Class="deny" OnClick="CancelBasicModal">Cancel</SemButton>
+    <SemButton Emphasis="Emphasis.Primary" Icon="Icon.Check" OnClick="ConfirmBasicModal">Confirm</SemButton>
+  </Actions>
+</SemModal>
+<p>
+  <SemButtonSwitch @bind-Value="dialogClass" Items="@(dialogSizes.Select(li => new Models.ListItem() { Value = li }))" Class="basic"></SemButtonSwitch>
+  <SemButton Class="teal basic" OnClick="() => sizeModal.Show()">Show modal</SemButton>
+</p>
+<p>@modalResult</p>
+<CodeHighlight Code=@(@"
+<SemModal @ref=""basicModal"" Class=""@dialogClass"">
+  <Header>
+    Example @dialogClass modal dialog
+  </Header>
+  <Content>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Content>
+  <Actions>
+    <SemButton Class=""deny"" OnClick=""CancelBasicModal"">Cancel</SemButton>
+    <SemButton Emphasis=""Emphasis.Primary"" Icon=""Icon.Check"" OnClick=""ConfirmBasicModal"">Confirm</SemButton>
+  </Actions>
+</SemModal>
+
+<SemButtonSwitch @bind-Value=""dialogClass"" Items=""@(dialogSizes.Select(li => new Models.ListItem() { Value = li }))"" Class=""basic""></SemButtonSwitch>
+<SemButton Class=""teal basic"" OnClick=""() => basicModal.Show()"">Show modal</SemButton>
+") />
+
+@code {
+  public string dialogClass { get; set; } = "mini";
+  public string modalResult { get; set; }
+  SemModal basicModal;
+  SemModal standardModal;
+  SemModal sizeModal;
+
+  string[] dialogSizes = { "mini", "tiny", "small", "large", "fullscreen" };
+
+  async Task ShowBasicModal()
+  {
+    await basicModal.Show();
+  }
+  void CancelBasicModal()
+  {
+    modalResult = "Modal has been canceled.";
+  }
+  async Task ConfirmBasicModal()
+  {
+    await sizeModal.Hide();
+    modalResult = "Modal has been confirmed.";
+  }
+}

@@ -1,0 +1,87 @@
+﻿@page "/Components/RadioButtonList"
+@layout ComponentsLayout
+@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+
+<h1>RadioButtonList</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/modules/checkbox.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Standard</h3>
+<p>
+  <SemRadioButtonList @bind-Value="SelectedValue">
+    <ListItems>
+      <SemSelectListItem Text="Option 1" Value="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2" Value="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3" Value="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4" Value="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemRadioButtonList>
+</p>
+<p>
+  Selected value: @(SelectedValue)
+</p>
+<CodeHighlight Code=@(@"
+  <SemRadioButtonList @bind-Value=""SelectedValue"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1"" Value=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2"" Value=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3"" Value=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4"" Value=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemRadioButtonList>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemRadioButtonList @bind-Value="SelectedValue" Enabled="@dropdownEnabled">
+    <ListItems>
+      <SemSelectListItem Text="Option 1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4"></SemSelectListItem>
+    </ListItems>
+  </SemRadioButtonList>
+  <SemButton OnClick="@(() => dropdownEnabled = !dropdownEnabled)" Classes="@(new[] { ButtonClass.Basic })" Color="ButtonColor.Teal">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemRadioButtonList @bind-Value=""SelectedValue"" Enabled=""@dropdownEnabled"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
+    </ListItems>
+  </SemRadioButtonList>") />
+
+<h3>Databinding items - String value</h3>
+<p>
+  <SemRadioButtonList @bind-Value="SelectedDummyName" Items="@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))"></SemRadioButtonList>
+</p>
+<p>
+  Selected value: @(SelectedDummyName)
+</p>
+<CodeHighlight Code=@(@"
+  <SemRadioButtonList @bind-Value=""SelectedDummyName"" Items=""@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))""></SemRadioButtonList>") />
+
+<h3>Databinding items - Int value</h3>
+<p>
+  <SemRadioButtonList @bind-Value="SelectedDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))"></SemRadioButtonList>
+</p>
+<p>
+  Selected value: @(SelectedDummyId)
+</p>
+<CodeHighlight Code=@(@"
+  <SemRadioButtonList @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))""></SemRadioButtonList>") />
+
+@code {
+  private bool dropdownEnabled { get; set; } = false;
+  public string SelectedValue { get; set; }
+  public string SelectedValue2 { get; set; }
+  public int SelectedDummyId { get; set; } = 4;
+  public string SelectedDummyName { get; set; } = "Lorem";
+  List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    dummies = await dummyData.GetAllDataAsync();
+    dummies = dummies.Take(5).ToList();
+  }
+}

@@ -1,0 +1,46 @@
+﻿@page "/Components/ListPaged"
+@inherits PageBase
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService notificationService
+
+<h1>List with pagination</h1>
+<p>List supports server data (API) with pagination.</p>
+<div style="max-width: 600px; padding-top: 20px">
+  <SemDataList DataMethod="GetData" CountMethod="GetCount" AllowPaging="true" Class="relaxed divided">
+    <ItemTemplate>
+      <div class="ui segment">
+        <div class="right floated content">
+          <div class="ui labels">
+            @if (context.Type != null)
+            {
+              <span class="ui label">@context.Type</span>
+            }
+            @foreach (var flag in context.Flags)
+            {
+              if (!String.IsNullOrEmpty(flag))
+              {
+                <span class="ui label">@flag</span>
+              }
+            }
+          </div>
+        </div>
+        <div class="content">
+          <div class="header">#@context.DummyId - @context.Name</div>
+          <div class="description">@context.Description</div>
+        </div>
+      </div>
+    </ItemTemplate>
+  </SemDataList>
+</div>
+
+@code {
+  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  {
+    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, null);
+  }
+  async Task<int> GetCount()
+  {
+    return await DummyDataService.GetCountAsync(null);
+  }
+}

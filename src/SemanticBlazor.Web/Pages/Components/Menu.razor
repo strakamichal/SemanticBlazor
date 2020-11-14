@@ -1,0 +1,320 @@
+﻿@page "/Components/Menu"
+@layout ComponentsLayout
+@inject NotificationService notificationService
+
+<h1>Menu</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/collections/menu.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>
+  Horizontal menu
+</h3>
+<SemMenu>
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+  <SemMenuItem Dropdown="true">
+    Dropdown item
+    <SemIcon Class="dropdown"></SemIcon>
+    <SemMenu>
+      <SemMenuItem>Item 3 - 1</SemMenuItem>
+      <SemMenuItem>Item 3 - 2</SemMenuItem>
+    </SemMenu>
+  </SemMenuItem>
+  <SemMenu Class="right">
+    <SemMenuItem OnClick="DoSomething">Logout</SemMenuItem>
+  </SemMenu>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu>
+      <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+      <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+      <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+      <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+      <SemMenuItem Dropdown=""true"">
+        Dropdown item
+        <SemIcon Class=""dropdown""></SemIcon>
+        <SemMenu>
+          <SemMenuItem>Item 3 - 1</SemMenuItem>
+          <SemMenuItem>Item 3 - 2</SemMenuItem>
+        </SemMenu>
+      </SemMenuItem>
+      <SemMenu Class=""right"">
+        <SemMenuItem OnClick=""DoSomething"">Logout</SemMenuItem>
+      </SemMenu>
+    </SemMenu>") />
+
+<h3>Secondary</h3>
+<SemMenu Classes="@(new[] { MenuClass.Secondary })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+  <SemMenuItem Dropdown="true">
+    Dropdown item
+    <SemIcon Class="dropdown"></SemIcon>
+    <SemMenu>
+      <SemMenuItem>Item 3 - 1</SemMenuItem>
+      <SemMenuItem>Item 3 - 2</SemMenuItem>
+    </SemMenu>
+  </SemMenuItem>
+  <SemMenu Class="right">
+    <SemMenuItem OnClick="DoSomething">Logout</SemMenuItem>
+  </SemMenu>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Secondary })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+    <SemMenuItem Dropdown=""true"">
+      Dropdown item
+      <SemIcon Class=""dropdown""></SemIcon>
+      <SemMenu>
+        <SemMenuItem>Item 3 - 1</SemMenuItem>
+        <SemMenuItem>Item 3 - 2</SemMenuItem>
+      </SemMenu>
+    </SemMenuItem>
+    <SemMenu Class=""right"">
+      <SemMenuItem OnClick=""DoSomething"">Logout</SemMenuItem>
+    </SemMenu>
+  </SemMenu>") />
+
+<h3>Pointing</h3>
+<SemMenu Classes="@(new[] { MenuClass.Pointing })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+  <SemMenuItem Dropdown="true">
+    Dropdown item
+    <SemIcon Class="dropdown"></SemIcon>
+    <SemMenu>
+      <SemMenuItem>Item 3 - 1</SemMenuItem>
+      <SemMenuItem>Item 3 - 2</SemMenuItem>
+    </SemMenu>
+  </SemMenuItem>
+  <SemMenu Class="right">
+    <SemMenuItem OnClick="DoSomething">Logout</SemMenuItem>
+  </SemMenu>
+</SemMenu>
+<SemMenu Classes="@(new[] { MenuClass.Secondary, MenuClass.Pointing })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+  <SemMenuItem Dropdown="true">
+    Dropdown item
+    <SemIcon Class="dropdown"></SemIcon>
+    <SemMenu>
+      <SemMenuItem>Item 3 - 1</SemMenuItem>
+      <SemMenuItem>Item 3 - 2</SemMenuItem>
+    </SemMenu>
+  </SemMenuItem>
+  <SemMenu Class="right">
+    <SemMenuItem OnClick="DoSomething">Logout</SemMenuItem>
+  </SemMenu>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Pointing })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+    <SemMenuItem Dropdown=""true"">
+      Dropdown item
+      <SemIcon Class=""dropdown""></SemIcon>
+      <SemMenu>
+        <SemMenuItem>Item 3 - 1</SemMenuItem>
+        <SemMenuItem>Item 3 - 2</SemMenuItem>
+      </SemMenu>
+    </SemMenuItem>
+    <SemMenu Class=""right"">
+      <SemMenuItem OnClick=""DoSomething"">Logout</SemMenuItem>
+    </SemMenu>
+  </SemMenu>
+
+  <SemMenu Classes=""@(new[] { MenuClass.Secondary, MenuClass.Pointing })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+    <SemMenuItem Dropdown=""true"">
+      Dropdown item
+      <SemIcon Class=""dropdown""></SemIcon>
+      <SemMenu>
+        <SemMenuItem>Item 3 - 1</SemMenuItem>
+        <SemMenuItem>Item 3 - 2</SemMenuItem>
+      </SemMenu>
+    </SemMenuItem>
+    <SemMenu Class=""right"">
+      <SemMenuItem OnClick=""DoSomething"">Logout</SemMenuItem>
+    </SemMenu>
+  </SemMenu>") />
+
+<h3>Tabular</h3>
+<SemMenu Classes="@(new[] { MenuClass.Tabular })">
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Tabular })"">
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+  </SemMenu>") />
+
+<h3>Text</h3>
+<SemMenu Classes="@(new[] { MenuClass.Text })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Text })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+  </SemMenu>") />
+
+<h3>Vertical menu</h3>
+<SemMenu Class="vertical">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="orange mini"><SemIcon Class="exclamation triangle"></SemIcon>10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Enabled="false">Disabled item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+  <SemMenuItem Dropdown="true">
+    Dropdown item
+    <SemIcon Class="dropdown"></SemIcon>
+    <SemMenu>
+      <SemMenuItem Href="/Components/Something">Item 3 - 1</SemMenuItem>
+      <SemMenuItem Href="/Components/Something">Item 3 - 2</SemMenuItem>
+    </SemMenu>
+  </SemMenuItem>
+  <SemMenuItem>
+    <Header>Section menu</Header>
+    <ChildContent>
+      <SemMenu>
+        <SemMenuItem Href="/Components/Something">Subsection 1<SemLabel Class="orange mini">5</SemLabel></SemMenuItem>
+        <SemMenuItem Href="/Components/Something">Subsection 2</SemMenuItem>
+        <SemMenuItem Href="/Components/Something">Subsection 3</SemMenuItem>
+      </SemMenu>
+    </ChildContent>
+  </SemMenuItem>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Class=""vertical"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""orange mini""><SemIcon Class=""exclamation triangle""></SemIcon>10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Enabled=""false"">Disabled item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+    <SemMenuItem Dropdown=""true"">
+      Dropdown item
+      <SemIcon Class=""dropdown""></SemIcon>
+      <SemMenu>
+        <SemMenuItem Href=""/Components/Something"">Item 3 - 1</SemMenuItem>
+        <SemMenuItem Href=""/Components/Something"">Item 3 - 2</SemMenuItem>
+      </SemMenu>
+    </SemMenuItem>
+    <SemMenuItem>
+      <Header>Section menu</Header>
+      <ChildContent>
+        <SemMenu>
+          <SemMenuItem Href=""/Components/Something"">Subsection 1<SemLabel Class=""orange mini"">5</SemLabel></SemMenuItem>
+          <SemMenuItem Href=""/Components/Something"">Subsection 2</SemMenuItem>
+          <SemMenuItem Href=""/Components/Something"">Subsection 3</SemMenuItem>
+        </SemMenu>
+      </ChildContent>
+    </SemMenuItem>
+  </SemMenu>") />
+
+<h3>Secondary</h3>
+<SemMenu Classes="@(new[] { MenuClass.Vertical, MenuClass.Secondary })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Vertical, MenuClass.Secondary })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+  </SemMenu>") />
+
+<h3>Pointing</h3>
+<SemMenu Classes="@(new[] { MenuClass.Vertical, MenuClass.Pointing })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Vertical, MenuClass.Pointing })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+  </SemMenu>") />
+
+<SemMenu Classes="@(new[] { MenuClass.Vertical, MenuClass.Secondary, MenuClass.Pointing })">
+  <SemMenuItem Class="header">Header Item</SemMenuItem>
+  <SemMenuItem Href="/Components/Something" Class="active">Item<SemLabel Class="teal">10</SemLabel></SemMenuItem>
+  <SemMenuItem Href="/Components/Something">Item2</SemMenuItem>
+  <SemMenuItem OnClick="DoSomething">Do something</SemMenuItem>
+</SemMenu>
+<CodeHighlight Code=@(@"
+  <SemMenu Classes=""@(new[] { MenuClass.Vertical, MenuClass.Secondary, MenuClass.Pointing })"">
+    <SemMenuItem Class=""header"">Header Item</SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"" Class=""active"">Item<SemLabel Class=""teal"">10</SemLabel></SemMenuItem>
+    <SemMenuItem Href=""/Components/Something"">Item2</SemMenuItem>
+    <SemMenuItem OnClick=""DoSomething"">Do something</SemMenuItem>
+  </SemMenu>") />
+
+<h3>Dropdown</h3>
+<SemDropdownMenu Class="floating button">
+  Actions
+  <SemMenu>
+    <SemMenuItem>Edit</SemMenuItem>
+    <SemMenuItem>Delete</SemMenuItem>
+  </SemMenu>
+</SemDropdownMenu>
+<br />
+<br />
+<br />
+<SemDropdownMenu Class="left pointing" ShowOnHover="true">
+  <SemIcon Class="ellipsis horizontal"></SemIcon>
+  <SemMenu>
+    <SemMenuItem>Edit</SemMenuItem>
+    <SemMenuItem>Delete</SemMenuItem>
+  </SemMenu>
+</SemDropdownMenu>
+<CodeHighlight Code=@(@"
+  <SemDropdownMenu Class=""floating button"">
+    Actions
+    <SemMenu>
+      <SemMenuItem>Edit</SemMenuItem>
+      <SemMenuItem>Delete</SemMenuItem>
+    </SemMenu>
+  </SemDropdownMenu>
+
+  <SemDropdownMenu Class=""left pointing"" ShowOnHover=""true"">
+    <SemIcon Class=""ellipsis horizontal""></SemIcon>
+    <SemMenu>
+      <SemMenuItem>Edit</SemMenuItem>
+      <SemMenuItem>Delete</SemMenuItem>
+    </SemMenu>
+  </SemDropdownMenu>") />
+
+
+@code {
+  private void DoSomething()
+  {
+    notificationService.ShowNotification("Something has been done...", "", "green");
+  }
+}

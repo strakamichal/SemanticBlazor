@@ -1,0 +1,12 @@
+﻿@typeparam ValueType
+@inherits SemControlBase
+@if (Visible)
+{
+  <label class="@Class" style="@Style" @attributes="Attributes">@Annotations.GetNameFor(For ?? ForCasc)</label>
+}
+
+@code {
+  [Obsolete]
+  [Parameter] public System.Linq.Expressions.Expression<Func<ValueType>> For { get; set; }
+  [CascadingParameter] public System.Linq.Expressions.Expression<Func<ValueType>> ForCasc { get; set; }
+}

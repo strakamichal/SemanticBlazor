@@ -1,0 +1,25 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    @ChildContent
+  </div>
+}
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public Color? Color { get; set; }
+  [Parameter] public Emphasis? Emphasis { get; set; }
+  [Parameter] public SegmentClass[] Classes { get; set; }
+
+  public SemSegment()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Emphasis?.ToString().ToLower())
+      .Get(() => Color?.ToString().ToLower())
+      .Add("segment");
+  }
+}

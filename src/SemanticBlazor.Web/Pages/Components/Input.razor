@@ -1,0 +1,136 @@
+﻿@page "/Components/Input"
+@layout ComponentsLayout
+
+<h1>Input</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/elements/input.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Standard</h3>
+<p>
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..."></SemInput><br />
+</p>
+<p>
+  Value: @(StringValue ?? "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text...""></SemInput><br />") />
+
+<h3>Disabled</h3>
+<p>
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..." Enabled="@inputEnabled"></SemInput>
+  <SemButton Class="basic" Color="ButtonColor.Teal" OnClick="@(() => inputEnabled = !inputEnabled)">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text..."" Enabled=""@inputEnabled""></SemInput>") />
+
+<h3>Transparent</h3>
+<p>
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..." Classes="@(new[] { InputClass.Transparent })"></SemInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text..."" Classes=""@(new[] { InputClass.Transparent })""></SemInput>") />
+
+<h3>Icon</h3>
+<p>
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..." Class="left" Icon="Icon.User" IconPosition="IconPosition.Left"></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..." Class="left" Icon="Icon.Arrow_Right" IconPosition="IconPosition.Right"></SemInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text..."" Class=""left"" Icon=""Icon.User"" IconPosition=""IconPosition.Left""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text..."" Class=""left"" Icon=""Icon.Arrow_Right"" IconPosition=""IconPosition.Right""></SemInput>") />
+
+<h3>Clearable</h3>
+<p>
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..." Clearable="true"></SemInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text..."" Clearable=""true""></SemInput>") />
+
+<h3>Int value</h3>
+<p>
+  <SemInput @bind-Value="IntValue" Placeholder="Enter number..."></SemInput>
+</p>
+<p>
+  Value: @(IntValue.ToString())
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""IntValue"" Placeholder=""Enter number...""></SemInput>") />
+
+<h3>Int value (nullable)</h3>
+<p>
+  <SemInput @bind-Value="IntNullValue" Clearable="true" Placeholder="Enter number..."></SemInput>
+</p>
+<p>
+  Value: @(IntNullValue.ToString() ?? "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""IntNullValue"" Clearable=""true"" Placeholder=""Enter number...""></SemInput>") />
+
+<h3>Decimal value</h3>
+<p>
+  <SemInput @bind-Value="DecimalValue" Placeholder="Enter number..."></SemInput>
+</p>
+<p>
+  Value: @(DecimalValue.ToString())
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""DecimalValue"" Placeholder=""Enter number...""></SemInput>") />
+
+<h3>Decimal value (nullable)</h3>
+<p>
+  <SemInput @bind-Value="DecimalNullValue" Clearable="true"></SemInput>
+</p>
+<p>
+  Value: @(DecimalNullValue.ToString() ?? "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""DecimalNullValue"" Clearable=""true""></SemInput>") />
+
+<h3>Date input</h3>
+<p>
+  <SemDateInput @bind-Value="DateValue" Size="@InputSize.Small" Placeholder="Enter date..."></SemDateInput>
+</p>
+<p>
+  Value: @DateValue.ToString("dd.MM.yyyy")
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateInput @bind-Value=""DateValue"" Size=""@InputSize.Small"" Placeholder=""Enter date...""></SemDateInput>") />
+
+<h3>Date input (nullable)</h3>
+<p>
+  <SemDateInput @bind-Value="DateNullValue" Clearable="true"></SemDateInput>
+</p>
+<p>
+  Value: @(DateNullValue.HasValue ? DateNullValue.Value.ToString("dd.MM.yyyy") : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateInput @bind-Value=""DateNullValue"" Clearable=""true""></SemDateInput>") />
+
+<h3>Sizes</h3>
+<p>
+  <SemInput @bind-Value="StringValue" Size="InputSize.Mini" Placeholder="Enter text..."></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Size="InputSize.Small" Placeholder="Enter text..."></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Placeholder="Enter text..."></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Size="InputSize.Large" Placeholder="Enter text..."></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Size="InputSize.Big" Placeholder="Enter text..."></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Size="InputSize.Huge" Placeholder="Enter text..."></SemInput><br /><br />
+  <SemInput @bind-Value="StringValue" Size="InputSize.Massive" Placeholder="Enter text..."></SemInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemInput @bind-Value=""StringValue"" Size=""InputSize.Mini"" Placeholder=""Enter text...""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Size=""InputSize.Small"" Placeholder=""Enter text...""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Placeholder=""Enter text...""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Size=""InputSize.Large"" Placeholder=""Enter text...""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Size=""InputSize.Big"" Placeholder=""Enter text...""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Size=""InputSize.Huge"" Placeholder=""Enter text...""></SemInput>
+  <SemInput @bind-Value=""StringValue"" Size=""InputSize.Massive"" Placeholder=""Enter text...""></SemInput>") />
+
+@code {
+  string StringValue { get; set; } = "Lorem ipsum";
+  int IntValue { get; set; } = 10;
+  int? IntNullValue { get; set; } = 20;
+  decimal DecimalValue { get; set; } = 30.5m;
+  decimal? DecimalNullValue { get; set; } = 40.5m;
+  DateTime? DateNullValue { get; set; } = DateTime.Now.Date.AddDays(1);
+  DateTime DateValue { get; set; } = DateTime.Now.Date.AddDays(2);
+  bool inputEnabled { get; set; } = false;
+}

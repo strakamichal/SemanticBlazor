@@ -1,0 +1,48 @@
+﻿@typeparam ValueType
+@inherits SemInputControlBase<ValueType>
+
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <SemInput Class="@InputClass" Style="@InputStyle" Value="@Value" ValueChanged="@ValueChanged" Icon="@InputIcon" IconPosition="@InputIconPosition" Clearable="@Clearable" EnterPressed="EnterPressed" Enabled="@Enabled"></SemInput>
+    <SemButton @ref="btn" Class="@ButtonClass" Color="ButtonColor" Icon="@ButtonIcon" IconPosition="@ButtonIconPosition" IconLabeled="@ButtonIconLabeled" ConfirmationHeader="@ConfirmationHeader" ConfirmationMessage="@ConfirmationMessage" NeedsConfirmation="@NeedsConfirmation" OnClickLoading="@OnClickLoading" OnClick="@OnClick" Enabled="@Enabled">
+      @ActionText
+    </SemButton>
+  </div>
+}
+@code {
+  public SemButton btn { get; set; }
+
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+  [Parameter] public bool OnClickLoading { get; set; }
+  [Parameter] public string ActionText { get; set; }
+  [Parameter] public bool Clearable { get; set; }
+
+  [Parameter] public string InputClass { get; set; }
+  [Parameter] public string InputStyle { get; set; }
+  [Parameter] public Icon? InputIcon { get; set; }
+  [Parameter] public IconPosition? InputIconPosition { get; set; }
+  [Parameter] public InputSize? Size { get; set; }
+
+  [Parameter] public string ButtonClass { get; set; }
+  [Parameter] public Icon? ButtonIcon { get; set; }
+  [Parameter] public IconPosition? ButtonIconPosition { get; set; }
+  [Parameter] public bool ButtonIconLabeled { get; set; } = true;
+  [Parameter] public ButtonColor? ButtonColor { get; set; }
+
+  [Parameter] public bool NeedsConfirmation { get; set; }
+  [Parameter] public string ConfirmationHeader { get; set; }
+  [Parameter] public string ConfirmationMessage { get; set; }
+
+  public SemActionInput()
+  {
+    ClassMapper.Add("ui action input")
+      .Get(() => Size?.ToString().ToLower());
+  }
+
+  async Task EnterPressed()
+  {
+    await Task.Delay(1);
+    await btn.ButtonClicked();
+  }
+}

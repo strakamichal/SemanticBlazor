@@ -1,0 +1,63 @@
+﻿@page "/Components/List"
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService notificationService
+@using SemanticBlazor.Models
+
+<h1>Basic List</h1>
+<p>Standart Semantic &lt;list&gt;.</p>
+
+<div class="ui buttons">
+  <SemButton Class="@(allowPaging ? "active" : "")" OnClick="AllowPaging">Paged</SemButton><SemButton Class="@(!allowPaging ? "active" : "")" OnClick="NotAllowPaging">Not paged</SemButton>
+</div>
+<div style="max-width: 600px; padding-top: 20px">
+  <SemDataList @ref="list" ViewType="ListViewType.List" DataMethod="GetData" AllowPaging="@allowPaging" Class="relaxed divided">
+    <ItemTemplate>
+      <SemDataListItem>
+        <div class="right floated content">
+          <div class="ui labels">
+            @if (context.Type != null)
+            {
+              <span class="ui label">@context.Type</span>
+            }
+            @foreach (var flag in context.Flags)
+            {
+              if (!String.IsNullOrEmpty(flag))
+              {
+                <span class="ui label">@flag</span>
+              }
+            }
+          </div>
+        </div>
+        <div class="content">
+          <div class="header">#@context.DummyId - @context.Name</div>
+          <div class="description">@context.Description</div>
+        </div>
+      </SemDataListItem>
+    </ItemTemplate>
+  </SemDataList>
+</div>
+
+@code {
+  SemDataList<Data.DummyData> list;
+  bool allowPaging = false;
+
+  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  {
+    return await DummyDataService.GetAllDataAsync();
+  }
+
+  async Task AllowPaging()
+  {
+    allowPaging = true;
+    notificationService.ShowNotification("Pagging has been turned on", null, "green");
+    await list.RefreshData();
+  }
+
+  async Task NotAllowPaging()
+  {
+    allowPaging = false;
+    notificationService.ShowNotification("Pagging has been turned off", null, "green");
+    await list.RefreshData();
+  }
+}

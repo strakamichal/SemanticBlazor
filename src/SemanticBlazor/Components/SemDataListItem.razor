@@ -1,0 +1,38 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <div class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    @ChildContent
+  </div>
+}
+
+@code {
+  [CascadingParameter] ListViewType ViewType { get; set; } = ListViewType.Custom;
+  [Parameter] public RenderFragment ChildContent { get; set; }
+
+  public SemDataListItem()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => GetItemClass());
+  }
+  private string GetItemClass()
+  {
+    switch (ViewType)
+    {
+      case ListViewType.List:
+        return "item";
+      case ListViewType.Items:
+        return "item";
+      case ListViewType.Comments:
+        return "comment";
+      case ListViewType.Feed:
+        return "event";
+      case ListViewType.Cards:
+        return "card";
+      default:
+        return "";
+    }
+  }
+}

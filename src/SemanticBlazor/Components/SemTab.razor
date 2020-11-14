@@ -1,0 +1,57 @@
+﻿@inherits SemControlBase
+
+@if (Visible && Enabled)
+{
+  <div class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" data-tab="@TabName">
+    @ChildContent
+  </div>
+}
+
+@code {
+  [CascadingParameter] public SemControlBase Parent { get; set; }
+  [Parameter] public string Name { get; set; }
+  [Parameter] public string Text { get; set; }
+  [Parameter] public bool Active { get; set; }
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public RenderFragment MenuContent { get; set; }
+  [Parameter] public string MenuItemClass { get; set; }
+  [Parameter] public string MenuItemStyle { get; set; }
+  public string TabName => Id;
+
+  public SemTab()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => GetLocationClass())
+      .Add("attached tab")
+      .If("active", () => Active)
+      .Add("segment");
+  }
+  private string GetLocationClass()
+  {
+    if (Parent != null && Parent is SemTabs)
+    {
+      return ((SemTabs)Parent).MenuPosition == TabMenuPosition.Top ? "bottom" : "top";
+    }
+    else
+    {
+      return "bottom";
+    }
+  }
+  protected override void OnInitialized()
+  {
+    if (Parent != null)
+    {
+      Parent.RegistedChildControl(this);
+    }
+  }
+  protected override async Task OnParametersSetAsync()
+  {
+    if (Rendered)
+    {
+      await Task.Delay(1);
+      await ((SemTabs)Parent).InitTabs();
+    }
+    await base.OnParametersSetAsync();
+  }
+}

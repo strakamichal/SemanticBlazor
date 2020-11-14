@@ -1,0 +1,55 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  @if (TotalPages > 1)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (PageIndex >= 3 && TotalPages > 5)
+      {
+        <a class="item" @onclick="@(() => SetPageIndex(0))"><i class="ui angle double left icon"></i></a>
+      }
+      @for (int i = pagerStart; i < pagerStart + 5 && i < TotalPages; i++)
+      {
+        if (i >= 0)
+        {
+          var _i = i;
+          <a class="item @(PageIndex == _i ? "active" : "")" @onclick="@(() => SetPageIndex(_i))">@(i + 1)</a>
+        }
+      }
+      @if (TotalPages > PageIndex + 3 && TotalPages > 5)
+      {
+        <a class="item" @onclick="@(() => SetPageIndex(TotalPages - 1))"><i class="ui angle double right icon"></i></a>
+      }
+    </div>
+  }
+}
+
+@code {
+  [Parameter] public int TotalPages { get; set; }
+  [Parameter] public int PageIndex { get; set; }
+  [Parameter] public EventCallback<int> PageIndexChanged { get; set; }
+  [Parameter] public Color? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+
+  int pagerStart = 0;
+
+  public SemPagination()
+  {
+    ClassMapper
+      .Add("ui pagination menu")
+      .Get(() => Color?.ToString().ToLower())
+      .Get(() => Size?.ToString().ToLower());
+  }
+  protected override void OnParametersSet()
+  {
+    pagerStart = 0;
+    if (PageIndex > 2) pagerStart = PageIndex - 2;
+    if (pagerStart > TotalPages - 5) pagerStart = TotalPages - 5;
+  }
+  async Task SetPageIndex(int newPageIndex)
+  {
+    PageIndex = newPageIndex;
+    await PageIndexChanged.InvokeAsync(newPageIndex);
+  }
+}

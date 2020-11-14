@@ -1,0 +1,89 @@
+﻿@page "/Components/Divider"
+@inherits PageBase
+@layout ComponentsLayout
+
+<h1>Divider</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/elements/divider.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Basic</h3>
+<p>
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+  Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+  Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+</p>
+<SemDivider></SemDivider>
+<p>
+  Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod.
+  Praesent vitae arcu tempor neque lacinia pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Duis risus. Morbi leo mi,
+  nonummy eget tristique non, rhoncus non leo.
+</p>
+<CodeHighlight Code=@(@"
+  <p>
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+    Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+    Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+  </p>
+  <SemDivider></SemDivider>
+  <p>
+    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod.
+    Praesent vitae arcu tempor neque lacinia pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Duis risus. Morbi leo mi,
+    nonummy eget tristique non, rhoncus non leo.
+  </p>") />
+
+<h3>Vertical</h3>
+<SemSegment>
+  <SemGrid Columns="GridUnit.Two" Classes="@(new[] { GridClass.Relaxed, GridClass.Very_Relaxed })">
+    <SemGridColumn>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+      Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+      Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+    </SemGridColumn>
+    <SemGridColumn>
+      Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod.
+      Praesent vitae arcu tempor neque lacinia pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Duis risus. Morbi leo mi,
+      nonummy eget tristique non, rhoncus non leo.
+    </SemGridColumn>
+  </SemGrid>
+  <SemDivider Classes="@(new [] { DividerClass.Vertical })">and</SemDivider>
+</SemSegment>
+<CodeHighlight Code=@(@"
+  <SemSegment>
+    <SemGrid Columns=""GridUnit.Two"" Classes=""@(new[] { GridClass.Relaxed, GridClass.Very_Relaxed })"">
+      <SemGridColumn>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+        Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+        Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+      </SemGridColumn>
+      <SemGridColumn>
+        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod.
+        Praesent vitae arcu tempor neque lacinia pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Duis risus. Morbi leo mi,
+        nonummy eget tristique non, rhoncus non leo.
+      </SemGridColumn>
+    </SemGrid>
+    <SemDivider Classes=""@(new [] { DividerClass.Vertical })"">and</SemDivider>
+  </SemSegment>") />
+
+<h3>Divider in dropdown menu</h3>
+<SemDropdownMenu>
+  <SemButton>Menu</SemButton>
+  <SemMenu>
+    <SemMenuItem>View</SemMenuItem>
+    <SemMenuItem>Edit</SemMenuItem>
+    <SemDivider></SemDivider>
+    <SemMenuItem>Delete</SemMenuItem>
+  </SemMenu>
+</SemDropdownMenu>
+<CodeHighlight Code=@(@"
+<SemDropdownMenu>
+  <SemButton>Menu</SemButton>
+  <SemMenu>
+    <SemMenuItem>View</SemMenuItem>
+    <SemMenuItem>Edit</SemMenuItem>
+    <SemDivider></SemDivider>
+    <SemMenuItem>Delete</SemMenuItem>
+  </SemMenu>
+</SemDropdownMenu>") />
+
+@code {
+
+}

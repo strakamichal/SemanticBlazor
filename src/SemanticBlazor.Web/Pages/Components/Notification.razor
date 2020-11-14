@@ -1,0 +1,31 @@
+﻿@page "/Components/Notification"
+@layout ComponentsLayout
+@inject NotificationService notificationService
+
+<h1>Notification</h1>
+
+<h3>
+  Basic Notification
+</h3>
+<p>
+  <SemButton OnClick="ShowBasicNotification">Show </SemButton>
+</p>
+
+<h3>
+  Long notification
+</h3>
+<p>
+  <SemButton OnClick="ShowLongNotification">Show </SemButton>
+</p>
+
+@code {
+  void ShowBasicNotification()
+  {
+    notificationService.ShowNotification("Notification #123 has been updated.", "", "green");
+  }
+
+  void ShowLongNotification()
+  {
+    notificationService.ShowNotification("Your password will expire in <b>10 days</b>. Please change your password or the security department will go crazy.<br /><br />Thanks!", "Password expiration", "orange");
+  }
+}

@@ -1,0 +1,93 @@
+﻿@page "/Components/Icon"
+@inherits PageBase
+@layout ComponentsLayout
+
+<h1>Icon</h1>
+<p>See the full documentation at <NavLink href="https://semantic-ui.com/elements/icon.html" target="_blank">Semantic UI</NavLink>.</p>
+
+<h3>
+  Standard
+</h3>
+<p>
+  <SemIcon Icon="Icon.Users"></SemIcon>
+</p>
+<CodeHighlight Code=@(@"
+  <SemIcon Icon=""Icon.Users""></SemIcon>") />
+
+<h3>
+  Disabled
+</h3>
+<p>
+  <SemIcon Icon="Icon.Users" Enabled="false"></SemIcon>
+</p>
+<CodeHighlight Code=@(@"
+  <SemIcon Icon=""Icon.Users"" Enabled=""false""></SemIcon>") />
+
+<h3>
+  Loading
+</h3>
+<p>
+  <SemIcon Icon="Icon.Spinner_Loading"></SemIcon>
+  <SemIcon Icon="Icon.Notched_Circle_Loading"></SemIcon>
+  <SemIcon Icon="Icon.Sync_Alternate_Loading"></SemIcon>
+  <SemIcon Icon="Icon.Cog_Loading"></SemIcon>
+</p>
+<CodeHighlight Code=@(@"
+  <SemIcon Icon=""Icon.Spinner_Loading""></SemIcon>
+  <SemIcon Icon=""Icon.Notched_Circle_Loading""></SemIcon>
+  <SemIcon Icon=""Icon.Sync_Alternate_Loading""></SemIcon>
+  <SemIcon Icon=""Icon.Cog_Loading""></SemIcon>") />
+
+<h3>Sizes & colors</h3>
+<p>
+  <SemIcon Icon="Icon.Users" Size="Size.Mini"></SemIcon>
+  <SemIcon Icon="Icon.Users" Size="Size.Tiny"></SemIcon>
+  <SemIcon Icon="Icon.Users" Size="Size.Small"></SemIcon>
+  <SemIcon Icon="Icon.Users"></SemIcon>
+  <SemIcon Icon="Icon.Users" Size="Size.Large"></SemIcon>
+  <SemIcon Icon="Icon.Users" Size="Size.Big"></SemIcon>
+  <SemIcon Icon="Icon.Users" Size="Size.Huge"></SemIcon>
+  <SemIcon Icon="Icon.Users" Size="Size.Massive"></SemIcon>
+</p>
+<CodeHighlight Code=@(@"
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Mini""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Tiny""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Small""></SemIcon>
+  <SemIcon Icon=""Icon.Users""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Large""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Big""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Huge""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Size=""Size.Massive""></SemIcon>") />
+<p>
+  <SemIcon Icon="Icon.Users" Color="Color.Red"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Orange"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Yellow"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Olive"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Green"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Teal"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Blue"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Violet"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Purple"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Pink"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Brown"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Grey"></SemIcon>
+  <SemIcon Icon="Icon.Users" Color="Color.Black"></SemIcon>
+</p>
+<CodeHighlight Code=@(@"
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Red""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Orange""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Yellow""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Olive""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Green""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Teal""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Blue""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Violet""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Purple""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Pink""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Brown""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Grey""></SemIcon>
+  <SemIcon Icon=""Icon.Users"" Color=""Color.Black""></SemIcon>") />
+
+@code {
+
+}

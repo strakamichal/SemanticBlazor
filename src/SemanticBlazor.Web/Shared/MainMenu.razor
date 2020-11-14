@@ -1,0 +1,27 @@
+﻿@inherits PageBase
+@inject PackageInformationService packageInfo
+@using System.Reflection
+
+@*@attributes="@(new Dictionary<string, string>() { ("style", "height: 50px") })"*@
+<SemMenu Class="ui teal inverted top fixed menu" Style="height: 50px">
+  <SemMenuItem Class="header">
+    Semantic Blazor Live Demo - @packageVersion
+  </SemMenuItem>
+  <SemMenuItem Href="/Components">
+    Components
+  </SemMenuItem>
+  <SemMenuItem Href="/Release-notes">
+    Release Notes
+  </SemMenuItem>
+</SemMenu>
+
+@code
+{
+  string packageVersion = "";
+
+  protected override void OnInitialized()
+  {
+    System.Reflection.Assembly semBlazor = typeof(SemanticBlazor.Annotations).Assembly;
+    packageVersion = ((AssemblyInformationalVersionAttribute)semBlazor.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute))).InformationalVersion;
+  }
+}

@@ -1,0 +1,162 @@
+.full-page {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding-top: 50px;
+}
+
+  .full-page .left-menu {
+    width: 260px;
+    flex: 0 0 auto;
+    z-index: 200;
+    position: absolute;
+    top: 48px;
+    bottom: 0px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+    .full-page .left-menu:hover {
+      overflow-y: scroll;
+      padding-right: 0px;
+    }
+
+    .full-page .left-menu .menu {
+      min-height: 100%;
+    }
+
+  .full-page .right-content {
+    flex: 1 1 auto;
+    vertical-align: top;
+    padding: 30px;
+    padding-bottom: 50px;
+    max-width: 100%;
+    overflow: auto;
+    position: absolute;
+    top: 48px;
+    left: 260px;
+    right: 0px;
+    bottom: 0px;
+  }
+
+    .full-page .right-content.fixed {
+      flex: 1 1 auto;
+      vertical-align: top;
+      padding: 30px 0px;
+    }
+
+
+.left-menu.hidden-menu {
+  margin-left: -145px;
+}
+
+  .left-menu.hidden-menu.expanded {
+    margin-left: 0px;
+  }
+
+.right-content.hidden-menu {
+  left: 65px;
+}
+
+.right-content.no-menu {
+  left: 0px;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.ui.top.menu, .ui.bottom.menu {
+  z-index: 300;
+}
+
+.ui.inverted.yellow.menu,
+.ui.inverted.yellow.menu .header,
+.ui.inverted.yellow.menu .subheader,
+.ui.inverted.yellow.menu .item,
+.ui.inverted.yellow.menu .item:hover,
+.ui.inverted.yellow.menu .active.item:hover {
+  color: #414143 !important;
+}
+
+.ui.vertical.menu .mainheader.item {
+  text-transform: uppercase;
+}
+
+.text-muted {
+  color: darkgray;
+}
+
+
+.form .field.validation-right .validation-message {
+  display: none !important;
+}
+
+
+
+#blazor-error-ui {
+  background: lightyellow;
+  bottom: 0;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+  display: none;
+  left: 0;
+  padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+  #blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+  }
+
+.my-reconnect-modal > div {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+  background-color: #fff;
+  opacity: 0.8;
+  text-align: center;
+  font-weight: bold;
+}
+
+.components-reconnect-hide > div {
+  display: none;
+}
+
+.components-reconnect-show > div {
+  display: none;
+}
+
+.components-reconnect-show > .show {
+  display: block;
+}
+
+.components-reconnect-failed > div {
+  display: none;
+}
+
+.components-reconnect-failed > .failed {
+  display: block;
+}
+
+.components-reconnect-refused > div {
+  display: none;
+}
+
+.components-reconnect-refused > .refused {
+  display: block;
+}
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  background-color: white;
+  font-size: 0.95em;
+}

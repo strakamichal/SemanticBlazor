@@ -1,0 +1,98 @@
+﻿@inherits SemControlBase
+@using Microsoft.AspNetCore.Components.Routing
+
+@if (Visible)
+{
+  if (Enabled && !String.IsNullOrEmpty(Href))
+  {
+    <NavLink id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" href="@Href">
+      @if (Header != null)
+      {
+        <div class="header">@Header</div>
+      }
+      @ChildContent
+    </NavLink>
+  }
+  else if (Enabled && Header == null)
+  {
+    <a id="@Id" class="@ClassMapper.ToString()" @onclick="Clicked" style="@Style" @attributes="Attributes">
+      @if (Header != null)
+      {
+        <div class="header">@Header</div>
+      }
+      @ChildContent
+    </a>
+  }
+  else
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Header != null)
+      {
+        <div class="header">@Header</div>
+      }
+      @ChildContent
+    </div>
+  }
+
+  @if (NeedsConfirmation)
+  {
+    <SemModalConfirmation @ref="confirmationModal" @onclick="ClickEvent" Header="@ConfirmationHeader" CancelButtonText="@CancelButtonText" ConfirmButtonText="@ConfirmButtonText" ConfirmButtonIconClass="@ConfirmButtonIconClass">
+      <Content>
+        @ConfirmationMessage
+      </Content>
+    </SemModalConfirmation>
+  }
+}
+
+@code {
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public RenderFragment Header { get; set; }
+  [Parameter] public string Href { get; set; }
+  [Parameter] public bool Dropdown { get; set; }
+  [Parameter] public Color? Color { get; set; }
+
+  [Parameter] public bool NeedsConfirmation { get; set; }
+  [Parameter] public string ConfirmationHeader { get; set; }
+  [Parameter] public string ConfirmationMessage { get; set; }
+  [Parameter] public string CancelButtonText { get; set; } = "No";
+  [Parameter] public string ConfirmButtonText { get; set; } = "Yes";
+  [Parameter] public string ConfirmButtonIconClass { get; set; } = "checkmark";
+
+  string allClasses { get; set; }
+  SemModalConfirmation confirmationModal;
+
+  public SemMenuItem()
+  {
+    ClassMapper
+      .If("ui dropdown", () => Dropdown)
+      .Get(() => Color?.ToString().ToLower())
+      .Add("item");
+  }
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender && Dropdown)
+    {
+      await JsFunc.DropDownMenu.Init(js, Id);
+    }
+  }
+  async Task ClickEvent()
+  {
+    await OnClick.InvokeAsync(null);
+  }
+  async Task Clicked()
+  {
+    if (NeedsConfirmation)
+    {
+      await ShowConfirmation();
+    }
+    else
+    {
+      await ClickEvent();
+    }
+  }
+  async Task ShowConfirmation()
+  {
+    await confirmationModal.Show();
+  }
+}

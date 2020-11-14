@@ -1,0 +1,93 @@
+﻿@page "/Components/ActionInput"
+@layout ComponentsLayout
+
+<h1>Action input</h1>
+<p>
+  Prefabricated component for input and button. Action is called after the button is clicked or enter pressed (while input is focused).
+</p>
+
+<h3>Standard</h3>
+<p>
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add"></SemActionInput>
+</p>
+<p>Value: @(currentValue1 ?? "{null}")</p>
+<CodeHighlight Code=@(@"
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add""></SemActionInput>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add" Enabled="@btnEnabled"></SemActionInput>
+  <SemButton OnClick="@(() => btnEnabled = !btnEnabled)" Classes="@(new[] { ButtonClass.Basic })" Color="ButtonColor.Teal">Toggle</SemButton>
+</p>
+<p>Value: @(currentValue1 ?? "{null}")</p>
+<CodeHighlight Code=@(@"
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add"" Enabled=""@btnEnabled""></SemActionInput>") />
+
+<h3>Icon</h3>
+<p>
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add" InputIcon="Icon.User" InputIconPosition="IconPosition.Left" ButtonIcon="Icon.Plus" ButtonIconLabeled="false"></SemActionInput><br /><br />
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add" InputIcon="Icon.User" InputIconPosition="IconPosition.Left" ButtonIcon="Icon.Plus" ButtonIconLabeled="true"></SemActionInput>
+</p>
+<p>Value: @(currentValue1 ?? "{null}")</p>
+<CodeHighlight Code=@(@"
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add"" InputIcon=""Icon.User"" InputIconPosition=""IconPosition.Left"" ButtonIcon=""Icon.Plus"" ButtonIconLabeled=""false""></SemActionInput>
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add"" InputIcon=""Icon.User"" InputIconPosition=""IconPosition.Left"" ButtonIcon=""Icon.Plus"" ButtonIconLabeled=""true""></SemActionInput>") />
+
+<h3>Loading</h3>
+<p>
+  <SemActionInput @bind-Value="newCurrentValue2" OnClickLoading="true" OnClick="DoSomethingLong" ActionText="Click me!"></SemActionInput>
+</p>
+<p>Value: @(currentValue2 ?? "{null}")</p>
+<CodeHighlight Code=@(@"
+    <SemActionInput @bind-Value=""newCurrentValue2"" OnClickLoading=""true"" OnClick=""DoSomethingLong"" ActionText=""Click me!""></SemActionInput>") />
+
+<h3>Confirmation</h3>
+<p>
+  <SemActionInput @bind-Value="newCurrentValue3" OnClick="DoSomethingConfirmed" NeedsConfirmation="true" ConfirmationHeader="Click button?" ConfirmationMessage="Are you sure to click this button?" ActionText="Click me!"></SemActionInput>
+</p>
+<p>Value: @(currentValue3 ?? "{null}")</p>
+<CodeHighlight Code=@(@"
+  <SemActionInput @bind-Value=""newCurrentValue3"" OnClick=""DoSomethingConfirmed"" NeedsConfirmation=""true"" ConfirmationHeader=""Click button?"" ConfirmationMessage=""Are you sure to click this button?"" ActionText=""Click me!""></SemActionInput>") />
+
+<h3>Color</h3>
+<p>
+  Colors are the same as for <NavLink href="/Components/Button">SemButton</NavLink>.
+  <br /><br />
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add" ButtonColor="ButtonColor.Red"></SemActionInput><br /><br />
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add" ButtonColor="ButtonColor.Green"></SemActionInput><br /><br />
+  <SemActionInput @bind-Value="@newCurrentValue1" OnClick="DoSomething" ActionText="Add" ButtonColor="ButtonColor.Blue"></SemActionInput>
+</p>
+<p>Value: @(currentValue1 ?? "{null}")</p>
+<CodeHighlight Code=@(@"
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add"" ButtonColor=""ButtonColor.Red""></SemActionInput>
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add"" ButtonColor=""ButtonColor.Green""></SemActionInput>
+  <SemActionInput @bind-Value=""@newCurrentValue1"" OnClick=""DoSomething"" ActionText=""Add"" ButtonColor=""ButtonColor.Blue""></SemActionInput>") />
+
+@code {
+  string currentValue1 = "";
+  string newCurrentValue1 = "";
+  string currentValue2 = "";
+  string newCurrentValue2 = "";
+  string currentValue3 = "";
+  string newCurrentValue3 = "";
+  bool btnEnabled = false;
+
+  void DoSomething()
+  {
+    currentValue1 = newCurrentValue1;
+    StateHasChanged();
+  }
+
+  async Task DoSomethingLong()
+  {
+    await LongFunc();
+    currentValue2 = newCurrentValue2;
+  }
+
+  void DoSomethingConfirmed()
+  {
+    currentValue3 = newCurrentValue3;
+  }
+
+  async Task LongFunc() => await Task.Delay(2000);
+}

@@ -1,0 +1,33 @@
+﻿@typeparam ValueType
+@inherits SemInputControlBase<ValueType>
+
+@code {
+  [Parameter] public IEnumerable<Models.ListItem> Items { get; set; }
+  [Parameter] public RenderFragment<object> ItemTemplate { get; set; }
+  [Parameter] public RenderFragment ListItems { get; set; }
+  protected bool itemsSetInParameter { get; set; }
+
+  protected override async Task OnInitializedAsync()
+  {
+    itemsSetInParameter = true;
+    if (Items == null)
+    {
+      itemsSetInParameter = false;
+      Items = new List<Models.ListItem>();
+    }
+    await base.OnInitializedAsync();
+  }
+
+  internal override void RegistedChildControl(object control)
+  {
+    if (control.GetType() == typeof(SemSelectListItem))
+    {
+      if (itemsSetInParameter)
+      {
+        throw new Exception("ListItems cannot be set via SemSelectListItem. Items are already set via Items parameter.");
+      }
+      ((List<Models.ListItem>)Items).Add(new ListItem() { Text = ((SemSelectListItem)control).Text, Value = ((SemSelectListItem)control).Value });
+      StateHasChanged();
+    }
+  }
+}

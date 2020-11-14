@@ -1,0 +1,52 @@
+﻿@page "/Components/ListCards"
+@inherits PageBase
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService notificationService
+
+<h1>Cards view type</h1>
+<p>Collection of &lt;card&gt; in &lt;cards&gt;.</p>
+
+<div style="max-width: 600px; padding-top: 20px">
+  <SemDataList ViewType="ListViewType.Cards" Class="two" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true" DefaultPageSize="6">
+    <ItemTemplate>
+      <SemDataListItem>
+        <div class="content">
+          <div class="header">#@context.DummyId - @context.Name</div>
+          <div class="meta">
+            Created: @context.Created.ToString("dd.MM.yyyy")
+          </div>
+          <div class="description">
+            @context.Description
+          </div>
+        </div>
+        <div class="extra content">
+          @if (context.Type != null)
+          {
+            <span class="ui label">@context.Type</span>
+          }
+          @foreach (var flag in context.Flags)
+          {
+            if (!String.IsNullOrEmpty(flag))
+            {
+              <span class="ui small label">@flag</span>
+            }
+          }
+        </div>
+      </SemDataListItem>
+    </ItemTemplate>
+  </SemDataList>
+</div>
+
+@code {
+  bool allowPaging = false;
+
+  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  {
+    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, null);
+  }
+  async Task<int> GetCount()
+  {
+    return await DummyDataService.GetCountAsync(null);
+  }
+}

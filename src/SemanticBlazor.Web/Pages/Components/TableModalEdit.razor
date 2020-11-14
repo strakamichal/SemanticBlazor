@@ -1,0 +1,175 @@
+﻿@page "/Components/TableModalEdit"
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService NotificationService
+
+<h1>Advanced table</h1>
+<p>
+  Advanced table with server (API) pagination, searching and editation via modal dialog.
+</p>
+
+<SemGrid>
+  <SemGridColumn Wide="GridUnit.Eight" Classes="@(new[] { ColumnClass.Right_Floated, ColumnClass.Right_Aligned })">
+    <SemSearchActionButton OnSearch="(async () => await table.RefreshData())" @bind-Value="searchExpr"></SemSearchActionButton>
+  </SemGridColumn>
+</SemGrid>
+<SemDataTable @ref="table" ItemType="Data.DummyData" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true" DefaultPageSize="5" EmptyDataMessage="No dummy data found...">
+  <Header>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Flags
+      </th>
+      <th>
+        Created
+      </th>
+      <th width="45px">
+      </th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td><a @onclick="@(() => ShowEditModal(context.DummyId))">[@context.DummyId] @context.Name</a></td>
+      <td>@context.Description</td>
+      <td>
+        @if (context.Type != null)
+        {
+          <span class="ui small label">@context.Type</span>
+        }
+      </td>
+      <td>
+        @if (context.Flags != null)
+        {
+          @foreach (var flag in context.Flags)
+          {
+            if (!String.IsNullOrEmpty(flag))
+            {
+              <span class="ui small label">@flag</span>
+            }
+          }
+        }
+      </td>
+      <td>@context.Created.ToString("dd.MM.yyyy HH:mm:ss")</td>
+      <td>
+        <SemDropdownMenu>
+          <SemIcon Class="ellipsis horizontal"></SemIcon>
+          <SemMenu>
+            <SemMenuItem OnClick="(() => ShowEditModal(context.DummyId))">Edit</SemMenuItem>
+            <SemDivider></SemDivider>
+            <SemMenuItem OnClick="(() => Delete(context.DummyId))" NeedsConfirmation="true" ConfirmationHeader="Delete item" ConfirmationMessage="Are you sure to delete this item?">Delete</SemMenuItem>
+          </SemMenu>
+        </SemDropdownMenu>
+      </td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>
+<DummyEditModal @ref="editModal" ItemChanged="ItemChanged"></DummyEditModal>
+
+<CodeHighlight Code=@(@"
+<SemGrid>
+  <SemGridColumn Wide=""GridUnit.Eight"" Classes=""@(new[] { ColumnClass.Right_Floated, ColumnClass.Right_Aligned })"">
+    <SemSearchActionButton OnSearch=""(async () => await table.RefreshData())"" @bind-Value=""searchExpr""></SemSearchActionButton>
+  </SemGridColumn>
+</SemGrid>
+<SemDataTable @ref=""table"" ItemType=""Data.DummyData"" DataMethod=""GetData"" CountMethod=""GetCount"" AllowPaging=""true"" DefaultPageSize=""5"" EmptyDataMessage=""No dummy data found..."">
+  <Header>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Flags
+      </th>
+      <th>
+        Created
+      </th>
+      <th width=""45px"">
+      </th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td><a @onclick=""@(() => ShowEditModal(context.DummyId))"">[@context.DummyId] @context.Name</a></td>
+      <td>@context.Description</td>
+      <td>
+        @if (context.Type != null)
+        {
+          <span class=""ui small label"">@context.Type</span>
+        }
+      </td>
+      <td>
+        @if (context.Flags != null)
+        {
+          @foreach (var flag in context.Flags)
+          {
+            if (!String.IsNullOrEmpty(flag))
+            {
+              <span class=""ui small label"">@flag</span>
+            }
+          }
+        }
+      </td>
+      <td>@context.Created.ToString(""dd.MM.yyyy HH:mm:ss"")</td>
+      <td>
+        <SemDropdownMenu>
+          <SemIcon Class=""ellipsis horizontal""></SemIcon>
+          <SemMenu>
+            <SemMenuItem OnClick=""(() => ShowEditModal(context.DummyId))"">Edit</SemMenuItem>
+            <SemDivider></SemDivider>
+            <SemMenuItem OnClick=""(() => Delete(context.DummyId))"" NeedsConfirmation=""true"" ConfirmationHeader=""Delete item"" ConfirmationMessage=""Are you sure to delete this item?"">Delete</SemMenuItem>
+          </SemMenu>
+        </SemDropdownMenu>
+      </td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>") />
+
+
+@code {
+  int pageSize = 5;
+  string searchExpr = "";
+  SemDataTable<Data.DummyData> table;
+
+  DummyEditModal editModal;
+
+  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  {
+    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, searchExpr);
+  }
+
+  async Task<int> GetCount()
+  {
+    return await DummyDataService.GetCountAsync(searchExpr);
+  }
+
+  async void ShowEditModal(int dummyId)
+  {
+    var dummy = await DummyDataService.GetByIdAsync(dummyId);
+    await editModal.Show(dummy);
+  }
+
+  async void ItemChanged(Data.DummyData item)
+  {
+    NotificationService.ShowNotification($"Dummy item <b>#{item.DummyId} {item.Name}</b> has been changed.", null, "green");
+    await table.RefreshData(false);
+  }
+
+  async void Delete(int dummyId)
+  {
+    DummyDataService.Delete(dummyId);
+  }
+}

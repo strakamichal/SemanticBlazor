@@ -1,0 +1,39 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  @if (!OnClick.HasDelegate)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @ChildContent
+    </div>
+  }
+  else
+  {
+    <a id="@Id" class="@ClassMapper.ToString()" @onclick="ClickEvent" style="@Style" @attributes="Attributes">
+      @ChildContent
+    </a>
+  }
+}
+
+@code {
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public Color? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public LabelClass[] Classes { get; set; }
+
+  public SemLabel()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Color?.ToString().ToLower())
+      .Get(() => Size?.ToString().ToLower())
+      .Add("label");
+  }
+  async Task ClickEvent()
+  {
+    await OnClick.InvokeAsync(null);
+  }
+}

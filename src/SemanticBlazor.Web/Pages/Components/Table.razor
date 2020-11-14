@@ -1,0 +1,97 @@
+﻿@page "/Components/Table"
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+
+<h1>Basic table</h1>
+<p>Table without direct connection to server (API) data. Items are stored locally.</p>
+
+<h3>Empty table</h3>
+<SemDataTable ItemType="Data.DummyData">
+  <Header>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td>@context.DummyId</td>
+      <td>@context.Name</td>
+      <td>@context.Type</td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>
+<CodeHighlight Code=@(@"
+<SemDataTable ItemType=""Data.DummyData"">
+  <Header>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Type</th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td>@context.DummyId</td>
+      <td>@context.Name</td>
+      <td>@context.Type</td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>") />
+
+<h3>Items set via "Items" parameter</h3>
+<SemDataTable Items="@Items">
+  <Header>
+    <tr>
+      <th>
+        ID
+      </th>
+      <th>
+        Name
+      </th>
+      <th>
+        Type
+      </th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td>@context.DummyId</td>
+      <td>@context.Name</td>
+      <td>@context.Type</td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>
+<CodeHighlight Code=@(@"
+<SemDataTable Items=""@Items"">
+  <Header>
+    <tr>
+      <th>
+        ID
+      </th>
+      <th>
+        Name
+      </th>
+      <th>
+        Type
+      </th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td>@context.DummyId</td>
+      <td>@context.Name</td>
+      <td>@context.Type</td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>") />
+
+@code {
+  List<Data.DummyData> Items;
+
+  protected override async Task OnInitializedAsync()
+  {
+    Items = await DummyDataService.GetAllDataAsync();
+  }
+}

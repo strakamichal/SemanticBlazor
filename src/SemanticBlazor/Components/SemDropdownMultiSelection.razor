@@ -1,0 +1,74 @@
+﻿@typeparam ValueType
+@inherits SemDropdownSelection<List<ValueType>>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <input type="hidden" value="@stringValue" @onchange="OnValueChanged" />
+    <i class="dropdown icon"></i>
+    <div class="default text">@DefaultText</div>
+    <div class="menu">
+      @foreach (var item in Items)
+      {
+        <div class="item" data-value="@(item.Value ?? item.Text)">
+          @if (ItemTemplate != null)
+          {
+            @ItemTemplate(item)
+          }
+          else
+          {
+            @(item.Text ?? item.Value)
+          }
+        </div>
+      }
+    </div>
+  </div>
+}
+
+@code {
+
+  /*
+    TODO: Implement init options:
+    clearable (true/false)
+    maxSelections(number)
+    useLabels(true/false)
+  */
+
+  public SemDropdownMultiSelection()
+  {
+    ClassMapper.Add("multiple");
+  }
+  protected override string stringValue
+  {
+    get
+    {
+      if (Value != null)
+      {
+        return string.Join(",", Value);
+      }
+      else
+      {
+        return "";
+      }
+    }
+  }
+  protected override List<ValueType> ConvertValue(object newValue)
+  {
+    var vals = newValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    return vals.Select(e => (ValueType)Convert.ChangeType(e, typeof(ValueType))).ToList();
+  }
+  protected override async Task SetComboboxValue()
+  {
+    if (Value != null)
+    {
+      await SemanticBlazor.JsFunc.DropDown.SetExactlyValue(js, Id, stringValue);
+    }
+    else
+    {
+      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+    }
+  }
+}

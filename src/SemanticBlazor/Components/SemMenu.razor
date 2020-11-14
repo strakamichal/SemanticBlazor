@@ -1,0 +1,27 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <CascadingValue Value="this">
+      @ChildContent
+    </CascadingValue>
+  </div>
+}
+
+@code {
+  [CascadingParameter] public SemMenu ParentMenu { get; set; }
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public Color? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public MenuClass[] Classes { get; set; }
+
+  public SemMenu()
+  {
+    ClassMapper.If("ui", () => ParentMenu == null)
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Color?.ToString().ToLower())
+      .Get(() => Size?.ToString().ToLower())
+      .Add("menu");
+  }
+}

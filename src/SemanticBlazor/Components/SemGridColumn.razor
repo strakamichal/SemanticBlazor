@@ -1,0 +1,21 @@
+﻿@inherits SemControlBase
+
+<div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+  @ChildContent
+</div>
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public GridUnit? Wide { get; set; }
+  [Parameter] public ColumnClass[] Classes { get; set; }
+
+  public SemGridColumn()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Wide?.ToString().ToLower())
+      .If("wide", () => Wide != null)
+      .Add("column");
+  }
+}

@@ -1,0 +1,35 @@
+﻿@typeparam ValueType
+@inherits SemSelectControlBase<ValueType>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div class="@ClassMapper.ToString()" style="@Style">
+    @foreach (var item in Items)
+    {
+      <SemButton OnClick="@(() => ButtonClicked(item.Value ?? item.Text))" Enabled="@Enabled" Class="@(Value?.ToString() == (item.Value ?? item.Text) ? "active" : "")">@(item.Text ?? item.Value)</SemButton>
+    }
+  </div>
+}
+
+@code {
+  [Parameter] public ButtonColor? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public ButtonClass[] Classes { get; set; }
+
+  public SemButtonSwitch()
+  {
+    ClassMapper
+    .Add("ui buttons")
+    .Get(() => Enums.GetClasses(Classes))
+    .Get(() => Color?.ToString().ToLower())
+    .Get(() => Size?.ToString().ToLower());
+  }
+  async Task ButtonClicked(string value)
+  {
+    Value = (ValueType)Convert.ChangeType(value, typeof(ValueType));
+    await NotifyChanged();
+  }
+}

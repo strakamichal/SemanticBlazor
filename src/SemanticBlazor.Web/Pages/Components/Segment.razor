@@ -1,0 +1,82 @@
+﻿@page "/Components/Segment"
+@layout ComponentsLayout
+
+<h1>Segment</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/elements/segment.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Basic segment</h3>
+<SemSegment>
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+  Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+  Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio. Ut tempus purus at lorem. Duis condimentum augue id magna semper rutrum. Suspendisse
+  sagittis ultrices augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod.
+  Praesent vitae arcu tempor neque lacinia pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Duis risus. Morbi leo mi,
+  nonummy eget tristique non, rhoncus non leo.
+</SemSegment>
+<CodeHighlight Code=@(@"
+  <SemSegment>
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+    Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+    Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio. Ut tempus purus at lorem. Duis condimentum augue id magna semper rutrum. Suspendisse
+    sagittis ultrices augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nullam at arcu a est sollicitudin euismod.
+    Praesent vitae arcu tempor neque lacinia pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Duis risus. Morbi leo mi,
+    nonummy eget tristique non, rhoncus non leo.
+  </SemSegment>") />
+
+<h3>Emphasis</h3>
+<SemSegment Emphasis="Emphasis.Secondary">
+  <h4>Secondary</h4>
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+  Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+  Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+</SemSegment>
+<SemSegment Emphasis="Emphasis.Tertiary">
+  <h4>Tertiary</h4>
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+  Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+  Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+</SemSegment>
+<CodeHighlight Code=@(@"
+  <SemSegment Emphasis=""Emphasis.Secondary"">
+    <h4>Secondary</h4>
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+    Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+    Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+  </SemSegment>
+  <SemSegment Emphasis=""Emphasis.Tertiary"">
+    <h4>Tertiary</h4>
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+    Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+    Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+  </SemSegment>") />
+
+<h3>Colored and centered</h3>
+<SemSegment Classes="@(new[] { SegmentClass.Center_Aligned })">
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+  Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+  Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+</SemSegment>
+<CodeHighlight Code=@(@"
+  <SemSegment Classes=""@(new[] { SegmentClass.Center_Aligned })"">@*same as Class=""center aligned""*@
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+    Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+    Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+  </SemSegment>") />
+
+<h3>Colored & Inverted</h3>
+<SemSegment Color="Color.Teal" Classes="@(new[] { SegmentClass.Inverted })">
+  @*same as Class="inverted"*@
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+  Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+  Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+</SemSegment>
+<CodeHighlight Code=@(@"
+  <SemSegment Color=""Color.Teal"" Classes=""@(new[] { SegmentClass.Inverted })"">@*same as Class=""inverted""*@
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla turpis magna, cursus sit amet, suscipit a, interdum id, felis. Etiam bibendum elit eget erat.
+    Phasellus faucibus molestie nisl. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. In convallis.
+    Nullam eget nisl. Et harum quidem rerum facilis est et expedita distinctio.
+  </SemSegment>") />
+
+@code {
+
+}

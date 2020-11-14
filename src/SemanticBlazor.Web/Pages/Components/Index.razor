@@ -1,0 +1,61 @@
+﻿@page "/Components"
+@layout ComponentsLayout
+
+<div class="ui large image">
+  <img src="/img/semblazor-logo.jpg" />
+</div>
+<p style="margin-top: 30px">
+  SemanticBlazor is implementation of some Semantic UI components for Blazor.
+</p>
+
+<h4>What si Semantic UI</h4>
+<p>
+  User Interface is the language of the web.
+  <br />
+  <br />
+  <SemButton Color="ButtonColor.Teal" Classes="@(new[] { ButtonClass.Basic })" Href="https://semantic-ui.com" target="_blank">More about Semantic UI</SemButton>
+</p>
+
+<h4>What si Blazor</h4>
+<p>
+  Blazor lets you build interactive web UIs using C# instead of JavaScript. Blazor apps are composed of reusable web UI components implemented using C#, HTML, and CSS. Both client and server code is written in C#, allowing you to share code and libraries.
+</p>
+<p>
+  Blazor is a feature of ASP.NET, the popular web development framework that extends the .NET developer platform with tools and libraries for building web apps.
+  <br />
+  <br />
+  <SemButton Color="ButtonColor.Teal" Classes="@(new[] { ButtonClass.Basic })" Href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" target="_blank">More about Blazor</SemButton>
+</p>
+
+<h2>Instalation</h2>
+<p>SemanticBlazor is avalaible on Nuget.org.</p>
+<h4 class="ui header">
+  <code>Install-Package SemanticBlazor</code>
+  <div class="sub header">Package Manager</div>
+</h4>
+<h4 class="ui header">
+  <code>dotnet add package SemanticBlazor</code>
+  <div class="sub header">.NET CLI</div>
+</h4>
+
+<h4>_Imports.razor</h4>
+<CodeHighlight Expanded="true" Code=@(@"
+  @using SemanticBlazor
+  @using SemanticBlazor.Components
+  @using SemanticBlazor.Models
+  ")>
+</CodeHighlight>
+
+<h4>Static files (_Host.cshtml)</h4>
+<CodeHighlight Expanded="true" Code=@(@"
+  <script src=""~/_content/SemanticBlazor/modules/jquery/jquery.min.js""></script>
+  <script src=""~/_content/SemanticBlazor/modules/semantic/semantic.min.js""></script>
+  <link href=""~/_content/SemanticBlazor/modules/semantic/semantic.min.css"" rel=""stylesheet"" />
+  <script src=""~/_content/SemanticBlazor/modules/semantic/calendar.min.js""></script>
+  <link href=""~/_content/SemanticBlazor/modules/semantic/calendar.min.css"" rel=""stylesheet"" />
+  <link href=""~/_content/SemanticBlazor/SemanticBlazor.css"" rel=""stylesheet"" />
+  <script src=""~/_content/SemanticBlazor/SemanticBlazor.js""></script>")>
+</CodeHighlight>
+
+@code {
+}

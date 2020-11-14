@@ -1,0 +1,18 @@
+﻿@inherits SemControlBase
+
+<div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+  @ChildContent
+</div>
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public DividerClass[] Classes { get; set; }
+
+  public SemDivider()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Enums.GetClasses(Classes))
+      .Add("divider");
+  }
+}

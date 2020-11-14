@@ -1,0 +1,26 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <i id="@Id" class="@ClassMapper.ToString()" @onclick="OnClick" style="@Style" @attributes="Attributes"></i>
+}
+
+@code {
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+  [Parameter] public Color? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public IconClass[] Classes { get; set; }
+
+  public SemIcon()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Color?.ToString().ToLower())
+      .Get(() => Size?.ToString().ToLower())
+      .Get(() => Icons.GetClass(Icon))
+      .If("link", () => OnClick.HasDelegate)
+      .Add("icon");
+  }
+}

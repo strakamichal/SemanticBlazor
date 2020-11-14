@@ -1,0 +1,111 @@
+﻿@page "/Components/SelectListItems"
+@layout ComponentsLayout
+
+<h1>List Items</h1>
+<h3>Single value selects</h3>
+<div class="ui form" style="max-width: 900px">
+  <div class="three fields">
+    <div class="ui field">
+      <label>Basic</label>
+      <SemDropdownSelection @bind-Value="SelectedValue" DefaultText="Select...">
+        <ListItems>
+          <SemSelectListItem Value="T1"></SemSelectListItem>
+          <SemSelectListItem Value="T2"></SemSelectListItem>
+          <SemSelectListItem Value="T3"></SemSelectListItem>
+          <SemSelectListItem Value="T4"></SemSelectListItem>
+          <SemSelectListItem Value="T5"></SemSelectListItem>
+        </ListItems>
+      </SemDropdownSelection>
+    </div>
+    <div class="ui field">
+      <label>Custom item template</label>
+      <SemDropdownSelection @bind-Value="SelectedValue" DefaultText="Select...">
+        <ListItems>
+          <SemSelectListItem Value="T1" Text="Type 1"></SemSelectListItem>
+          <SemSelectListItem Value="T2" Text="Type 2"></SemSelectListItem>
+          <SemSelectListItem Value="T3" Text="Type 3"></SemSelectListItem>
+          <SemSelectListItem Value="T4" Text="Type 4"></SemSelectListItem>
+          <SemSelectListItem Value="T5" Text="Type 5"></SemSelectListItem>
+        </ListItems>
+        <ItemTemplate>
+          <SemLabel Class="red empty circular"></SemLabel>
+          <span class="text">@(((SemanticBlazor.Models.ListItem)context).Text)</span>
+          <span class="description">@(((SemanticBlazor.Models.ListItem)context).Value)</span>
+        </ItemTemplate>
+      </SemDropdownSelection>
+    </div>
+  </div>
+  <div class="ui three fields">
+    <div class="ui field">
+      <label>Radio button list</label>
+      <SemRadioButtonList @bind-Value="SelectedValue">
+        <ListItems>
+          <SemSelectListItem Value="T1" Text="Type 1"></SemSelectListItem>
+          <SemSelectListItem Value="T2" Text="Type 2"></SemSelectListItem>
+          <SemSelectListItem Value="T3" Text="Type 3"></SemSelectListItem>
+          <SemSelectListItem Value="T4" Text="Type 4"></SemSelectListItem>
+          <SemSelectListItem Value="T5" Text="Type 5"></SemSelectListItem>
+        </ListItems>
+      </SemRadioButtonList>
+    </div>
+    <div class="ui field">
+      <label>Radio button list</label>
+      <SemButtonSwitch @bind-Value="SelectedValue">
+        <ListItems>
+          <SemSelectListItem Value="T1" Text="Type 1"></SemSelectListItem>
+          <SemSelectListItem Value="T2" Text="Type 2"></SemSelectListItem>
+          <SemSelectListItem Value="T3" Text="Type 3"></SemSelectListItem>
+          <SemSelectListItem Value="T4" Text="Type 4"></SemSelectListItem>
+          <SemSelectListItem Value="T5" Text="Type 5"></SemSelectListItem>
+        </ListItems>
+      </SemButtonSwitch>
+    </div>
+  </div>
+  <div class="ui field">
+    <label>Value</label>
+    @(SelectedValue ?? "{null}")
+  </div>
+  <SemButton OnClick="@(() => SelectedValue = "T2")">Set value</SemButton>
+  <SemButton OnClick="@(() => SelectedValue = null)">Clear value</SemButton>
+</div>
+
+<h3>Checkbox & Radio button List</h3>
+<div class="ui form" style="max-width: 900px">
+  <div class="three fields">
+    <div class="ui field">
+      <label>Multiple</label>
+      <SemDropdownMultiSelection @bind-Value="SelectedValues" DefaultText="Select...">
+        <ListItems>
+          <SemSelectListItem Value="T1" Text="Type 1"></SemSelectListItem>
+          <SemSelectListItem Value="T2" Text="Type 2"></SemSelectListItem>
+          <SemSelectListItem Value="T3" Text="Type 3"></SemSelectListItem>
+          <SemSelectListItem Value="T4" Text="Type 4"></SemSelectListItem>
+          <SemSelectListItem Value="T5" Text="Type 5"></SemSelectListItem>
+        </ListItems>
+      </SemDropdownMultiSelection>
+    </div>
+    <div class="ui field">
+      <label>Checkbox list</label>
+      <SemCheckboxList @bind-Value="SelectedValues">
+        <ListItems>
+          <SemSelectListItem Value="T1" Text="Type 1"></SemSelectListItem>
+          <SemSelectListItem Value="T2" Text="Type 2"></SemSelectListItem>
+          <SemSelectListItem Value="T3" Text="Type 3"></SemSelectListItem>
+          <SemSelectListItem Value="T4" Text="Type 4"></SemSelectListItem>
+          <SemSelectListItem Value="T5" Text="Type 5"></SemSelectListItem>
+        </ListItems>
+      </SemCheckboxList>
+    </div>
+  </div>
+  <div class="ui field">
+    <label>Value</label>
+    @(SelectedValues != null ? string.Join(", ", SelectedValues) : "{null}")
+  </div>
+  <SemButton OnClick="@(() => SelectedValues = new List<string>() { "T2" })">Set value</SemButton>
+  <SemButton OnClick="@(() => SelectedValues = null)">Clear value</SemButton>
+</div>
+
+@code {
+  public string SelectedValue { get; set; } = "T1";
+  public List<string> SelectedValues { get; set; } = new List<string>() { "T1" };
+}

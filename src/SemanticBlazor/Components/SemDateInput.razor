@@ -1,0 +1,99 @@
+﻿@typeparam ValueType
+@inherits SemInputControlBase<ValueType>
+
+@if (Visible)
+{
+  <div class="ui calendar input">
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Clearable && Enabled && !String.IsNullOrEmpty(Value?.ToString()))
+      {
+        <SemIcon Icon="SemanticBlazor.Icon.X_Icon" @onclick="ClearValue" />
+      }
+      else if (Icon != null)
+      {
+        <SemIcon Icon="@Icon" />
+      }
+      <input id="inpt_@Id" type="text" value="@_value" @onchange="OnValueChanged" placeholder="@Placeholder" @attributes="disabledAttribute" />
+    </div>
+  </div>
+}
+
+@code {
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public IconPosition? IconPosition { get; set; }
+  [Parameter] public bool Clearable { get; set; }
+  [Parameter] public string Placeholder { get; set; }
+  [Parameter] public string Culture { get; set; }
+  [Parameter] public string TodayText { get; set; }
+  [Parameter] public InputSize? Size { get; set; }
+
+  string _value { get; set; }
+  DateTime lastValidValue { get; set; }
+
+  public SemDateInput()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Class)
+      .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
+      .If("icon", () => Icon != null || Clearable)
+      .Add("input");
+  }
+  protected override void OnInitialized()
+  {
+    if (typeof(ValueType) == typeof(DateTime)) Clearable = false;
+  }
+  protected override async Task OnParametersSetAsync()
+  {
+    if (Value != null)
+    {
+      lastValidValue = (DateTime)(object)Value;
+      _value = Convert.ToDateTime(Value).ToString("dd.MM.yyyy");
+    }
+    else
+    {
+      _value = "";
+    }
+    await base.OnParametersSetAsync();
+  }
+  async Task OnValueChanged(ChangeEventArgs e)
+  {
+    DateTime value;
+    bool isDateTime = DateTime.TryParse(e.Value?.ToString(), out value);
+    if (typeof(ValueType) == typeof(DateTime))
+    {
+      if (isDateTime)
+      {
+        Value = (ValueType)(object)value;
+      }
+      else
+      {
+        await JsFunc.DateTimeInput.SetDate(js, Id, lastValidValue.ToString("dd.MM.yyyy"));
+      }
+    }
+    else if (typeof(ValueType) == typeof(DateTime?))
+    {
+      if (isDateTime)
+      {
+        Value = (ValueType)(object)value;
+      }
+      else if (String.IsNullOrEmpty(e.Value?.ToString()))
+      {
+        Value = default(ValueType);
+      }
+      else
+      {
+        await JsFunc.DateTimeInput.SetDate(js, Id, lastValidValue.ToString("dd.MM.yyyy"));
+      }
+    }
+
+    await NotifyChanged();
+  }
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await JsFunc.DateTimeInput.InitDateCalendar(js, Id);
+    }
+  }
+}

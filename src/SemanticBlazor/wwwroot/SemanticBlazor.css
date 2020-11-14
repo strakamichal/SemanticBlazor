@@ -1,0 +1,58 @@
+﻿.ui.form {
+  width: 100%;
+}
+
+
+a {
+  cursor: pointer;
+}
+
+.notifications {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 250px;
+  z-index: 999;
+}
+
+  .notifications .segment .close.icon {
+    float: right;
+    color: black;
+  }
+
+
+.form .field .validation-message {
+  color: #9f3a38;
+  font-size: 0.928571em;
+  padding-top: 5px;
+}
+
+.form .field.validation-right .validation-message {
+  float: right;
+  padding: 0px;
+}
+
+.ui.action.input .input input {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.ui.action.input .button {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.ui.checkboxes .ui.checkbox {
+  display: block;
+  padding: 3px 0px;
+}
+
+.ui.action.input .dropdown:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ui.action.input .dropdown:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

@@ -1,0 +1,34 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    @ChildContent
+  </div>
+}
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public bool ShowOnHover { get; set; } = false;
+
+  public SemDropdownMenu()
+  {
+    ClassMapper
+      .Add("ui dropdown");
+  }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      if (ShowOnHover)
+      {
+        await JsFunc.DropDownMenu.Init(js, Id);
+      }
+      else
+      {
+        await JsFunc.DropDown.Init(js, Id);
+      }
+    }
+  }
+}

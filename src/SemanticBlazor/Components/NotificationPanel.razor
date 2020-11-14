@@ -1,0 +1,67 @@
+﻿@inject Services.NotificationService notificationService
+@inject IJSRuntime jsRuntime
+@using System.Threading
+@using System.Linq
+@inherits SemControlBase
+
+@if (Visible)
+{
+  <div class="notifications @Class" style="@Style" @attributes="Attributes">
+    @foreach (var item in notifications)
+    {
+      <div class="ui raised @item.Color segment" id="@item.Id">
+        <a @onclick="@(() => HideNotification(item.Id))"><SemIcon Class="close"></SemIcon></a>
+        <p><b>@item.Title</b></p>
+        @((MarkupString)item.Message)
+      </div>
+    }
+    @if (notifications.Count > 1)
+    {
+      <SemButton Class="icon labeled" OnClick="ClearAll"><SemIcon Class="delete" />Clear all</SemButton>
+    }
+  </div>
+}
+
+@code {
+  public List<Services.NotificationModel>
+  notifications
+  { get; set; } = new List<Services.NotificationModel>
+    ();
+
+  protected override void OnInitialized()
+  {
+    notificationService.OnShow += ShowNotification;
+  }
+
+  void ShowNotification(string message, string title = "", string color = "")
+  {
+    var notification = new Services.NotificationModel() { Message = message, Color = color, Title = title };
+    notifications.Insert(0, notification);
+    StateHasChanged();
+
+    Timer t = new Timer(new TimerCallback(_ =>
+    {
+      if (notifications.Contains(notification))
+      {
+        notifications.Remove(notification);
+        InvokeAsync(StateHasChanged);
+      }
+    }), null, 5000, Timeout.Infinite);
+  }
+
+  void HideNotification(string id)
+  {
+    var notification = notifications.FirstOrDefault(n => n.Id == id);
+    if (notification != null)
+    {
+      notifications.Remove(notification);
+    }
+    StateHasChanged();
+  }
+
+  void ClearAll()
+  {
+    notifications.Clear();
+    StateHasChanged();
+  }
+}

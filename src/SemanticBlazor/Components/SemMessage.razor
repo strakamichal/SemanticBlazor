@@ -1,0 +1,95 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    @if (ChildContent != null)
+    {
+      @ChildContent
+    }
+    else
+    {
+      @if (!String.IsNullOrEmpty(Header) && Icon != null)
+      {
+        <SemIcon Icon="Icon"></SemIcon>
+      }
+      <div class="content">
+        @if (!String.IsNullOrEmpty(Header))
+        {
+          <div class="header">
+            @Header
+          </div>
+        }
+        <p>
+          @if (Icon != null && String.IsNullOrEmpty(Header))
+          {
+            <SemIcon Icon="Icon"></SemIcon>
+          }
+          @Message
+        </p>
+      </div>
+    }
+  </div>
+}
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; } = null;
+  [Parameter] public string Header { get; set; }
+  [Parameter] public string Message { get; set; }
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public MessageColor? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public MessageClass[] Classes { get; set; }
+
+  public SemMessage()
+  {
+    ClassMapper
+      .Add("ui")
+      .If("icon", () => !String.IsNullOrEmpty(Header) && Icon != null)
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Color?.ToString().ToLower())
+      .Get(() => Size?.ToString().ToLower())
+      .Add("message");
+  }
+  protected override void OnInitialized()
+  {
+    if (String.IsNullOrEmpty(Message) && ChildContent == null)
+    {
+      Visible = false;
+    }
+  }
+  public void Show()
+  {
+    Visible = true;
+    StateHasChanged();
+  }
+  public void Show(string message, MessageColor color, Icon? icon = null)
+  {
+    Show(message, null, color, icon);
+  }
+  public void Show(string message, string header, MessageColor color, Icon? icon = null)
+  {
+    Visible = true;
+    Message = message;
+    Header = header;
+    Color = color;
+    Icon = icon;
+    StateHasChanged();
+  }
+  //[Obsolete]
+  //public void Show(string cssClass = "", string message = "", Icon? icon = null, string header = "")
+  //{
+  //  Visible = true;
+  //  Message = message;
+  //  Header = header;
+  //  Class = cssClass;
+  //  Icon = icon;
+  //  StateHasChanged();
+  //}
+  public void Hide()
+  {
+    Visible = false;
+    Class = Header = Message = "";
+    StateHasChanged();
+  }
+}

@@ -1,0 +1,83 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  @if (MenuPosition == TabMenuPosition.Bottom)
+  {
+    <CascadingValue Value="this">
+      @Tabs
+    </CascadingValue>
+  }
+  <SemMenu Id="@Id" Class="@ClassMapper.ToString()" Style="@Style" Size="@Size" Color="@Color" @attributes="Attributes">
+    @foreach (var tab in localTabs)
+    {
+      @if (tab.Visible)
+      {
+        <SemMenuItem Class="@(tab.Active ? "active " : " " + " " + @tab.MenuItemClass)" Style="@tab.MenuItemStyle" data-tab="@(tab.Enabled ? tab.TabName : "")" Enabled="@tab.Enabled" OnClick="(() => SetTabActive(tab))">
+          @if (tab.MenuContent != null)
+          {
+            @tab.MenuContent
+          }
+          else
+          {
+            @(tab.Text ?? tab.Name)
+      }
+        </SemMenuItem>
+      }
+    }
+  </SemMenu>
+  @if (MenuPosition == TabMenuPosition.Top)
+  {
+    <CascadingValue Value="this">
+      @Tabs
+    </CascadingValue>
+  }
+}
+
+@code {
+  [Parameter] public RenderFragment Tabs { get; set; }
+  [Parameter] public TabMenuPosition MenuPosition { get; set; } = TabMenuPosition.Top;
+  [Parameter] public Color? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public MenuClass[] Classes { get; set; }
+  protected List<SemTab> localTabs { get; set; } = new List<SemTab>();
+
+  public SemTabs()
+  {
+    ClassMapper
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => MenuPosition.ToString().ToLower())
+      .Add("attached tabular");
+
+  }
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await InitTabs();
+    }
+    await base.OnAfterRenderAsync(firstRender);
+  }
+  internal override void RegistedChildControl(object control)
+  {
+    if (control.GetType() == typeof(SemTab))
+    {
+      this.localTabs.Add((SemTab)control);
+    }
+  }
+  public async Task InitTabs()
+  {
+    if (localTabs.Count > 0 && !localTabs.Any(t => t.Active && t.Visible))
+    {
+      var firstTab = localTabs.FirstOrDefault(t => t.Visible && t.Enabled);
+      if (firstTab != null) firstTab.Active = true;
+      StateHasChanged();
+    }
+    await JsFunc.TabularMenu.Init(js, Id);
+  }
+  void SetTabActive(SemTab tab)
+  {
+    localTabs.ForEach(t => t.Active = false);
+    localTabs.FirstOrDefault(t => t == tab).Active = true;
+  }
+}

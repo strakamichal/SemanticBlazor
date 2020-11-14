@@ -1,0 +1,86 @@
+﻿@inject IJSRuntime jsRuntime
+
+<SemModal @ref="modal">
+  <Header>
+    @headerText
+  </Header>
+  <Content>
+    @if (Item != null)
+    {
+    <EditForm Model="@Item" class="ui form" OnValidSubmit="FormSubmited">
+      <RecursiveDataAnnotationsValidator jSRuntime="jsRuntime"></RecursiveDataAnnotationsValidator>
+
+      <SemFormField For="@(() => Item.DummyId)" IsEditable="false">
+        @Item.DummyId
+      </SemFormField>
+
+      <SemFormField For="@(() => Item.Name)">
+        <SemInput @bind-Value="Item.Name"></SemInput>
+      </SemFormField>
+
+      <SemFormField For="@(() => Item.Enabled)" ShowLabel="false">
+        <SemCheckbox @bind-Value="Item.Enabled" Label="@Annotations.GetNameFor(() => Item.Enabled)"></SemCheckbox>
+      </SemFormField>
+
+      <SemFormField For="@(() => Item.Description)">
+        <InputTextArea @bind-Value="Item.Description"></InputTextArea>
+      </SemFormField>
+
+      <div class="two fields">
+        <SemFormField For="@(() => Item.Type)">
+          <SemDropdownSelection @bind-Value="Item.Type" Items="@(types.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownSelection>
+        </SemFormField>
+
+        <SemFormField For="@(() => Item.Flags)">
+          <SemDropdownMultiSelection @bind-Value="Item.Flags" Items="@(flags.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownMultiSelection>
+        </SemFormField>
+      </div>
+
+      <SemFormField For="@(() => Item.Flags)">
+        <SemCheckboxList @bind-Value="Item.Flags" Items="@(flags.Select(li => new Models.ListItem() { Value = li }))"></SemCheckboxList>
+      </SemFormField>
+
+      <SemFormField For="@(() => Item.Created)" IsEditable="false">
+        @Item.Created
+      </SemFormField>
+
+      <SemFormField For="@(() => Item.LastUpdate)" IsEditable="false">
+        @Item.LastUpdate
+      </SemFormField>
+
+      <FormHiddenSubmit></FormHiddenSubmit>
+    </EditForm>
+    }
+  </Content>
+  <Actions>
+    <SemButton Class="deny">Cancel</SemButton>
+    <SemButton Class="primary" OnClick="() => modal.SubmitForm()">Save</SemButton>
+  </Actions>
+</SemModal>
+
+
+
+@code {
+  [Parameter] public Data.DummyData Item { get; set; }
+  [Parameter] public EventCallback<Data.DummyData> ItemChanged { get; set; }
+  public string headerText { get; set; }
+  public SemModal modal { get; set; }
+
+  //TEMP
+  string[] types = { "Dummy type 1", "Dummy type 2", "Dummy type 3" };
+  string[] flags = { "DM1", "ABC", "DEF", "GHI", "JKL", "MNO", "PRQ", "STU", "VWX", "XYZ" };
+
+  public async Task Show(Data.DummyData dummyItem)
+  {
+    Item = dummyItem;
+    headerText = $"Dummy - {dummyItem.Name}";
+    StateHasChanged();
+    await modal.Show();
+  }
+
+  async Task FormSubmited()
+  {
+    await ItemChanged.InvokeAsync(Item);
+    await modal.Hide();
+  }
+}

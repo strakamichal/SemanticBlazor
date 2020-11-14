@@ -1,0 +1,128 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+
+
+  @if (IsSubmitButton)
+  {
+    <button id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" @onclick="ButtonClicked" type="@(IsSubmitButton ? " submit" : "button" )" title="@Tooltip">
+      @if (Icon != null && IconPosition != SemanticBlazor.IconPosition.Right)
+      {
+        <SemIcon Icon="@Icon"></SemIcon>
+      }
+      @ChildContent
+      @if (Icon != null && IconPosition == SemanticBlazor.IconPosition.Right)
+      {
+        <SemIcon Icon="@Icon"></SemIcon>
+      }
+    </button>
+  }
+  else if (OnClick.HasDelegate)
+  {
+    <a id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" @onclick="ButtonClicked" title="@Tooltip">
+      @if (Icon != null && IconPosition != SemanticBlazor.IconPosition.Right)
+      {
+        <SemIcon Icon="@Icon"></SemIcon>
+      }
+      @ChildContent
+      @if (Icon != null && IconPosition == SemanticBlazor.IconPosition.Right)
+      {
+        <SemIcon Icon="@Icon"></SemIcon>
+      }
+    </a>
+  }
+  else
+  {
+    <a id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" title="@Tooltip" href="@Href">
+      @if (Icon != null && IconPosition != SemanticBlazor.IconPosition.Right)
+      {
+        <SemIcon Icon="@Icon"></SemIcon>
+      }
+      @ChildContent
+      @if (Icon != null && IconPosition == SemanticBlazor.IconPosition.Right)
+      {
+        <SemIcon Icon="@Icon"></SemIcon>
+      }
+    </a>
+  }
+
+  @if (NeedsConfirmation)
+  {
+    <SemModalConfirmation @ref="confirmationModal" @onclick="ClickEvent" Header="@ConfirmationHeader" CancelButtonText="@CancelButtonText" ConfirmButtonText="@ConfirmButtonText" ConfirmButtonIconClass="@ConfirmButtonIconClass">
+      <Content>
+        @ConfirmationMessage
+      </Content>
+    </SemModalConfirmation>
+  }
+}
+
+@code {
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public string Href { get; set; }
+  [Parameter] public bool IsSubmitButton { get; set; } = false;
+  [Parameter] public bool IsButton { get; set; } = true;
+  [Parameter] public bool OnClickLoading { get; set; }
+  [Parameter] public string Tooltip { get; set; }
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public IconPosition? IconPosition { get; set; }
+  [Parameter] public bool IconLabeled { get; set; } = true;
+  [Parameter] public ButtonColor? Color { get; set; }
+  [Parameter] public Emphasis? Emphasis { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public ButtonClass[] Classes { get; set; }
+
+  [Parameter] public bool NeedsConfirmation { get; set; }
+  [Parameter] public string ConfirmationHeader { get; set; }
+  [Parameter] public string ConfirmationMessage { get; set; }
+  [Parameter] public string CancelButtonText { get; set; } = "No";
+  [Parameter] public string ConfirmButtonText { get; set; } = "Yes";
+  [Parameter] public string ConfirmButtonIconClass { get; set; } = "checkmark";
+  SemModalConfirmation confirmationModal;
+
+  bool loading;
+  bool disabled;
+
+  public SemButton()
+  {
+    ClassMapper
+      .Add("ui")
+      .If("loading", () => this.loading)
+      .If("disabled", () => this.disabled)
+      .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
+      .If("labeled", () => this.Icon != null && ChildContent != null && (Classes == null || !Classes.Contains(ButtonClass.Basic)) && IconLabeled)
+      .If("icon", () => this.Icon != null && (Classes == null || !Classes.Contains(ButtonClass.Basic)) && IconLabeled)
+      .Get(() => Enums.GetClasses(Classes))
+      .Get(() => Emphasis?.ToString().ToLower())
+      .Get(() => Color?.ToString().ToLower())
+      .Get(() => Size?.ToString().ToLower())
+      .If("button", () => this.IsButton);
+  }
+  async Task ClickEvent()
+  {
+    if (OnClickLoading) loading = true;
+    disabled = true;
+    await Task.Delay(1);
+    await OnClick.InvokeAsync(null);
+    loading = false;
+    disabled = false;
+  }
+
+  public async Task ButtonClicked()
+  {
+    if (NeedsConfirmation)
+    {
+      await ShowConfirmation();
+    }
+    else
+    {
+      await ClickEvent();
+    }
+  }
+
+  async Task ShowConfirmation()
+  {
+    await confirmationModal.Show();
+  }
+}

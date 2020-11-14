@@ -1,0 +1,53 @@
+﻿@inherits SemControlBase
+
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <i class="close icon"></i>
+    <div class="@HeaderClass header">
+      @Header
+    </div>
+    <div class="@ContentClass content">
+      @Content
+    </div>
+    <div class="@ActionsClass actions">
+      @Actions
+    </div>
+  </div>
+}
+
+@code {
+  [Parameter] public RenderFragment Header { get; set; }
+  [Parameter] public RenderFragment Content { get; set; }
+  [Parameter] public RenderFragment Actions { get; set; }
+  [Parameter] public ModalSize? Size { get; set; }
+  [Parameter] public string HeaderClass { get; set; }
+  [Parameter] public string ContentClass { get; set; }
+  [Parameter] public string ActionsClass { get; set; }
+
+  /*
+    TODO: Not implemented parameters:
+    - scrolling
+    - basic
+  */
+
+  public SemModal()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Size?.ToString().ToLower())
+      .Add("modal");
+  }
+  public async Task Show()
+  {
+    await JsFunc.Modal.Show(js, Id);
+  }
+  public async Task Hide()
+  {
+    await JsFunc.Modal.Hide(js, Id);
+  }
+  public async Task SubmitForm()
+  {
+    await JsFunc.Modal.SubmitForm(js, Id);
+  }
+}

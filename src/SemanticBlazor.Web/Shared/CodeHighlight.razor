@@ -1,0 +1,28 @@
+﻿@inherits PageBase
+
+<SemSegment>
+  <div id="@Id" class="ui accordion">
+    <div class="ui title @(Expanded ? "active" : "")">
+      <SemIcon Icon="Icon.Code"></SemIcon>Source code
+    </div>
+    <div class="ui content @(Expanded ? "active" : "")">
+      <pre><code class="@Class">@Code</code></pre>
+    </div>
+  </div>
+</SemSegment>
+
+@code {
+  [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+  [Parameter] public string Code { get; set; }
+  [Parameter] public string Class { get; set; } = "language-html";
+  [Parameter] public bool Expanded { get; set; } = true;
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await SemanticBlazor.JsFunc.Accordion.Init(jsRuntime, Id);
+      await jsRuntime.InvokeVoidAsync("Prism.highlightAll");
+    }
+  }
+}

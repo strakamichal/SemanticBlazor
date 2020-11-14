@@ -1,0 +1,145 @@
+﻿@typeparam ValueType
+@inherits SemSelectControlBase<ValueType>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <input type="hidden" value="@stringValue" @onchange="OnValueChanged" />
+    @if (Icon != null)
+    {
+      <SemIcon Icon="@Icon"></SemIcon>
+    }
+    <i class="dropdown icon"></i>
+    <div class="default text">@DefaultText</div>
+    <div class="menu">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="item" data-value="@(item.Value ?? item.Text)">
+            @if (ItemTemplate != null)
+            {
+              @ItemTemplate(item)
+            }
+            else
+            {
+              @(item.Text ?? item.Value)
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+}
+
+@code {
+  protected virtual string stringValue
+  {
+    get
+    {
+      return Value?.ToString();
+    }
+  }
+  [Parameter] public string DefaultText { get; set; } = "Select...";
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public bool Search { get; set; }
+  [Parameter] public bool Scrolling { get; set; }
+
+  //TODO: Show as dropdown button
+  //[Parameter] public bool IsButton { get; set; }
+  //[Parameter] public Icon? ButtonIcon { get; set; }
+  //[Parameter] public IconPosition? ButtonIconPosition { get; set; }
+  //[Parameter] public bool ButtonIconLabeled { get; set; } = true;
+  //[Parameter] public ButtonColor? ButtonColor { get; set; }
+  //[Parameter] public Emphasis? ButtonEmphasis { get; set; }
+  //[Parameter] public Size? ButtonSize { get; set; }
+  //[Parameter] public ButtonClass[] ButtonClasses { get; set; }
+
+  /*
+    Not implemented parameters:
+    - compact
+    - fluid
+
+    TODO: Implement init options:
+    clearable (true/false)
+    allowAdditions ?
+  */
+
+  public string lastVal { get; set; }
+  protected string lastStringValue { get; set; }
+  protected bool guiValueChangeInprogress { get; set; }
+  protected bool changeFromGui { get; set; } = false;
+  protected bool guiValueChanged => lastStringValue != stringValue;
+
+  public SemDropdownSelection()
+  {
+    ClassMapper
+      .Add("ui")
+      .If("search", () => Search)
+      .If("scrolling", () => Scrolling)
+      .Add("selection")
+      //.If("selection", () => !this.ShowButton)
+      //.If("floating", () => this.ShowButton)
+      //.If("button", () => this.ShowButton);
+      .Add("dropdown");
+
+  }
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await SemanticBlazor.JsFunc.DropDown.Init(js, Id);
+    }
+    await base.OnAfterRenderAsync(firstRender);
+  }
+  protected async Task OnValueChanged(ChangeEventArgs e)
+  {
+    if (!guiValueChangeInprogress)
+    {
+      changeFromGui = true;
+      Value = ConvertValue(e.Value);
+      await NotifyChanged();
+    }
+  }
+  protected override async Task OnParametersSetAsync()
+  {
+    if (!Rendered)
+    {
+      lastStringValue = stringValue;
+    }
+    else if (Rendered && !guiValueChangeInprogress && guiValueChanged && !changeFromGui)
+    {
+      guiValueChangeInprogress = true;
+      lastStringValue = stringValue;
+      await Task.Delay(10);
+      await SetComboboxValue();
+      guiValueChangeInprogress = false;
+    }
+    changeFromGui = false;
+  }
+  protected virtual ValueType ConvertValue(object newValue)
+  {
+    if (typeof(ValueType) == typeof(Nullable<int>))
+    {
+      return newValue == null ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
+    }
+    else
+    {
+      return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));
+    }
+  }
+  protected virtual async Task SetComboboxValue()
+  {
+    if ((typeof(ValueType) != typeof(Int32) && Value != null) || (typeof(ValueType) == typeof(Int32) && Value.ToString() != "0"))
+    {
+      await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, Value.ToString());
+    }
+    else
+    {
+      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+    }
+  }
+}

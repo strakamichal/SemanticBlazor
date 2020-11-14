@@ -1,0 +1,46 @@
+﻿@page "/Components/ListItems"
+@inherits PageBase
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService notificationService
+
+<h1>Items view type</h1>
+<p>Collection of &lt;item&gt; in &lt;items&gt;.</p>
+<div style="max-width: 600px; padding-top: 20px">
+  <SemDataList ViewType="ListViewType.Items" Class="divided" AllowPaging="true"
+               DataMethod="@(async (DataMethodParams e) => await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, null))"
+               CountMethod="@(async () => await DummyDataService.GetCountAsync(null))">
+    <ItemTemplate>
+      <SemDataListItem>
+        <div class="content">
+          <div class="header">#@context.DummyId - @context.Name</div>
+          <div class="meta">
+            @context.Created.ToString("dd.MM.yyyy")
+          </div>
+          <div class="description">
+            @if (context.Type != null)
+            {
+              <span class="ui label">@context.Type</span>
+            }
+          </div>
+          <div class="description">
+            @context.Description
+          </div>
+          <div class="extra">
+            @foreach (var flag in context.Flags)
+            {
+              if (!String.IsNullOrEmpty(flag))
+              {
+                <span class="ui small label">@flag</span>
+              }
+            }
+          </div>
+        </div>
+      </SemDataListItem>
+    </ItemTemplate>
+  </SemDataList>
+</div>
+
+@code {
+  
+}

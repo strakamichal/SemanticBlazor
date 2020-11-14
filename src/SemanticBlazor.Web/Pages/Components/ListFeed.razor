@@ -1,0 +1,47 @@
+﻿@page "/Components/ListFeed"
+@inherits PageBase
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+@inject NotificationService notificationService
+
+<h1>Feed view type</h1>
+<p>Collection of &lt;event&gt; in &lt;feed&gt;.</p>
+<div style="max-width: 600px; padding-top: 20px">
+  <SemDataList ViewType="ListViewType.Feed" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true">
+    <ItemTemplate>
+      <SemDataListItem>
+        <div class="content">
+          <div class="summary">
+            #@context.DummyId - @context.Name
+            <div class="date">
+              @context.Created.ToString("dd.MM.yyyy")
+            </div>
+          </div>
+          <div class="extra text">
+            @context.Description
+          </div>
+          <div class="meta">
+            @foreach (var flag in context.Flags)
+            {
+              if (!String.IsNullOrEmpty(flag))
+              {
+                <span class="ui mini label">@flag</span>
+              }
+            }
+          </div>
+        </div>
+      </SemDataListItem>
+    </ItemTemplate>
+  </SemDataList>
+</div>
+
+@code {
+  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  {
+    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, null);
+  }
+  async Task<int> GetCount()
+  {
+    return await DummyDataService.GetCountAsync(null);
+  }
+}

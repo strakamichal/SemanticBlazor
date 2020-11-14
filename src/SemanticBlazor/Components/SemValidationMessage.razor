@@ -1,0 +1,34 @@
+﻿@using System.Linq.Expressions
+@typeparam TValue
+@implements IDisposable
+
+@if (EditContext.GetValidationMessages(_fieldIdentifier).Any())
+{
+  <div class="validation-message invalid" @attributes="Attributes">
+    <SemIcon Color="Color.Red" Icon="Icon.Exclamation_Triangle"></SemIcon> @EditContext.GetValidationMessages(_fieldIdentifier).First()
+  </div>
+}
+
+@code {
+  [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> Attributes { get; set; }
+  [CascadingParameter] private EditContext EditContext { get; set; }
+  [Parameter] public Expression<Func<TValue>> For { get; set; }
+  private FieldIdentifier _fieldIdentifier;
+
+  protected override void OnInitialized()
+  {
+    if (EditContext != null)
+    {
+      _fieldIdentifier = FieldIdentifier.Create(For);
+      EditContext.OnValidationStateChanged += HandleValidationStateChanged;
+    }
+  }
+  private void HandleValidationStateChanged(object o, ValidationStateChangedEventArgs args) => StateHasChanged();
+  public void Dispose()
+  {
+    if (EditContext != null)
+    {
+      EditContext.OnValidationStateChanged -= HandleValidationStateChanged;
+    }
+  }
+}

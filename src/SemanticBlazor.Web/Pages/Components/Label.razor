@@ -1,0 +1,159 @@
+﻿@page "/Components/Label"
+@layout ComponentsLayout
+
+<h1>Label</h1>
+
+<h3>Standard</h3>
+<p>
+  <SemLabel>Label text</SemLabel>
+  <SemLabel Color="Color.Red">Red label</SemLabel>
+  <SemLabel Color="Color.Green"><SemIcon Icon="Icon.Check" />Approved</SemLabel>
+  <SemLabel Color="Color.Green"><SemIcon Icon="Icon.Truck" Classes="@(new[] { IconClass.Fitted })" /></SemLabel>
+</p>
+<CodeHighlight Code=@(@"
+  <SemLabel>Label text</SemLabel>
+  <SemLabel Color=""Color.Red"">Red label</SemLabel>
+  <SemLabel Color=""Color.Green""><SemIcon Icon=""Icon.Check"" />Approved</SemLabel>
+  <SemLabel Color=""Color.Green""><SemIcon Icon=""Icon.Truck"" Classes=""@(new[] { IconClass.Fitted })"" /></SemLabel>") />
+
+<h3>Clickable</h3>
+<p>
+  <SemLabel OnClick="(() => count++)">Click me!</SemLabel>
+  <SemLabel Class="@(count > 0 ? "green" : "")">@count</SemLabel>
+</p>
+<CodeHighlight Code=@(@"
+  <SemLabel OnClick=""(() => count++)"">Click me!</SemLabel>
+  <SemLabel Class=""@(count > 0 ? ""green"" : """")"">@count</SemLabel>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemLabel Enabled="@labelEnabled">Label text</SemLabel>
+  <SemLabel Enabled="@labelEnabled" Color="Color.Red">Red label</SemLabel>
+  <SemLabel Enabled="@labelEnabled" Color="Color.Green"><SemIcon Icon="Icon.Check" />Approved</SemLabel>
+  <SemLabel Enabled="@labelEnabled" Color="Color.Green"><SemIcon Icon="Icon.Truck" Classes="@(new[] { IconClass.Fitted })" /></SemLabel>
+  <SemLabel OnClick="@(() => labelEnabled = !labelEnabled)">Toggle</SemLabel>
+</p>
+<CodeHighlight Code=@(@"
+  <SemLabel Enabled=""@labelEnabled"">Label text</SemLabel>
+  <SemLabel Enabled=""@labelEnabled"" Color=""Color.Red"">Red label</SemLabel>
+  <SemLabel Enabled=""@labelEnabled"" Color=""Color.Green""><SemIcon Icon=""Icon.Check"" />Approved</SemLabel>
+  <SemLabel Enabled=""@labelEnabled"" Color=""Color.Green""><SemIcon Icon=""Icon.Truck"" Classes=""@(new[] { IconClass.Fitted })"" /></SemLabel>
+  <SemLabel OnClick=""@(() => labelEnabled = !labelEnabled)"">Toggle</SemLabel>") />
+
+<h3>Not visible</h3>
+<p>
+  <SemButton OnClick="() => labelVisibility = true" Class="small">Show label</SemButton>
+  <SemButton OnClick="() => labelVisibility = false" Class="small">Hide label</SemButton>
+  <br />
+  <br />
+  <div class="ui large primary labels">
+    <SemLabel Visible="labelVisibility" Class="teal">Not visible label</SemLabel>
+  </div>
+</p>
+<CodeHighlight Code=@(@"
+    <SemButton OnClick=""() => labelVisibility = true"" Class=""small"">Show label</SemButton>
+    <SemButton OnClick=""() => labelVisibility = false"" Class=""small"">Hide label</SemButton>
+
+    <div class=""ui large primary labels"">
+      <SemLabel Visible=""labelVisibility"" Class=""teal"">Not visible label</SemLabel>
+    </div>") />
+
+<h3>Sizes & colors</h3>
+<p>
+  <SemLabel Size="Size.Mini">Mini</SemLabel>
+  <SemLabel Size="Size.Tiny">Tiny</SemLabel>
+  <SemLabel Size="Size.Small">Small</SemLabel>
+  <SemLabel Size="Size.Medium">Medium</SemLabel>
+  <SemLabel Size="Size.Large">Large</SemLabel>
+  <SemLabel Size="Size.Big">Big</SemLabel>
+  <SemLabel Size="Size.Huge">Huge</SemLabel>
+  <SemLabel Size="Size.Massive">Massive</SemLabel>
+</p>
+<CodeHighlight Code=@(@"
+    <SemLabel Size=""Size.Mini"">Mini</SemLabel>
+    <SemLabel Size=""Size.Tiny"">Tiny</SemLabel>
+    <SemLabel Size=""Size.Small"">Small</SemLabel>
+    <SemLabel Size=""Size.Medium"">Medium</SemLabel>
+    <SemLabel Size=""Size.Large"">Large</SemLabel>
+    <SemLabel Size=""Size.Big"">Big</SemLabel>
+    <SemLabel Size=""Size.Huge"">Huge</SemLabel>
+    <SemLabel Size=""Size.Massive"">Massive</SemLabel>") />
+<p>
+  <SemLabel Color="Color.Red">Red</SemLabel>
+  <SemLabel Color="Color.Orange">Orange</SemLabel>
+  <SemLabel Color="Color.Yellow">Yellow</SemLabel>
+  <SemLabel Color="Color.Olive">Olive</SemLabel>
+  <SemLabel Color="Color.Green">Green</SemLabel>
+  <SemLabel Color="Color.Teal">Teal</SemLabel>
+  <SemLabel Color="Color.Blue">Blue</SemLabel>
+  <SemLabel Color="Color.Violet">Violet</SemLabel>
+  <SemLabel Color="Color.Purple">Purple</SemLabel>
+  <SemLabel Color="Color.Pink">Pink</SemLabel>
+  <SemLabel Color="Color.Brown">Brown</SemLabel>
+  <SemLabel Color="Color.Grey">Grey</SemLabel>
+  <SemLabel Color="Color.Black">Black</SemLabel>
+</p>
+<CodeHighlight Code=@(@"
+  <SemLabel Color=""Color.Red"">Red</SemLabel>
+  <SemLabel Color=""Color.Orange"">Orange</SemLabel>
+  <SemLabel Color=""Color.Yellow"">Yellow</SemLabel>
+  <SemLabel Color=""Color.Olive"">Olive</SemLabel>
+  <SemLabel Color=""Color.Green"">Green</SemLabel>
+  <SemLabel Color=""Color.Teal"">Teal</SemLabel>
+  <SemLabel Color=""Color.Blue"">Blue</SemLabel>
+  <SemLabel Color=""Color.Violet"">Violet</SemLabel>
+  <SemLabel Color=""Color.Purple"">Purple</SemLabel>
+  <SemLabel Color=""Color.Pink"">Pink</SemLabel>
+  <SemLabel Color=""Color.Brown"">Brown</SemLabel>
+  <SemLabel Color=""Color.Grey"">Grey</SemLabel>
+  <SemLabel Color=""Color.Black"">Black</SemLabel>") />
+
+<h3>Basic</h3>
+<SemLabel Classes="@(new[] { LabelClass.Basic })">Basic</SemLabel>
+<CodeHighlight Code=@(@"
+  <SemLabel Classes=""@(new[] { LabelClass.Basic })"">Basic</SemLabel>") />
+
+<h3>Tag</h3>
+<SemLabel Classes="@(new[] { LabelClass.Tag })">Tag</SemLabel>
+<CodeHighlight Code=@(@"
+  <SemLabel Classes=""@(new[] { LabelClass.Tag })"">Tag</SemLabel>") />
+
+<h3>Circlular</h3>
+<SemLabel Classes="@(new[] { LabelClass.Circular })">A</SemLabel>
+<SemLabel Classes="@(new[] { LabelClass.Circular })" Color="Color.Red">B</SemLabel>
+<SemLabel Classes="@(new[] { LabelClass.Circular })" Color="Color.Green"><SemIcon Class="fitted check" /></SemLabel>
+<CodeHighlight Code=@(@"
+  <SemLabel Classes=""@(new[] { LabelClass.Circular })"">A</SemLabel>
+  <SemLabel Classes=""@(new[] { LabelClass.Circular })"" Color=""Color.Red"">B</SemLabel>
+  <SemLabel Classes=""@(new[] { LabelClass.Circular })"" Color=""Color.Green""><SemIcon Class=""fitted check"" /></SemLabel>") />
+
+<h3>Empty</h3>
+<SemLabel Classes="@(new[] { LabelClass.Circular, LabelClass.Empty })"></SemLabel>
+<SemLabel Classes="@(new[] { LabelClass.Circular, LabelClass.Empty })" Color="Color.Red"></SemLabel>
+<SemLabel Classes="@(new[] { LabelClass.Circular, LabelClass.Empty })" Color="Color.Green"></SemLabel>
+<CodeHighlight Code=@(@"
+  <SemLabel Classes=""@(new[] { LabelClass.Circular, LabelClass.Empty })""></SemLabel>
+  <SemLabel Classes=""@(new[] { LabelClass.Circular, LabelClass.Empty })"" Color=""Color.Red""></SemLabel>
+  <SemLabel Classes=""@(new[] { LabelClass.Circular, LabelClass.Empty })"" Color=""Color.Green""></SemLabel>") />
+
+<h3>Grouped</h3>
+<p>
+  <div class="ui tiny primary labels">
+    <SemLabel>First</SemLabel>
+    <SemLabel>Second</SemLabel>
+    <SemLabel>Third</SemLabel>
+  </div>
+</p>
+<CodeHighlight Code=@(@"
+    <div class=""ui tiny primary labels"">
+      <SemLabel>First</SemLabel>
+      <SemLabel>Second</SemLabel>
+      <SemLabel>Third</SemLabel>
+    </div>") />
+
+@code {
+  public int count { get; set; } = 0;
+  SemLabel hiddenLabel;
+  bool labelVisibility = false;
+  bool labelEnabled = false;
+}

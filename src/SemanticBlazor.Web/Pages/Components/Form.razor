@@ -1,0 +1,160 @@
+﻿@page "/Components/Form"
+@inherits PageBase
+@layout ComponentsLayout
+
+<h1>Form</h1>
+<p>See the full documentation at <NavLink href="https://semantic-ui.com/collections/form.html" target="_blank">Semantic UI</NavLink>.</p>
+
+<div>
+  <h3>Standard</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormField For="@(() => item.Description)">
+      <SemInput @bind-Value="item.Description"></SemInput>
+    </SemFormField>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  //Model
+  [Display(Name = ""Description""]
+  public string Description { get; set; }
+
+  <SemForm Model=""item"">
+    <SemFormField For=""@(() => item.Description)"">
+      <SemInput @bind-Value=""item.Description""></SemInput>
+    </SemFormField>
+  </SemForm>") />
+
+  <h3>Required</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormField For="@(() => item.Name)">
+      <SemInput @bind-Value="item.Name"></SemInput>
+    </SemFormField>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  //Model
+  [Required, Display(Name = ""Name""]
+  public string Name { get; set; }
+
+  <SemForm Model=""item"">
+    <SemFormField For=""@(() => item.Name)"">
+      <SemInput @bind-Value=""item.Name""></SemInput>
+    </SemFormField>
+  </SemForm>") />
+
+  <h3>Disabled</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormField For="@(() => item.Name)" Enabled="false">
+      <SemInput @bind-Value="item.Name"></SemInput>
+    </SemFormField>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  <SemForm Model=""item"">
+    <SemFormField For=""@(() => item.Name)"" Enabled=""false"">
+      <SemInput @bind-Value=""item.Name""></SemInput>
+    </SemFormField>
+  </SemForm>") />
+
+  <h3>Not editable (hides mandatory asterisk)</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormField For="@(() => item.Name)" Editable="false">
+      @item.Name
+    </SemFormField>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  <SemForm Model=""item"">
+    <SemFormField For=""@(() => item.Name)"" Editable=""false"">
+      @item.Name
+    </SemFormField>
+  </SemForm>") />
+
+  <h3>Multiple fields on row</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormFields Fields="GridUnit.Two">
+      <SemFormField For="@(() => item.Name)">
+        <SemInput @bind-Value="item.Name"></SemInput>
+      </SemFormField>
+      <SemFormField For="@(() => item.Description)">
+        <SemInput @bind-Value="item.Description"></SemInput>
+      </SemFormField>
+    </SemFormFields>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  <SemForm Model=""item"">
+    <SemFormFields Fields=""GridUnit.Two"">
+      <SemFormField For=""@(() => item.Name)"">
+        <SemInput @bind-Value=""item.Name""></SemInput>
+      </SemFormField>
+      <SemFormField For=""@(() => item.Description)"">
+        <SemInput @bind-Value=""item.Description""></SemInput>
+      </SemFormField>
+    </SemFormFields>
+  </SemForm>") />
+
+  <h3>Equal width</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormFields Classes="@(new[] { FieldsClass.Equal_Width })">
+      <SemFormField For="@(() => item.Name)">
+        <SemInput @bind-Value="item.Name"></SemInput>
+      </SemFormField>
+      <SemFormField For="@(() => item.Description)">
+        <SemInput @bind-Value="item.Description"></SemInput>
+      </SemFormField>
+    </SemFormFields>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  <SemForm Model=""item"">
+    <SemFormFields Classes=""@(new[] { FieldsClass.Equal_Width })"">
+      <SemFormField For=""@(() => item.Name)"">
+        <SemInput @bind-Value=""item.Name""></SemInput>
+      </SemFormField>
+      <SemFormField For=""@(() => item.Description)"">
+        <SemInput @bind-Value=""item.Description""></SemInput>
+      </SemFormField>
+    </SemFormFields>
+  </SemForm>") />
+
+  <h3>Custom width</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormFields>
+      <SemFormField Wide="GridUnit.Four" For="@(() => item.Name)">
+        <SemInput @bind-Value="item.Name"></SemInput>
+      </SemFormField>
+      <SemFormField Wide="GridUnit.Twelve" For="@(() => item.Description)">
+        <SemInput @bind-Value="item.Description"></SemInput>
+      </SemFormField>
+    </SemFormFields>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  <SemForm Model=""item"">
+    <SemFormFields>
+      <SemFormField Wide=""GridUnit.Four"" For=""@(() => item.Name)"">
+        <SemInput @bind-Value=""item.Name""></SemInput>
+      </SemFormField>
+      <SemFormField Wide=""GridUnit.Twelve"" For=""@(() => item.Description)"">
+        <SemInput @bind-Value=""item.Description""></SemInput>
+      </SemFormField>
+    </SemFormFields>
+  </SemForm>") />
+
+  <h3>Inline field</h3>
+  <SemForm Model="item" style="max-width: 600px">
+    <SemFormField For="@(() => item.Name)" Classes="@(new[] { FieldClass.Inline })">
+      <SemInput @bind-Value="item.Name"></SemInput>
+    </SemFormField>
+    <SemFormField For="@(() => item.Description)" Classes="@(new[] { FieldClass.Inline })">
+      <SemInput @bind-Value="item.Description"></SemInput>
+    </SemFormField>
+  </SemForm>
+  <CodeHighlight Code=@(@"
+  <SemForm Model=""item"">
+    <SemFormField For=""@(() => item.Name)"" Classes=""@(new[] { FieldClass.Inline })"">
+      <SemInput @bind-Value=""item.Name""></SemInput>
+    </SemFormField>
+    <SemFormField For=""@(() => item.Description)"" Classes=""@(new[] { FieldClass.Inline })"">
+      <SemInput @bind-Value=""item.Description""></SemInput>
+    </SemFormField>
+  </SemForm>") />
+</div>
+
+@code {
+  Data.DummyData item = new Data.DummyData() { Name = "John Doe", Description = "Key user" };
+}

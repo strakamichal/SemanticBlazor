@@ -1,0 +1,28 @@
+﻿@inherits PageBase
+
+<div class="left-menu">
+  <SemMenu Class="vertical sticky" Style="width: auto">
+    <div class="ui inverted">
+      <div class="mainheader item" style="line-height: 25px">
+        <b>@Title</b>
+      </div>
+      @Content
+    </div>
+  </SemMenu>
+</div>
+
+@code
+{
+  [Parameter]
+  public string Title { get; set; }
+  [Parameter]
+  public RenderFragment Content { get; set; }
+
+  //protected async override Task OnAfterRenderAsync(bool firstRender)
+  //{
+  //  if (firstRender)
+  //  {
+  //    await jsRuntime.InvokeAsync<object>("InitLeftMenu");
+  //  }
+  //}
+}

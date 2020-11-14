@@ -1,0 +1,173 @@
+﻿@page "/Components/Button"
+@layout ComponentsLayout
+
+<h1>Button</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/elements/button.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Standard button</h3>
+<p>
+  <SemButton OnClick="@(() => count1++)">Click me!</SemButton>
+</p>
+<p>
+  Clicked: @count1<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""@(() => count1++)"">Click me!</SemButton>") />
+
+<h3>Disabled</h3>
+<p>
+  <SemButton OnClick="@(() => count5++)" Enabled="@btnEnabled">Disabled</SemButton>
+  <SemButton OnClick="@(() => count5++)" Enabled="@btnEnabled" Classes="@(new[] { ButtonClass.Basic })">Basic</SemButton>
+  <SemButton OnClick="@(() => btnEnabled = !btnEnabled)" Classes="@(new[] { ButtonClass.Basic })" Color="ButtonColor.Teal">Toggle</SemButton>
+</p>
+
+<h3>Emphasis</h3>
+<p>
+  <SemButton OnClick="@(() => count2++)" Emphasis="Emphasis.Primary">Primary button</SemButton>
+  <SemButton OnClick="@(() => count2++)" Emphasis="Emphasis.Secondary">Secondary button</SemButton>
+</p>
+<p>
+  Clicked: @count2<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""@(() => count2++)"" Emphasis=""Emphasis.Primary"">Primary button</SemButton>
+  <SemButton OnClick=""@(() => count2++)"" Emphasis=""Emphasis.Secondary"">Secondary button</SemButton>") />
+
+<h3>Icon</h3>
+<p>
+  <SemButton OnClick="@(() => count3++)" Icon="Icon.Plus_Circle"></SemButton>
+  <SemButton OnClick="@(() => count3++)" Icon="Icon.Plus">Icon button</SemButton>
+  <SemButton OnClick="@(() => count3++)" Icon="Icon.Plus" IconPosition="IconPosition.Right">Icon button</SemButton>
+  <SemButton OnClick="@(() => count3++)" Icon="Icon.Plus" IconLabeled="false">Icon button</SemButton>
+</p>
+<p>
+  Clicked: @count3<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""@(() => count3++)"" Icon=""Icon.Plus_Circle""></SemButton>
+  <SemButton OnClick=""@(() => count3++)"" Icon=""Icon.Plus"">Icon button</SemButton>
+  <SemButton OnClick=""@(() => count3++)"" Icon=""Icon.Plus"" IconPosition=""IconPosition.Right"">Icon button</SemButton>
+  <SemButton OnClick=""@(() => count3++)"" Icon=""Icon.Plus"" IconLabeled=""false"">Icon button</SemButton>") />
+
+<h3>Basic</h3>
+<p>
+  <SemButton OnClick="@(() => count4++)" Icon="Icon.User" Classes="@(new[] { ButtonClass.Basic })">Basic</SemButton>
+  <br /><br />
+  <SemButton OnClick="@(() => count4++)" Emphasis="Emphasis.Primary" Classes="@(new[] { ButtonClass.Basic })">Primary</SemButton>
+  <SemButton OnClick="@(() => count4++)" Emphasis="Emphasis.Secondary" Classes="@(new[] { ButtonClass.Basic })">Secondary</SemButton>
+  <SemButton OnClick="@(() => count4++)" Color="ButtonColor.Positive" Classes="@(new[] { ButtonClass.Basic })">Positive</SemButton>
+  <SemButton OnClick="@(() => count4++)" Color="ButtonColor.Negative" Classes="@(new[] { ButtonClass.Basic })">Negative</SemButton>
+</p>
+<p>
+  Clicked: @count4<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""@(() => count4++)"" Icon=""Icon.User"" Classes=""@(new[] { ButtonClass.Basic })"">Basic</SemButton>
+
+  <SemButton OnClick=""@(() => count4++)"" Emphasis=""Emphasis.Primary"" Classes=""@(new[] { ButtonClass.Basic })"">Primary</SemButton>
+  <SemButton OnClick=""@(() => count4++)"" Emphasis=""Emphasis.Secondary"" Classes=""@(new[] { ButtonClass.Basic })"">Secondary</SemButton>
+  <SemButton OnClick=""@(() => count4++)"" Color=""ButtonColor.Positive"" Classes=""@(new[] { ButtonClass.Basic })"">Positive</SemButton>
+  <SemButton OnClick=""@(() => count4++)"" Color=""ButtonColor.Negative"" Classes=""@(new[] { ButtonClass.Basic })"">Negative</SemButton>") />
+
+
+<p>
+  Clicked: @count5<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""@(() => count5++)"" Enabled=""@btnEnabled"">Disabled</SemButton>
+  <SemButton OnClick=""@(() => count5++)"" Enabled=""@btnEnabled"" Classes=""@(new[] { ButtonClass.Basic })"">Basic</SemButton>
+  <SemButton OnClick=""@(() => btnEnabled = !btnEnabled)"" Classes=""@(new[] { ButtonClass.Basic })"" Color=""Color.Teal"">Toggle</SemButton>") />
+
+<h3>Loading</h3>
+<p>
+  <SemButton OnClick="LongFunc" OnClickLoading="true">Run long function</SemButton>
+  <SemButton OnClick="LongFunc" OnClickLoading="true" Classes="@(new[] { ButtonClass.Basic })">Basic</SemButton>
+</p>
+<p>
+  Clicked: @count6<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""LongFunc"" OnClickLoading=""true"">Run long function</SemButton>
+  <SemButton OnClick=""LongFunc"" OnClickLoading=""true"" Classes=""@(new[] { ButtonClass.Basic })"">Basic</SemButton>") />
+
+<h3>Confirmation</h3>
+<p>
+  <SemButton OnClick="@(() => count8++)" NeedsConfirmation="true" ConfirmationHeader="Confirmation" ConfirmationMessage="Are you sure?">Action with confirmation</SemButton>
+</p>
+<p>
+  Clicked: @count8<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton OnClick=""@(() => count8++)"" NeedsConfirmation=""true"" ConfirmationHeader=""Confirmation"" ConfirmationMessage=""Are you sure?"">Action with confirmation</SemButton>") />
+
+<h3>Sizes & colors</h3>
+<p>
+  <SemButton Size="Size.Mini" OnClick="@(() => count7++)">Mini</SemButton>
+  <SemButton Size="Size.Tiny" OnClick="@(() => count7++)">Tiny</SemButton>
+  <SemButton Size="Size.Small" OnClick="@(() => count7++)">Small</SemButton>
+  <SemButton Size="Size.Medium" OnClick="@(() => count7++)">Medium</SemButton>
+  <SemButton Size="Size.Large" OnClick="@(() => count7++)">Large</SemButton>
+  <SemButton Size="Size.Big" OnClick="@(() => count7++)">Big</SemButton>
+  <SemButton Size="Size.Huge" OnClick="@(() => count7++)">Huge</SemButton>
+  <SemButton Size="Size.Massive" OnClick="@(() => count7++)">Massive</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton Size=""Size.Mini"" OnClick=""@(() => count7++)"">Mini</SemButton>
+  <SemButton Size=""Size.Tiny"" OnClick=""@(() => count7++)"">Tiny</SemButton>
+  <SemButton Size=""Size.Small"" OnClick=""@(() => count7++)"">Small</SemButton>
+  <SemButton Size=""Size.Medium"" OnClick=""@(() => count7++)"">Medium</SemButton>
+  <SemButton Size=""Size.Large"" OnClick=""@(() => count7++)"">Large</SemButton>
+  <SemButton Size=""Size.Big"" OnClick=""@(() => count7++)"">Big</SemButton>
+  <SemButton Size=""Size.Huge"" OnClick=""@(() => count7++)"">Huge</SemButton>
+  <SemButton Size=""Size.Massive"" OnClick=""@(() => count7++)"">Massive</SemButton>") />
+<p>
+  <SemButton Color="ButtonColor.Red" OnClick="@(() => count7++)">Red</SemButton>
+  <SemButton Color="ButtonColor.Orange" OnClick="@(() => count7++)">Orange</SemButton>
+  <SemButton Color="ButtonColor.Yellow" OnClick="@(() => count7++)">Yellow</SemButton>
+  <SemButton Color="ButtonColor.Olive" OnClick="@(() => count7++)">Olive</SemButton>
+  <SemButton Color="ButtonColor.Green" OnClick="@(() => count7++)">Green</SemButton>
+  <SemButton Color="ButtonColor.Teal" OnClick="@(() => count7++)">Teal</SemButton>
+  <SemButton Color="ButtonColor.Blue" OnClick="@(() => count7++)">Blue</SemButton>
+  <SemButton Color="ButtonColor.Violet" OnClick="@(() => count7++)">Violet</SemButton>
+  <SemButton Color="ButtonColor.Purple" OnClick="@(() => count7++)">Purple</SemButton>
+  <SemButton Color="ButtonColor.Pink" OnClick="@(() => count7++)">Pink</SemButton>
+  <SemButton Color="ButtonColor.Brown" OnClick="@(() => count7++)">Brown</SemButton>
+  <SemButton Color="ButtonColor.Grey" OnClick="@(() => count7++)">Grey</SemButton>
+  <SemButton Color="ButtonColor.Black" OnClick="@(() => count7++)">Black</SemButton>
+</p>
+<p>
+  Clicked: @count7<br />
+</p>
+<CodeHighlight Code=@(@"
+  <SemButton Color=""ButtonColor.Red"" OnClick=""@(() => count7++)"">Red</SemButton>
+  <SemButton Color=""ButtonColor.Orange"" OnClick=""@(() => count7++)"">Orange</SemButton>
+  <SemButton Color=""ButtonColor.Yellow"" OnClick=""@(() => count7++)"">Yellow</SemButton>
+  <SemButton Color=""ButtonColor.Olive"" OnClick=""@(() => count7++)"">Olive</SemButton>
+  <SemButton Color=""ButtonColor.Green"" OnClick=""@(() => count7++)"">Green</SemButton>
+  <SemButton Color=""ButtonColor.Teal"" OnClick=""@(() => count7++)"">Teal</SemButton>
+  <SemButton Color=""ButtonColor.Blue"" OnClick=""@(() => count7++)"">Blue</SemButton>
+  <SemButton Color=""ButtonColor.Violet"" OnClick=""@(() => count7++)"">Violet</SemButton>
+  <SemButton Color=""ButtonColor.Purple"" OnClick=""@(() => count7++)"">Purple</SemButton>
+  <SemButton Color=""ButtonColor.Pink"" OnClick=""@(() => count7++)"">Pink</SemButton>
+  <SemButton Color=""ButtonColor.Brown"" OnClick=""@(() => count7++)"">Brown</SemButton>
+  <SemButton Color=""ButtonColor.Grey"" OnClick=""@(() => count7++)"">Grey</SemButton>
+  <SemButton Color=""ButtonColor.Black"" OnClick=""@(() => count7++)"">Black</SemButton>") />
+
+@code {
+
+  bool btnEnabled = false;
+  int count1 = 0;
+  int count2 = 0;
+  int count3 = 0;
+  int count4 = 0;
+  int count5 = 0;
+  int count6 = 0;
+  int count7 = 0;
+  int count8 = 0;
+
+  async Task LongFunc()
+  {
+    await Task.Delay(2000);
+    count6++;
+  }
+}

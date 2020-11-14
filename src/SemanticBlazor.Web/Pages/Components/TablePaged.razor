@@ -1,0 +1,76 @@
+﻿@page "/Components/TablePaged"
+@layout ComponentsLayout
+@inject Data.DummyDataService DummyDataService
+
+<h1>Table with pagination</h1>
+<p>Table without direct connection to server (API) data. Items are stored and paged locally.</p>
+
+<SemDataTable @ref="table" Items="@Items" AllowPaging="true" DefaultPageSize="5" PageIndexChanged="PageIndexChanged">
+  <Header>
+    <tr>
+      <th>
+        ID
+      </th>
+      <th>
+        Name
+      </th>
+      <th>
+        Type
+      </th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td>@context.DummyId</td>
+      <td>@context.Name</td>
+      <td>@context.Type</td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>
+<br />
+<br />
+<p>
+  Current index: @pageIndex
+</p>
+<CodeHighlight Code=@(@"
+<SemDataTable @ref=""table"" Items=""@Items"" AllowPaging=""true"" DefaultPageSize=""5"" PageIndexChanged=""PageIndexChanged"">
+  <Header>
+    <tr>
+      <th>
+        ID
+      </th>
+      <th>
+        Name
+      </th>
+      <th>
+        Type
+      </th>
+    </tr>
+  </Header>
+  <RowTemplate>
+    <tr>
+      <td>@context.DummyId</td>
+      <td>@context.Name</td>
+      <td>@context.Type</td>
+    </tr>
+  </RowTemplate>
+</SemDataTable>
+<p>
+  Current index: @pageIndex
+</p>") />
+
+@code {
+  List<Data.DummyData> Items;
+  SemDataTable<Data.DummyData> table;
+  int pageIndex;
+
+  protected override async Task OnInitializedAsync()
+  {
+    Items = await DummyDataService.GetAllDataAsync();
+  }
+
+  void PageIndexChanged(int newPageIndex)
+  {
+    pageIndex = newPageIndex;
+  }
+}

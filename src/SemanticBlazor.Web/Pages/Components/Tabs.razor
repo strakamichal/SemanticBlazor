@@ -1,0 +1,125 @@
+﻿@page "/Components/Tabs"
+@layout ComponentsLayout
+
+<h1>Tabs</h1>
+<div>
+  <h3>Top position</h3>
+  <SemTabs>
+    <Tabs>
+      <SemTab Name="first-tab">
+        <MenuContent><SemIcon Icon="Icon.Exclamation_Circle" Color="Color.Red"></SemIcon>Errors</MenuContent>
+        <ChildContent>
+          <h4>First</h4>
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam at arcu a est sollicitudin euismod. Donec quis nibh at felis congue commodo. Integer pellentesque quam vel velit. Aenean vel massa quis mauris vehicula lacinia. Vivamus luctus egestas leo.
+        </ChildContent>
+      </SemTab>
+      <SemTab Name="second-tab" Text="Second">
+        <h4>Second</h4>
+        Aenean id metus id velit ullamcorper pulvinar. Vivamus luctus egestas leo. In convallis. Suspendisse sagittis ultrices augue.
+      </SemTab>
+      <SemTab Name="third-tab" Text="Third" Enabled="@thirdEnabled">
+        <h4>Disabled</h4>
+        Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </SemTab>
+      <SemTab Name="fourth-tab" Text="Invisible" Visible="@fourthVisible">
+        <h4>Invisible</h4>
+        Integer in sapien. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </SemTab>
+    </Tabs>
+  </SemTabs>
+  <SemButton Class="basic" Color="ButtonColor.Teal" OnClick="@(() => thirdEnabled = !thirdEnabled)">Enable/disable 3rd tab</SemButton>
+  <SemButton Class="basic" Color="ButtonColor.Teal" OnClick="@(() => fourthVisible = !fourthVisible)">Show/hide 4th tab</SemButton>
+  <CodeHighlight Code=@(@"
+    <SemTabs>
+      <Tabs>
+        <SemTab Name=""first-tab"">
+          <MenuContent><SemIcon Icon=""Icon.Exclamation_Circle"" Color=""Color.Red""></SemIcon>Errors</MenuContent>
+          <ChildContent>
+            <h4>First</h4>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam at arcu a est sollicitudin euismod. Donec quis nibh at felis congue commodo. Integer pellentesque quam vel velit. Aenean vel massa quis mauris vehicula lacinia. Vivamus luctus egestas leo.
+          </ChildContent>
+        </SemTab>
+        <SemTab Name=""second-tab"" Text=""Second"">
+          <h4>Second</h4>
+          Aenean id metus id velit ullamcorper pulvinar. Vivamus luctus egestas leo. In convallis. Suspendisse sagittis ultrices augue.
+        </SemTab>
+        <SemTab Name=""third-tab"" Text=""Third"" Enabled=""@thirdEnabled"">
+          <h4>Disabled</h4>
+          Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+        </SemTab>
+        <SemTab Name=""fourth-tab"" Text=""Invisible"" Visible=""@fourthVisible"">
+          <h4>Invisible</h4>
+          Integer in sapien. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+        </SemTab>
+      </Tabs>
+    </SemTabs>
+    <SemButton Class=""basic"" Color=""ButtonColor.Teal"" OnClick=""@(() => thirdEnabled = !thirdEnabled)"">Enable/disable 3rd tab</SemButton>
+    <SemButton Class=""basic"" Color=""ButtonColor.Teal"" OnClick=""@(() => fourthVisible = !fourthVisible)"">Show/hide 4th tab</SemButton>") />
+</div>
+<br />
+<br />
+<div>
+  <h3>Bottom position</h3>
+  <SemTabs MenuPosition="TabMenuPosition.Bottom">
+    <Tabs>
+      <SemTab Name="first-tab">
+        <MenuContent><SemIcon Icon="Icon.Exclamation_Circle" Color="Color.Red"></SemIcon>Errors</MenuContent>
+        <ChildContent>
+          <h4>First</h4>
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam at arcu a est sollicitudin euismod. Donec quis nibh at felis congue commodo. Integer pellentesque quam vel velit. Aenean vel massa quis mauris vehicula lacinia. Vivamus luctus egestas leo.
+        </ChildContent>
+      </SemTab>
+      <SemTab Name="second-tab" Text="Second">
+        <MenuContent>
+          Second <SemLabel Size="Size.Small" Color="Color.Teal">New</SemLabel>
+        </MenuContent>
+        <ChildContent>
+          <h4>Second</h4>
+          Aenean id metus id velit ullamcorper pulvinar. Vivamus luctus egestas leo. In convallis. Suspendisse sagittis ultrices augue.
+        </ChildContent>
+      </SemTab>
+      <SemTab Name="third-tab" Text="Third" Enabled="@thirdEnabled">
+        <h4>Disabled</h4>
+        Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </SemTab>
+      <SemTab Name="fourth-tab" Text="Invisible" Visible="@fourthVisible">
+        <h4>Invisible</h4>
+        Integer in sapien. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+      </SemTab>
+    </Tabs>
+  </SemTabs>
+  <CodeHighlight Code=@(@"
+    <SemTabs MenuPosition=""TabMenuPosition.Bottom"">
+      <Tabs>
+        <SemTab Name=""first-tab"">
+          <MenuContent><SemIcon Icon=""Icon.Exclamation_Circle"" Color=""Color.Red""></SemIcon>Errors</MenuContent>
+          <ChildContent>
+            <h4>First</h4>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam at arcu a est sollicitudin euismod. Donec quis nibh at felis congue commodo. Integer pellentesque quam vel velit. Aenean vel massa quis mauris vehicula lacinia. Vivamus luctus egestas leo.
+          </ChildContent>
+        </SemTab>
+        <SemTab Name=""second-tab"" Text=""Second"">
+          <MenuContent>
+            Second <SemLabel Size=""Size.Small"" Color=""Color.Teal"">New</SemLabel>
+          </MenuContent>
+          <ChildContent>
+            <h4>Second</h4>
+            Aenean id metus id velit ullamcorper pulvinar. Vivamus luctus egestas leo. In convallis. Suspendisse sagittis ultrices augue.
+          </ChildContent>
+        </SemTab>
+        <SemTab Name=""third-tab"" Text=""Third"" Enabled=""@thirdEnabled"">
+          <h4>Disabled</h4>
+          Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+        </SemTab>
+        <SemTab Name=""fourth-tab"" Text=""Invisible"" Visible=""@fourthVisible"">
+          <h4>Invisible</h4>
+          Integer in sapien. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+        </SemTab>
+      </Tabs>
+    </SemTabs>") />
+</div>
+
+@code {
+  bool thirdEnabled = false;
+  bool fourthVisible = false;
+}
