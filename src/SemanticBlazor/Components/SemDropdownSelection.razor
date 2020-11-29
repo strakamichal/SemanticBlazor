@@ -146,7 +146,7 @@
   {
     if (typeof(ValueType) == typeof(Nullable<int>))
     {
-      return newValue == null ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
+      return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
     }
     else
     {

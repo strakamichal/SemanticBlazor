@@ -218,7 +218,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
 
 <h3>Databinding items - Int? value</h3>
 <p>
-  <SemDropdownSelection @bind-Value="SelectedNullDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))" DefaultText="Select..."></SemDropdownSelection><SemButton OnClick="@(() => SelectedNullDummyId = null)" Classes="@(new[] { ButtonClass.Basic })" Color="ButtonColor.Teal">Clear value</SemButton>
+  <SemDropdownSelection @bind-Value="SelectedNullDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))" DefaultText="Select..." Clearable="true"></SemDropdownSelection>
 </p>
 <p>
   Selected value: @(SelectedNullDummyId?.ToString() ?? "{null}")
