@@ -99,17 +99,17 @@
       .Get(() => Size?.ToString().ToLower())
       .If("button", () => this.IsButton);
   }
-  async Task ClickEvent()
+  async Task ClickEvent(MouseEventArgs e)
   {
     if (OnClickLoading) loading = true;
     disabled = true;
     await Task.Delay(1);
-    await OnClick.InvokeAsync(null);
+    await OnClick.InvokeAsync(e);
     loading = false;
     disabled = false;
   }
 
-  public async Task ButtonClicked()
+  public async Task ButtonClicked(MouseEventArgs e)
   {
     if (NeedsConfirmation)
     {
@@ -117,7 +117,7 @@
     }
     else
     {
-      await ClickEvent();
+      await ClickEvent(e);
     }
   }
 

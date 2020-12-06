@@ -78,11 +78,11 @@
       await JsFunc.DropDownMenu.Init(js, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
     }
   }
-  async Task ClickEvent()
+  async Task ClickEvent(MouseEventArgs e)
   {
-    await OnClick.InvokeAsync(null);
+    await OnClick.InvokeAsync(e);
   }
-  async Task Clicked()
+  async Task Clicked(MouseEventArgs e)
   {
     if (NeedsConfirmation)
     {
@@ -90,7 +90,7 @@
     }
     else
     {
-      await ClickEvent();
+      await ClickEvent(e);
     }
   }
   async Task ShowConfirmation()
