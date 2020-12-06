@@ -15,13 +15,13 @@
   }
   else if (Enabled && Header == null)
   {
-    <div id="@Id" class="@ClassMapper.ToString()" @onclick="Clicked" style="@Style" @attributes="Attributes">
+    <a id="@Id" class="@ClassMapper.ToString()" @onclick="Clicked" style="@Style" @attributes="Attributes">
       @if (Header != null)
       {
         <div class="header">@Header</div>
       }
       @ChildContent
-    </div>
+    </a>
   }
   else
   {
