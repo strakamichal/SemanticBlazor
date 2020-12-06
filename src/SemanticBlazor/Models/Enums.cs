@@ -6,67 +6,6 @@ using System.Text;
 
 namespace SemanticBlazor
 {
-  //public class ClassString
-  //{
-  //  protected string classString;
-  //  public ClassString(string classString)
-  //  {
-  //    this.classString = classString;
-  //  }
-  //  public override string ToString()
-  //  {
-  //    return classString;
-  //  }
-  //}
-  //public class Color : ClassString
-  //{
-  //  public Color(string color) : base(color)
-  //  {
-  //  }
-  //}
-  //public class Size : ClassString
-  //{
-  //  public Size(string size) : base(size)
-  //  {
-  //  }
-  //}
-
-  //public class Colors
-  //{
-  //  public const string Red = new Color("red");
-  //  public static Color Orange = new Color("orange");
-  //  public static Color Yellow = new Color("yellow");
-  //  public static Color Olive = new Color("olive");
-  //  public static Color Green = new Color("green");
-  //  public static Color Teal = new Color("teal");
-  //  public static Color Blue = new Color("blue");
-  //  public static Color Violet = new Color("violet");
-  //  public static Color Purple = new Color("purple");
-  //  public static Color Pink = new Color("pink");
-  //  public static Color Brown = new Color("brown");
-  //  public static Color Black = new Color("black");
-  //}
-
-  //public class ButtonColors : Colors
-  //{
-  //  public static Color Positive = new Color("positive");
-  //  public static Color Negative = new Color("negative");
-  //  public static Color Primary = new Color("primary");
-  //  public static Color Secondary = new Color("secondary");
-  //}
-
-  //public class Sizes
-  //{
-  //  public static Size Mini = new Size("mini");
-  //  public static Size Tiny = new Size("mini");
-  //  public static Size Small = new Size("mini");
-  //  public static Size Medium = new Size("mini");
-  //  public static Size Large = new Size("mini");
-  //  public static Size Big = new Size("mini");
-  //  public static Size Huge = new Size("mini");
-  //  public static Size Massive = new Size("mini");
-  //}
-
   public class Enums
   {
     public static string GetClass<T>(T enumValue)
@@ -388,6 +327,20 @@ namespace SemanticBlazor
     Feed,
     Cards,
     Custom
+  }
+  public enum DropdownAction
+  {
+    Auto,
+    Activate,
+    Select,
+    Combo,
+    Hide,
+    Nothing
+  }
+  public enum DropdownOn
+  {
+    Click,
+    Hover
   }
 
   public class Icons

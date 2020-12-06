@@ -42,9 +42,9 @@ namespace SemanticBlazor
 
     public class DropDownMenu
     {
-      public static async Task Init(IJSRuntime jsRuntime, string id)
+      public static async Task Init(IJSRuntime jsRuntime, string id, string on = "click", string action = "hide")
       {
-        await jsRuntime.InvokeAsync<object>("SemanticDropdownMenu.Init", id);
+        await jsRuntime.InvokeAsync<object>("SemanticDropdownMenu.Init", id, on, action);
       }
     }
 

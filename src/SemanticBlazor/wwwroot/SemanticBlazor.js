@@ -57,9 +57,10 @@ window.SemanticAccordion = {
 };
 
 window.SemanticDropdownMenu = {
-  Init: function (id) {
+  Init: function (id, on, action) {
     $('#' + id).dropdown({
-      on: 'hover'
+      action: action,
+      on: on
     });
   }
 };
