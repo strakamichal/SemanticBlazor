@@ -47,6 +47,11 @@
     await PageIndexChanged.InvokeAsync(pageIndex);
     await GetData();
   }
+  public void SetLoadingState(bool isLoading)
+  {
+    this.loading = isLoading;
+    StateHasChanged();
+  }
   public async Task RefreshData(bool resetPaging = true)
   {
     loading = true;
