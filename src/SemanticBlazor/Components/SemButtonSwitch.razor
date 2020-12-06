@@ -29,7 +29,14 @@
   }
   async Task ButtonClicked(string value)
   {
-    Value = (ValueType)Convert.ChangeType(value, typeof(ValueType));
+    if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
+    {
+      Value = (ValueType)Enum.Parse(typeof(ValueType), value);
+    }
+    else
+    {
+      Value = (ValueType)Convert.ChangeType(value, typeof(ValueType));
+    }
     await NotifyChanged();
   }
 }

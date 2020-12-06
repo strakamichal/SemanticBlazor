@@ -112,6 +112,39 @@
 <CodeHighlight Code=@(@"
   <SemCheckboxList @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))""></SemCheckboxList>") />
 
+<h3>Enum value</h3>
+<p>
+  <SemCheckboxList @bind-Value="SelectedOptions">
+    <ListItems>
+      <SemSelectListItem Text="Option 1" Value="Option_1"></SemSelectListItem>
+      <SemSelectListItem Text="Option 2" Value="Option_2"></SemSelectListItem>
+      <SemSelectListItem Text="Option 3" Value="Option_3"></SemSelectListItem>
+      <SemSelectListItem Text="Option 4" Value="Option_4"></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>
+</p>
+<p>
+  Selected value: @(SelectedOptions != null ? String.Join(",", SelectedOptions) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  // Enum definition in C#
+  enum Option
+  {
+    Option_1,
+    Option_2,
+    Option_3,
+    Option_4
+  }
+
+  <SemCheckboxList @bind-Value=""SelectedOption"">
+    <ListItems>
+      <SemSelectListItem Text=""Option 1"" Value=""Option_1""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 2"" Value=""Option_2""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 3"" Value=""Option_3""></SemSelectListItem>
+      <SemSelectListItem Text=""Option 4"" Value=""Option_4""></SemSelectListItem>
+    </ListItems>
+  </SemCheckboxList>") />
+
 
 @code {
   private bool dropdownEnabled { get; set; } = false;
@@ -120,10 +153,19 @@
   public List<int> SelectedDummyId { get; set; }
   public List<string> SelectedDummyName { get; set; }
   List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  List<Option> SelectedOptions { get; set; }
 
   protected override async Task OnInitializedAsync()
   {
     dummies = await dummyData.GetAllDataAsync();
     dummies = dummies.Take(5).ToList();
+  }
+
+  enum Option
+  {
+    Option_1,
+    Option_2,
+    Option_3,
+    Option_4
   }
 }

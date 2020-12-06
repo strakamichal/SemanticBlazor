@@ -148,6 +148,10 @@
     {
       return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
     }
+    else if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
+    {
+      return (ValueType)Enum.Parse(typeof(ValueType), newValue.ToString());
+    }
     else
     {
       return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));

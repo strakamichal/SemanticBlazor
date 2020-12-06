@@ -44,7 +44,16 @@
   async Task CheckedChanged(string value)
   {
     if (Value == null) Value = new List<ValueType>();
-    var _value = (ValueType)Convert.ChangeType(value, typeof(ValueType));
+    var _value = default(ValueType);
+    if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
+    {
+      _value = (ValueType)Enum.Parse(typeof(ValueType), value.ToString());
+    }
+    else
+    {
+      _value = (ValueType)Convert.ChangeType(value, typeof(ValueType));
+    }
+
     if (Value.Contains(_value))
     {
       Value.Remove(_value);

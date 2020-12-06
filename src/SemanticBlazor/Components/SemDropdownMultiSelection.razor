@@ -73,7 +73,14 @@
   protected override List<ValueType> ConvertValue(object newValue)
   {
     var vals = newValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-    return vals.Select(e => (ValueType)Convert.ChangeType(e, typeof(ValueType))).ToList();
+    if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
+    {
+      return vals.Select(e => (ValueType)Enum.Parse(typeof(ValueType), e)).ToList();
+    }
+    else
+    {
+      return vals.Select(e => (ValueType)Convert.ChangeType(e, typeof(ValueType))).ToList();
+    }
   }
   protected override async Task SetComboboxValue()
   {
