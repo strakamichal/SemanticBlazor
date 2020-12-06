@@ -7,10 +7,12 @@
   [Parameter] public System.Linq.Expressions.Expression<Func<ValueType>> For { get; set; }
   [Parameter] public virtual ValueType Value { get; set; }
   [Parameter] public virtual EventCallback<ValueType> ValueChanged { get; set; }
+  [Parameter] public virtual EventCallback<ValueType> Changed { get; set; }
 
   protected virtual async Task NotifyChanged()
   {
     await ValueChanged.InvokeAsync(Value);
+    await Changed.InvokeAsync(Value);
     if (EditContext != null && (For ?? ForCasc) != null)
     {
       EditContext.NotifyValidationStateChanged();
