@@ -1,0 +1,55 @@
+﻿@typeparam ValueType
+@typeparam ItemType
+@inherits SelectControlsBase.SemSelectControlBase<ValueType, ItemType>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div class="@ClassMapper.ToString()" style="@Style">
+    @if (Items != null)
+    {
+      @foreach (var item in Items)
+      {
+        <SemButton OnClick="@(() => ButtonClicked(GetItemKey(item)))" Enabled="@Enabled" Class="@(GetItemKey(GetItemFromValue(Value)) == GetItemKey(item) ? "active" : "")">
+          @if (ItemTemplate != null)
+          {
+            @ItemTemplate(item)
+          }
+          else
+          {
+            @(GetItemText(item))
+          }
+        </SemButton>
+      }
+    }
+  </div>
+}
+
+@code {
+  [Parameter] public ButtonColor? Color { get; set; }
+  [Parameter] public Size? Size { get; set; }
+  [Parameter] public ButtonClass[] Classes { get; set; }
+
+  public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+
+  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
+  protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
+  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
+
+  public SemButtonSwitchBase()
+  {
+    ClassMapper
+    .Add("ui buttons")
+    .Get(() => Enums.GetClasses(Classes))
+    .Get(() => Color?.ToString().ToLower())
+    .Get(() => Size?.ToString().ToLower());
+  }
+  async Task ButtonClicked(string value)
+  {
+    Value = (ValueType)ConvertValue(value);
+    await NotifyChanged();
+  }
+}

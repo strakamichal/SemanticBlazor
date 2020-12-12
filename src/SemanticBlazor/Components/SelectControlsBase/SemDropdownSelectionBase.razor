@@ -86,9 +86,6 @@
   protected bool changeFromGui { get; set; } = false;
   protected bool guiValueChanged => lastStringValue != stringValue;
 
-  protected virtual string GetItemText(ItemType item) => throw new NotImplementedException();
-  protected virtual string GetItemKey(ItemType item) => throw new NotImplementedException();
-
   public SemDropdownSelectionBase()
   {
     ClassMapper
@@ -141,13 +138,10 @@
       await NotifyChanged();
     }
   }
+  protected virtual object ConvertValue(object newValue) => throw new NotImplementedException();
 
   protected virtual Task SetComboboxValue()
   {
     throw new NotImplementedException();
-  }
-  protected virtual object ConvertValue(object newValue)
-  {
-    return default(object);
   }
 }

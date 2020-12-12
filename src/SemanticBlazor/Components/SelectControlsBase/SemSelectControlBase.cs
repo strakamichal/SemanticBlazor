@@ -45,9 +45,16 @@ namespace SemanticBlazor.Components.SelectControlsBase
           throw new Exception("ListItems cannot be set via SemSelectListItem. Items are already set via Items or DataMethod parameter.");
         }
         if (Items == null) Items = new List<ItemType>();
-        ((List<Models.ListItem>)Items).Add(new ListItem() { Text = ((SemSelectListItem)control).Text, Value = ((SemSelectListItem)control).Value });
+        ((List<ListItem>)Items).Add(new ListItem() { Text = ((SemSelectListItem)control).Text, Value = ((SemSelectListItem)control).Value });
         StateHasChanged();
       }
+    }
+
+    protected virtual string GetItemText(ItemType item) => throw new NotImplementedException();
+    protected virtual string GetItemKey(ItemType item) => throw new NotImplementedException();
+    protected ItemType GetItem(object value)
+    {
+      return Items.FirstOrDefault(i => GetItemKey(i) == value.ToString());
     }
   }
 }

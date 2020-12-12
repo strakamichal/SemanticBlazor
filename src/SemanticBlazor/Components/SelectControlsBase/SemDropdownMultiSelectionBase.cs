@@ -10,14 +10,13 @@ namespace SemanticBlazor.Components.SelectControlsBase
 {
   public class SemDropdownMultiSelectionBase<ValueType, ItemType> : SemDropdownSelectionBase<List<ValueType>, ItemType>
   {
-    public Func<ItemType, ValueType> ValueSelector { get; set; }
+    public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
     [Parameter] public int? MaxSelections { get; set; }
     [Parameter] public bool UseLabels { get; set; } = true;
 
-    protected SemDataSelectControlHelper<ValueType, ItemType> selectControlHelper = new SemDataSelectControlHelper<ValueType, ItemType>();
-    protected ItemType GetItemFromValue(ValueType value) => selectControlHelper.GetItemFromValue(value, Items, ValueSelector);
-    protected override string GetItemText(ItemType item) => selectControlHelper.GetItemText(item, ItemText);
-    protected override string GetItemKey(ItemType item) => selectControlHelper.GetItemKey(item, Items, ItemKey);
+    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
+    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
+    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
 
     public SemDropdownMultiSelectionBase()
     {
@@ -41,7 +40,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
       {
         if (Value != null)
         {
-          return String.Join(",", Value.Select(i => selectControlHelper.GetItemKey(selectControlHelper.GetItemFromValue(i, Items, ValueSelector), Items, ItemKey)));
+          return String.Join(",", Value.Select(i => GetItemKey(GetItemFromValue(i))));
         }
         else
         {
@@ -52,42 +51,10 @@ namespace SemanticBlazor.Components.SelectControlsBase
     protected override object ConvertValue(object newValue)
     {
       List<ItemType> selectedItems = new List<ItemType>();
-
       var vals = newValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
       selectedItems.AddRange(Items.Where(i => vals.Any(v => v == GetItemKey(i))));
 
-      if (ValueSelector != null)
-      {
-        var retval = new List<ValueType>();
-        selectedItems.ForEach(i =>
-        {
-          retval.Add(ValueSelector.Invoke(i));
-        });
-        return retval;
-      }
-      else if (typeof(ItemType) == typeof(ListItem))
-      {
-        if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
-        {
-          return vals.Select(e => (ValueType)Enum.Parse(typeof(ValueType), e)).ToList();
-        }
-        else
-        {
-          return vals.Select(e => (ValueType)Convert.ChangeType(e, typeof(ValueType))).ToList();
-        }
-      }
-      else
-      {
-
-        try
-        {
-          return (List<ValueType>)Convert.ChangeType(selectedItems, typeof(List<ValueType>));
-        }
-        catch (Exception err)
-        {
-          throw new Exception("Cannot convert selected item to defined ValueType, please specify ValueSelector.", err);
-        }
-      }
+      return vals.ToList().Select(value => (ValueType)SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
     }
     protected override async Task SetComboboxValue()
     {

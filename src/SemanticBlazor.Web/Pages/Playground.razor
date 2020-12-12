@@ -2,60 +2,78 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
+@*<h3>Databinding items - Object value</h3>
+  <p>
+    <SemDataRadioButtonList @bind-Value="selectedValue" Items="items" ItemKey="@(i => i.Code)"></SemDataRadioButtonList>
+  </p>
+  <p>
+    Selected value: @(selectedValue?.ToString() ?? "n/a")
+  </p>
+
+
+  <h3>Databinding items - Object value</h3>
+  <p>
+    <SemDataCheckboxList @bind-Value="selectedValues" Items="items" ItemKey="@(i => i.Code)"></SemDataCheckboxList>
+  </p>
+  <p>
+    Selected values = @(selectedValues != null ? (MarkupString)(string.Join("<br />", selectedValues)) : (MarkupString)"n/a")
+  </p>*@
+
 @*<SemDataDropdownSelection @bind-Value="selectedStringValue" Items="items.Select(i => new ListItem() { Text = i.Name })"></SemDataDropdownSelection>
-<p>
-  SelectedValue = @(selectedStringValue ?? "n/a")
-</p>
+  <p>
+    SelectedValue = @(selectedStringValue ?? "n/a")
+  </p>
 
-<h3>Standard</h3>
-<p>
+  <h3>Standard</h3>
+  <p>
 
-  <SemDropdownSelection @bind-Value="selectedStringValue" DefaultText="Select...">
-    <ListItems>
-      <SemSelectListItem Text="Option 1" Value="Option 1"></SemSelectListItem>
-      <SemSelectListItem Text="Option 2" Value="Option 2"></SemSelectListItem>
-      <SemSelectListItem Text="Option 3" Value="Option 3"></SemSelectListItem>
-      <SemSelectListItem Text="Option 4" Value="Option 4"></SemSelectListItem>
-    </ListItems>
-  </SemDropdownSelection>
-</p>
-<p>
-  Selected value: @(selectedStringValue)
-</p>
-
-
-<SemDataDropdownSelection @bind-Value="selectedValue" Items="items" ItemText="@(i => i.Name)" ItemKey="@(i => i.Code)"></SemDataDropdownSelection>
-<p>
-  SelectedValue = @(selectedValue?.ToString() ?? "n/a")
-</p>
-
-<SemDataDropdownSelection @bind-Value="selectedIntValue" Items="items" ItemText="@(i => i.Name)" ValueSelector="@(i => i.Code)"></SemDataDropdownSelection>
-<p>
-  SelectedValue = @(selectedIntValue.ToString())
-</p>
+    <SemDropdownSelection @bind-Value="selectedStringValue" DefaultText="Select...">
+      <ListItems>
+        <SemSelectListItem Text="Option 1" Value="Option 1"></SemSelectListItem>
+        <SemSelectListItem Text="Option 2" Value="Option 2"></SemSelectListItem>
+        <SemSelectListItem Text="Option 3" Value="Option 3"></SemSelectListItem>
+        <SemSelectListItem Text="Option 4" Value="Option 4"></SemSelectListItem>
+      </ListItems>
+    </SemDropdownSelection>
+  </p>
+  <p>
+    Selected value: @(selectedStringValue)
+  </p>
 
 
-<SemDataDropdownSelection @bind-Value="selectedDummyData" DataMethod="GetDummyData" ItemText="@(i => i.Name)"></SemDataDropdownSelection>
-<p>
-  selectedDummyData = @(selectedDummyData?.Name ?? "n/a")
-</p>
+  <SemDataDropdownSelection @bind-Value="selectedValue" Items="items" ItemText="@(i => i.Name)" ItemKey="@(i => i.Code)"></SemDataDropdownSelection>
+  <p>
+    SelectedValue = @(selectedValue?.ToString() ?? "n/a")
+  </p>
 
-<h3>Enum value</h3>
-<p>
-  <SemDataDropdownSelection @bind-Value="SelectedOption" Items="@(Enum.GetValues(typeof(Option)).Cast<Option>().ToArray())" DefaultText="Select...">
-  </SemDataDropdownSelection>
-</p>
-<p>
-  Selected value: @(SelectedOption.ToString())
-</p>
+  <SemDataDropdownSelection @bind-Value="selectedIntValue" Items="items" ItemText="@(i => i.Name)" ValueSelector="@(i => i.Code)"></SemDataDropdownSelection>
+  <p>
+    SelectedValue = @(selectedIntValue.ToString())
+  </p>
 
 
-<SemDataDropdownMultiSelection Icon="Icon.User" @bind-Value="selectedValues" Items="items" ItemText="@(i => i.Name)"></SemDataDropdownMultiSelection>
+  <SemDataDropdownSelection @bind-Value="selectedDummyData" DataMethod="GetDummyData" ItemText="@(i => i.Name)"></SemDataDropdownSelection>
+  <p>
+    selectedDummyData = @(selectedDummyData?.Name ?? "n/a")
+  </p>*@
+
+@*<h3>Enum value</h3>
+  <p>
+    <SemDataDropdownSelection @bind-Value="SelectedOption" Items="@(Enum.GetValues(typeof(Option)).Cast<Option>().ToArray())" DefaultText="Select...">
+    </SemDataDropdownSelection>
+  </p>
+  <p>
+    Selected value: @(SelectedOption.ToString())
+  </p>*@
+
+
+
+@*<SemDataDropdownMultiSelection @bind-Value="selectedValues" Items="items" ItemText="@(i => i.Name)"></SemDataDropdownMultiSelection>
 <p>
   SelectedValue = @(selectedValues != null ? (MarkupString)(string.Join("<br />", selectedValues)) : (MarkupString)"n/a")
-</p>
+</p>*@
 
-<SemDataDropdownMultiSelection @bind-Value="selectedIntValues" Items="items" ItemText="@(i => i.Name)" ValueSelector="@(i => i.Code)"></SemDataDropdownMultiSelection>
+@*<SemDataDropdownMultiSelection @bind-Value="selectedIntValues" Items="items" ItemText="@(i => i.Name)" ValueSelector="@(i => i.Code)"></SemDataDropdownMultiSelection>
 <p>
   SelectedValue = @(selectedIntValues != null ? (MarkupString)(string.Join("<br />", selectedIntValues)) : (MarkupString)"n/a")
 </p>*@
@@ -101,10 +119,13 @@
   Option SelectedOption { get; set; }
   List<Option> SelectedOptions { get; set; }
 
+  int SelectedDummyId { get; set; }
+  List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
   async Task<List<Data.DummyData>> GetDummyData() => await dummyData.GetAllDataAsync();
 
-  protected override void OnInitialized()
+  protected override async Task OnInitializedAsync()
   {
+    dummies = await GetDummyData();
     selectedValue = items[0];
   }
 

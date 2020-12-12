@@ -1,0 +1,56 @@
+﻿@typeparam ValueType
+@typeparam ItemType
+@inherits SelectControlsBase.SemSelectControlBase<ValueType, ItemType>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    @foreach (var item in Items)
+    {
+      <div class="field">
+        <div class="ui radio checkbox">
+          @if (Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item))
+          {
+            <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
+          }
+          else
+          {
+            <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
+          }
+          @if (ItemTemplate == null)
+          {
+            <label for="@($"{Id}-{GetItemKey(item)}")">@GetItemText(item)</label>
+          }
+          else
+          {
+            @ItemTemplate(item)
+          }
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@code {
+  public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+
+  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
+  protected object ConvertValue(string newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
+  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
+
+
+  public SemRadioButtonListBase()
+  {
+    ClassMapper
+      .Add("grouped fields");
+  }
+  async Task ButtonClicked(string value)
+  {
+    Value = (ValueType)ConvertValue(value);
+    await NotifyChanged();
+  }
+}

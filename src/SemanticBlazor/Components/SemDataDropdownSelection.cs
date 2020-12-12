@@ -13,6 +13,7 @@ namespace SemanticBlazor.Components
   public class SemDataDropdownSelection<ValueType, ItemType> : SemDropdownSingleSelectionBase<ValueType, ItemType>
   {
     [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
+    [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }
     [Parameter] public override Func<ItemType, object> ItemKey { get; set; }
     [Parameter] public override Func<ItemType, string> ItemText { get; set; }
     [Parameter] public override Func<Task<List<ItemType>>> DataMethod { get; set; }

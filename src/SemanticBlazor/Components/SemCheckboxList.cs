@@ -3,13 +3,15 @@ using SemanticBlazor.Components.SelectControlsBase;
 using SemanticBlazor.Models;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDropdownSelection<ValueType> : SemDropdownSingleSelectionBase<ValueType, ListItem>
+  public class SemCheckboxList<ValueType> : SemCheckboxListBase<ValueType, ListItem>
   {
     #region ListItems
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }
+    [Parameter] public override RenderFragment<object> ItemTemplate { get; set; }
     [Parameter] public override RenderFragment ListItems { get; set; }
     #endregion
 

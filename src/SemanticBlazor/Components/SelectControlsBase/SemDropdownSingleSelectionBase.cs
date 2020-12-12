@@ -10,52 +10,18 @@ namespace SemanticBlazor.Components.SelectControlsBase
 {
   public class SemDropdownSingleSelectionBase<ValueType, ItemType> : SemDropdownSelectionBase<ValueType, ItemType>
   {
-    public Func<ItemType, ValueType> ValueSelector { get; set; }
- 
-    protected SemDataSelectControlHelper<ValueType, ItemType> selectControlHelper = new SemDataSelectControlHelper<ValueType, ItemType>();
-    protected ItemType GetItemFromValue(ValueType value) => selectControlHelper.GetItemFromValue(value, Items, ValueSelector);
-    protected override string GetItemText(ItemType item) => selectControlHelper.GetItemText(item, ItemText);
-    protected override string GetItemKey(ItemType item) => selectControlHelper.GetItemKey(item, Items, ItemKey);
+    public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+
+    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
+    protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
+    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
 
     protected override string stringValue
     {
       get
       {
         return GetItemKey(GetItemFromValue(Value));
-      }
-    }
-    protected override object ConvertValue(object newValue)
-    {
-      var selectedItem = Items.FirstOrDefault(i => GetItemKey(i) == newValue.ToString());
-      if (ValueSelector != null)
-      {
-        return ValueSelector.Invoke(selectedItem);
-      }
-      else if (typeof(ItemType) == typeof(ListItem))
-      {
-        if (typeof(ValueType) == typeof(Nullable<int>))
-        {
-          return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
-        }
-        else if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
-        {
-          return (ValueType)Enum.Parse(typeof(ValueType), newValue.ToString());
-        }
-        else
-        {
-          return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));
-        }
-      }
-      else
-      {
-        try
-        {
-          return (ValueType)Convert.ChangeType(selectedItem, typeof(ValueType));
-        }
-        catch (Exception err)
-        {
-          throw new Exception("Cannot convert selected item to defined ValueType, please specify ValueSelector.", err);
-        }
       }
     }
     protected override async Task SetComboboxValue()
