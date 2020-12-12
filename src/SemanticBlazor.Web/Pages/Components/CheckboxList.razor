@@ -92,19 +92,29 @@
     </ListItems>
   </SemCheckboxList>") />
 
+<h3>Databinding items - List of item objects value</h3>
+<p>
+  <SemDataCheckboxList @bind-Value="SelectedDummies" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataCheckboxList>
+</p>
+<p>
+  Selected value: @(SelectedDummies != null ? String.Join(",", SelectedDummies) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemDataCheckboxList @bind-Value=""SelectedDummies"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataCheckboxList>") />
+
 <h3>Databinding items - List&lt;string&gt; value</h3>
 <p>
-  <SemCheckboxList @bind-Value="SelectedDummyName" Items="@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))"></SemCheckboxList>
+  <SemDataCheckboxList @bind-Value="SelectedDummyName" Items="dummies" ValueSelector="@(dummy => dummy.Name)" ItemText="@(dummy => dummy.Name)"></SemDataCheckboxList>
 </p>
 <p>
   Selected value: @(SelectedDummyName != null ? String.Join(",", SelectedDummyName) : "{null}")
 </p>
 <CodeHighlight Code=@(@"
-  <SemCheckboxList @bind-Value=""SelectedDummyName"" Items=""@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))""></SemCheckboxList>") />
+  <SemDataCheckboxList @bind-Value=""SelectedDummyName"" Items=""dummies"" ValueSelector=""@(dummy => dummy.Name)"" ItemText=""@(dummy => dummy.Name)""></SemDataCheckboxList>") />
 
 <h3>Databinding items - List&lt;int&gt; value</h3>
 <p>
-  <SemCheckboxList @bind-Value="SelectedDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))"></SemCheckboxList>
+  <SemDataCheckboxList @bind-Value="SelectedDummyId" Items="dummies" ValueSelector="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataCheckboxList>
 </p>
 <p>
   Selected value: @(SelectedDummyId != null ? String.Join(",", SelectedDummyId) : "{null}")
@@ -113,6 +123,26 @@
   <SemCheckboxList @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))""></SemCheckboxList>") />
 
 <h3>Enum value</h3>
+<p>
+  <SemDataCheckboxList @bind-Value="SelectedOptions" Items="Enum.GetValues(typeof(Option)).Cast<Option>()" DefaultText="Select..."></SemDataCheckboxList>
+</p>
+<p>
+  Selected value: @(SelectedOptions != null ? String.Join(",", SelectedOptions) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  // Enum definition in C#
+  enum Option
+  {
+    Option_1,
+    Option_2,
+    Option_3,
+    Option_4
+  }
+  List<Option> SelectedOptions { get; set; }
+
+  <SemDataCheckboxList @bind-Value=""SelectedOptions"" Items=""Enum.GetValues(typeof(Option)).Cast<Option>()"" DefaultText=""Select...""></SemDataCheckboxList>") />
+
+<h3>Enum value via ListItems</h3>
 <p>
   <SemCheckboxList @bind-Value="SelectedOptions">
     <ListItems>
@@ -127,16 +157,6 @@
   Selected value: @(SelectedOptions != null ? String.Join(",", SelectedOptions) : "{null}")
 </p>
 <CodeHighlight Code=@(@"
-  // Enum definition in C#
-  enum Option
-  {
-    Option_1,
-    Option_2,
-    Option_3,
-    Option_4
-  }
-  Option SelectedOption { get; set; }
-
   <SemCheckboxList @bind-Value=""SelectedOption"">
     <ListItems>
       <SemSelectListItem Text=""Option 1"" Value=""Option_1""></SemSelectListItem>
@@ -153,6 +173,7 @@
   public List<string> SelectedValue2 { get; set; }
   public List<int> SelectedDummyId { get; set; }
   public List<string> SelectedDummyName { get; set; }
+  public List<SemanticBlazor.Web.Data.DummyData> SelectedDummies { get; set; }
   List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
   List<Option> SelectedOptions { get; set; }
 

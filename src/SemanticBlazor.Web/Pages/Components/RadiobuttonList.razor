@@ -51,25 +51,55 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/che
     </ListItems>
   </SemRadioButtonList>") />
 
+<h3>Databinding items - Item object value</h3>
+<p>
+  <SemDataRadioButtonList @bind-Value="SelectedDummy" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
+</p>
+<p>
+  Selected value: @SelectedDummy.ToString())
+</p>
+<CodeHighlight Code=@(@"
+  <SemDataRadioButtonList @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataRadioButtonList>") />
+
 <h3>Databinding items - String value</h3>
 <p>
-  <SemRadioButtonList @bind-Value="SelectedDummyName" Items="@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))"></SemRadioButtonList>
+  <SemDataRadioButtonList @bind-Value="SelectedDummyName" Items="dummies" ValueSelector="@(dummy => dummy.Name)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
 </p>
 <p>
   Selected value: @(SelectedDummyName)
 </p>
 <CodeHighlight Code=@(@"
-  <SemRadioButtonList @bind-Value=""SelectedDummyName"" Items=""@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))""></SemRadioButtonList>") />
+  <SemDataRadioButtonList @bind-Value=""SelectedDummyName"" Items=""dummies"" ValueSelector=""@(dummy => dummy.Name)"" ItemText=""@(dummy => dummy.Name)""></SemDataRadioButtonList>") />
 
 <h3>Databinding items - Int value</h3>
 <p>
-  <SemRadioButtonList @bind-Value="SelectedDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))"></SemRadioButtonList>
+  <SemDataRadioButtonList @bind-Value="SelectedDummyId" Items="dummies" ValueSelector="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
 </p>
 <p>
   Selected value: @(SelectedDummyId)
 </p>
 <CodeHighlight Code=@(@"
-  <SemRadioButtonList @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))""></SemRadioButtonList>") />
+  <SemDataRadioButtonList @bind-Value=""SelectedDummyId"" Items=""dummies"" ValueSelector=""@(dummy => dummy.DummyId)"" ItemText=""@(dummy => dummy.Name)""></SemDataRadioButtonList>") />
+
+<h3>Enum value</h3>
+<p>
+  <SemDataRadioButtonList @bind-Value="SelectedOption" Items="Enum.GetValues(typeof(Option)).Cast<Option>()" DefaultText="Select..."></SemDataRadioButtonList>
+</p>
+<p>
+  Selected value: @(SelectedOption.ToString())
+</p>
+<CodeHighlight Code=@(@"
+  // Enum definition in C#
+  enum Option
+  {
+    Option_1,
+    Option_2,
+    Option_3,
+    Option_4
+  }
+  Option SelectedOption { get; set; }
+
+  <SemDataRadioButtonList @bind-Value=""SelectedOption"" Items=""Enum.GetValues(typeof(Option)).Cast<Option>()"" DefaultText=""Select...""></SemDataRadioButtonList>") />
 
 <h3>Enum value</h3>
 <p>
@@ -111,6 +141,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/che
   public string SelectedValue2 { get; set; }
   public int SelectedDummyId { get; set; } = 4;
   public string SelectedDummyName { get; set; } = "Lorem";
+  SemanticBlazor.Web.Data.DummyData SelectedDummy { get; set; }
   List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
   Option SelectedOption { get; set; }
 
@@ -118,6 +149,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/che
   {
     dummies = await dummyData.GetAllDataAsync();
     dummies = dummies.Take(5).ToList();
+    SelectedDummy = dummies.Skip(1).First();
   }
   enum Option
   {

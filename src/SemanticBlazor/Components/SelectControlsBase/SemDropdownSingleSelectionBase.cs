@@ -13,7 +13,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
     public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
 
     protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
-    protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+    protected override object ConvertValue(object newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
     protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
     protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
 

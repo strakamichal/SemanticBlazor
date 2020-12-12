@@ -202,27 +202,57 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
     </ItemTemplate>
   </SemDropdownMultiSelection>") />
 
+<h3>Databinding items - List of item objects value</h3>
+<p>
+  <SemDataDropdownMultiSelection @bind-Value="SelectedDummies" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataDropdownMultiSelection>
+</p>
+<p>
+  Selected value: @(SelectedDummies != null ? String.Join(",", SelectedDummies) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  <SemDataDropdownMultiSelection @bind-Value=""SelectedDummies"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataDropdownMultiSelection>") />
+
 <h3>Databinding items - List&lt;string&gt; value</h3>
 <p>
-  <SemDropdownMultiSelection @bind-Value="SelectedDummyName" Items="@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))" DefaultText="Select..."></SemDropdownMultiSelection>
+  <SemDataDropdownMultiSelection @bind-Value="SelectedDummyName" Items="dummies" ValueSelector="@(dummy => dummy.Name)" ItemText="@(dummy => dummy.Name)" DefaultText="Select..."></SemDataDropdownMultiSelection>
 </p>
 <p>
   Selected value: @(SelectedDummyName != null ? String.Join(",", SelectedDummyName) : "{null}")
 </p>
 <CodeHighlight Code=@(@"
-  <SemDropdownMultiSelection @bind-Value=""SelectedDummyName"" Items=""@(dummies.Select(li => new Models.ListItem() { Text = li.Name }))"" DefaultText=""Select...""></SemDropdownMultiSelection>") />
+  <SemDataDropdownMultiSelection @bind-Value=""SelectedDummyName"" Items=""dummies"" ValueSelector=""@(dummy => dummy.Name)"" ItemText=""@(dummy => dummy.Name)"" DefaultText=""Select...""></SemDataDropdownMultiSelection>") />
 
 <h3>Databinding items - List&lt;int&gt; value</h3>
 <p>
-  <SemDropdownMultiSelection @bind-Value="SelectedDummyId" Items="@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))" DefaultText="Select..."></SemDropdownMultiSelection>
+  <SemDataDropdownMultiSelection @bind-Value="SelectedDummyId" Items="dummies" ValueSelector="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)" DefaultText="Select..."></SemDataDropdownMultiSelection>
 </p>
 <p>
   Selected value: @(SelectedDummyId != null ? String.Join(",", SelectedDummyId) : "{null}")
 </p>
 <CodeHighlight Code=@(@"
-  <SemDropdownMultiSelection @bind-Value=""SelectedDummyId"" Items=""@(dummies.Select(li => new Models.ListItem() { Value = li.DummyId.ToString(), Text = li.Name, Model = li }))"" DefaultText=""Select...""></SemDropdownMultiSelection>") />
+  <SemDataDropdownMultiSelection @bind-Value=""SelectedDummyId"" Items=""dummies"" ValueSelector=""@(dummy => dummy.DummyId)"" ItemText=""@(dummy => dummy.Name)"" DefaultText=""Select...""></SemDataDropdownMultiSelection>") />
 
 <h3>Enum value</h3>
+<p>
+  <SemDataDropdownMultiSelection @bind-Value="SelectedOptions" Items="Enum.GetValues(typeof(Option)).Cast<Option>()" DefaultText="Select..."></SemDataDropdownMultiSelection>
+</p>
+<p>
+  Selected value: @(SelectedOptions != null ? String.Join(",", SelectedOptions) : "{null}")
+</p>
+<CodeHighlight Code=@(@"
+  // Enum definition in C#
+  enum Option
+  {
+    Option_1,
+    Option_2,
+    Option_3,
+    Option_4
+  }
+  List<Option> SelectedOptions { get; set; }
+
+  <SemDataDropdownMultiSelection @bind-Value=""SelectedOptions"" Items=""Enum.GetValues(typeof(Option)).Cast<Option>()"" DefaultText=""Select...""></SemDataDropdownMultiSelection>") />
+
+<h3>Enum value via ListItems</h3>
 <p>
   <SemDropdownMultiSelection @bind-Value="SelectedOptions" DefaultText="Select...">
     <ListItems>
@@ -237,16 +267,6 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
   Selected value: @(SelectedOptions != null ? String.Join(",", SelectedOptions) : "{null}")
 </p>
 <CodeHighlight Code=@(@"
-  // Enum definition in C#
-  enum Option
-  {
-    Option_1,
-    Option_2,
-    Option_3,
-    Option_4
-  }
-  Option SelectedOption { get; set; }
-
   <SemDropdownMultiSelection @bind-Value=""SelectedOption"" DefaultText=""Select..."">
     <ListItems>
       <SemSelectListItem Text=""Option 1"" Value=""Option_1""></SemSelectListItem>
@@ -256,6 +276,8 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
     </ListItems>
   </SemDropdownMultiSelection>") />
 
+
+
 @code {
   private bool dropdownEnabled { get; set; } = false;
   public List<string> SelectedValue { get; set; }
@@ -264,6 +286,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
   public List<string> SelectedValue4 { get; set; }
   public List<int> SelectedDummyId { get; set; }
   public List<string> SelectedDummyName { get; set; }
+  public List<SemanticBlazor.Web.Data.DummyData> SelectedDummies { get; set; }
   List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
   List<ListItem> options { get; set; } = new List<ListItem>()
 {

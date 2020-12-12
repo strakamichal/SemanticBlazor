@@ -8,19 +8,29 @@
     @ListItems
   </CascadingValue>
   <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
-    @foreach (var item in Items)
+    @if (Items != null)
     {
-      <div class="@InputClassMapper.ToString()">
-        @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
-        {
-          <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
-        }
-        else
-        {
-          <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
-        }
-        <label for="@($"{Id}-{GetItemKey(item)}")">@GetItemText(item)</label>
-      </div>
+      @foreach (var item in Items)
+      {
+        <div class="@InputClassMapper.ToString()">
+          @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
+          {
+            <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+          }
+          else
+          {
+            <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+          }
+          @if (ItemTemplate == null)
+          {
+            <label for="@($"{Id}-{GetItemKey(item)}")">@GetItemText(item)</label>
+          }
+          else
+          {
+            @ItemTemplate(item)
+          }
+        </div>
+      }
     }
   </div>
 }
