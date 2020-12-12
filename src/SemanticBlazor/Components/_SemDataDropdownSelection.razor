@@ -1,0 +1,107 @@
+﻿@*@typeparam ValueType
+@inherits SemDataDropdownControlBase<ValueType, ItemType>
+@typeparam ItemType
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <input type="hidden" value="@stringValue" @onchange="OnValueChanged" />
+    @if (Icon != null)
+    {
+      <SemIcon Icon="@Icon"></SemIcon>
+    }
+    @if (!IsButton)
+    {
+      <i class="dropdown icon"></i>
+    }
+    @if (IsButton && ButtonIcon != null)
+    {
+      <SemIcon Icon="ButtonIcon"></SemIcon>
+    }
+    <div class="default text">@DefaultText</div>
+    <div class="menu">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="item" data-value="@(GetItemKey(item))">
+            @if (ItemTemplate != null)
+            {
+              @ItemTemplate(item)
+            }
+            else
+            {
+              @(GetItemText(item))
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+}
+
+@code {
+
+
+  [Parameter] public Func<ItemType, ValueType> ValueSelector { get; set; }
+  SemDataSelectControlHelper<ValueType, ItemType> selectControlHelper = new SemDataSelectControlHelper<ValueType, ItemType>();
+  protected ItemType GetItemFromValue(ValueType value) => selectControlHelper.GetItemFromValue(value, Items, ValueSelector);
+  protected string GetItemText(ItemType item) => selectControlHelper.GetItemText(item, ItemText);
+  protected string GetItemKey(ItemType item) => selectControlHelper.GetItemKey(item, Items, ItemKey);
+
+  protected override string stringValue
+  {
+    get
+    {
+      return GetItemKey(GetItemFromValue(Value));
+    }
+  }
+  protected override object ConvertValue(object newValue)
+  {
+    var selectedItem = Items.FirstOrDefault(i => GetItemKey(i) == newValue.ToString());
+    if (ValueSelector != null)
+    {
+      return ValueSelector.Invoke(selectedItem);
+    }
+    else if (typeof(ItemType) == typeof(ListItem))
+    {
+      if (typeof(ValueType) == typeof(Nullable<int>))
+      {
+        return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
+      }
+      else if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
+      {
+        return (ValueType)Enum.Parse(typeof(ValueType), newValue.ToString());
+      }
+      else
+      {
+        return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));
+      }
+    }
+    else
+    {
+      try
+      {
+        return (ValueType)Convert.ChangeType(selectedItem, typeof(ValueType));
+      }
+      catch (Exception err)
+      {
+        throw new Exception("Cannot convert selected item to defined ValueType, please specify ValueSelector.", err);
+      }
+    }
+  }
+  protected override async Task SetComboboxValue()
+  {
+    if ((typeof(ValueType) != typeof(Int32) && Value != null) || (typeof(ValueType) == typeof(Int32) && Value.ToString() != "0"))
+    {
+      await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, Value.ToString());
+    }
+    else
+    {
+      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+    }
+  }
+}*@

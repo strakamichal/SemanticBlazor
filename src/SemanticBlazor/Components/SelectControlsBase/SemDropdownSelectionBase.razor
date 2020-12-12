@@ -1,0 +1,153 @@
+﻿@typeparam ValueType
+@typeparam ItemType
+@inherits SemSelectControlBase<ValueType, ItemType>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <input type="hidden" value="@stringValue" @onchange="OnValueChanged" />
+    @if (Icon != null)
+    {
+      <SemIcon Icon="@Icon"></SemIcon>
+    }
+    @if (!IsButton)
+    {
+      <i class="dropdown icon"></i>
+    }
+    @if (IsButton && ButtonIcon != null)
+    {
+      <SemIcon Icon="ButtonIcon"></SemIcon>
+    }
+    <div class="default text">@DefaultText</div>
+    <div class="menu">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="item" data-value="@(GetItemKey(item))">
+            @if (ItemTemplate != null)
+            {
+              @ItemTemplate(item)
+            }
+            else
+            {
+              @(GetItemText(item))
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+}
+
+@code {
+  [Parameter] public string DefaultText { get; set; } = "Select...";
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public bool Search { get; set; }
+  [Parameter] public bool Scrolling { get; set; }
+  [Parameter] public bool FullTextSearch { get; set; } = true;
+  [Parameter] public bool Clearable { get; set; } = false;
+  [Parameter] public bool AllowAdditions { get; set; } = false;
+
+  // Button paremeters
+  [Parameter] public bool IsButton { get; set; }
+  [Parameter] public Icon? ButtonIcon { get; set; }
+  [Parameter] public IconPosition? ButtonIconPosition { get; set; }
+  [Parameter] public bool ButtonIconLabeled { get; set; } = true;
+  [Parameter] public ButtonColor? ButtonColor { get; set; }
+  [Parameter] public Emphasis? ButtonEmphasis { get; set; }
+  [Parameter] public Size? ButtonSize { get; set; }
+  [Parameter] public ButtonClass[] ButtonClasses { get; set; }
+
+  /*
+    Not implemented parameters:
+    - compact
+    - fluid
+  */
+
+  protected virtual string stringValue { get; }
+  protected virtual Dictionary<string, object> initSettings
+  {
+    get
+    {
+      var retval = new Dictionary<string, object>();
+      retval.Add("fullTextSearch", FullTextSearch ? true : false);
+      retval.Add("clearable", Clearable ? true : false);
+      retval.Add("allowAdditions", AllowAdditions ? true : false);
+      return retval;
+    }
+  }
+  public string lastVal { get; set; }
+  protected string lastStringValue { get; set; }
+  protected bool guiValueChangeInprogress { get; set; }
+  protected bool changeFromGui { get; set; } = false;
+  protected bool guiValueChanged => lastStringValue != stringValue;
+
+  protected virtual string GetItemText(ItemType item) => throw new NotImplementedException();
+  protected virtual string GetItemKey(ItemType item) => throw new NotImplementedException();
+
+  public SemDropdownSelectionBase()
+  {
+    ClassMapper
+      .Add("ui")
+      .If("search", () => Search)
+      .If("scrolling", () => Scrolling)
+      .If("selection", () => !this.IsButton)
+      .If("floating", () => this.IsButton)
+      .GetIf(() => Enums.GetClass(ButtonIconPosition), () => ButtonIcon != null)
+      .If("labeled", () => this.ButtonIcon != null && (ButtonClasses == null || !ButtonClasses.Contains(ButtonClass.Basic)) && ButtonIconLabeled)
+      .If("icon", () => this.ButtonIcon != null && (ButtonClasses == null || !ButtonClasses.Contains(ButtonClass.Basic)) && ButtonIconLabeled)
+      .Get(() => Enums.GetClasses(ButtonClasses))
+      .Get(() => ButtonEmphasis?.ToString().ToLower())
+      .Get(() => ButtonColor?.ToString().ToLower())
+      .Get(() => ButtonSize?.ToString().ToLower())
+      .If("button", () => this.IsButton)
+      .Add("dropdown");
+  }
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
+    }
+    await base.OnAfterRenderAsync(firstRender);
+  }
+  protected override async Task OnParametersSetAsync()
+  {
+    if (!Rendered)
+    {
+      lastStringValue = stringValue;
+    }
+    else if (Rendered && !guiValueChangeInprogress && guiValueChanged && !changeFromGui)
+    {
+      guiValueChangeInprogress = true;
+      lastStringValue = stringValue;
+      await Task.Delay(10);
+      await SetComboboxValue();
+      guiValueChangeInprogress = false;
+    }
+    changeFromGui = false;
+  }
+
+  protected async Task OnValueChanged(ChangeEventArgs e)
+  {
+    if (!guiValueChangeInprogress)
+    {
+      changeFromGui = true;
+      Value = (ValueType)ConvertValue(e.Value);
+      await NotifyChanged();
+    }
+  }
+
+  protected virtual Task SetComboboxValue()
+  {
+    throw new NotImplementedException();
+  }
+  protected virtual object ConvertValue(object newValue)
+  {
+    return default(object);
+  }
+}

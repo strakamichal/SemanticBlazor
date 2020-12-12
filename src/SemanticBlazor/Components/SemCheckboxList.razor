@@ -1,5 +1,5 @@
 ﻿@typeparam ValueType
-@inherits SemSelectControlBase<List<ValueType>>
+@inherits SelectControlsBase.SemSelectControlBase<List<ValueType>, ListItem>
 
 @if (Visible)
 {
@@ -26,6 +26,8 @@
 
 
 @code {
+  [Parameter] public override IEnumerable<ListItem> Items { get; set; } = new List<ListItem>();
+  [Parameter] public override RenderFragment ListItems { get; set; }
   [Parameter] public CheckboxType Type { get; set; } = CheckboxType.Checkbox;
   ClassMapper InputClassMapper { get; set; } = new ClassMapper();
 

@@ -1,5 +1,5 @@
 ﻿@typeparam ValueType
-@inherits SemSelectControlBase<ValueType>
+@inherits SelectControlsBase.SemSelectControlBase<ValueType, ListItem>
 
 @if (Visible)
 {
@@ -15,6 +15,8 @@
 }
 
 @code {
+  [Parameter] public override IEnumerable<ListItem> Items { get; set; } = new List<ListItem>();
+  [Parameter] public override RenderFragment ListItems { get; set; }
   [Parameter] public ButtonColor? Color { get; set; }
   [Parameter] public Size? Size { get; set; }
   [Parameter] public ButtonClass[] Classes { get; set; }
