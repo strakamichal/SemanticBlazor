@@ -22,14 +22,16 @@
             {
               <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
             }
-            @if (ItemTemplate == null)
-            {
-              <label for="@($"{Id}-{GetItemKey(item)}")">@GetItemText(item)</label>
-            }
-            else
-            {
-              @ItemTemplate(item)
-            }
+            <label for="@($"{Id}-{GetItemKey(item)}")">
+              @if (ItemTemplate == null)
+              {
+                @GetItemText(item)
+              }
+              else
+              {
+                @ItemTemplate(item)
+              }
+            </label>
           </div>
         </div>
       }

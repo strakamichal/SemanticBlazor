@@ -135,15 +135,16 @@ namespace SemanticBlazor.Components.SelectControlsBase
 
     public static ItemType GetItemFromValue(ValueType value, IEnumerable<ItemType> items, Func<ItemType, ValueType> valueSelector)
     {
+      ItemType retval = default(ItemType);
       if (items != null && value != null)
       {
         if (valueSelector != null)
         {
-          return items.FirstOrDefault(i => valueSelector.Invoke(i).Equals(value));
+          retval = items.FirstOrDefault(i => valueSelector.Invoke(i).Equals(value));
         }
         else if (typeof(ItemType) == typeof(ListItem))
         {
-          return items.FirstOrDefault(i => i.ToString() == value.ToString());
+          retval = items.FirstOrDefault(i => i.ToString() == value.ToString());
         }
         else
         {
@@ -157,10 +158,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
           }
         }
       }
-      else
-      {
-        return default(ItemType);
-      }
+      return retval;
     }
     public static string GetItemText(ItemType item, Func<ItemType, string> itemText)
     {
@@ -172,7 +170,8 @@ namespace SemanticBlazor.Components.SelectControlsBase
         }
         else if (typeof(ItemType) == typeof(ListItem))
         {
-          return ((ListItem)Convert.ChangeType(item, typeof(ListItem))).Text;
+          ListItem liItem = ((ListItem)Convert.ChangeType(item, typeof(ListItem)));
+          return liItem.Text ?? liItem.Value;
         }
         else
         {
@@ -186,25 +185,24 @@ namespace SemanticBlazor.Components.SelectControlsBase
     }
     public static string GetItemKey(ItemType item, IEnumerable<ItemType> items, Func<ItemType, object> itemKey)
     {
+      string retval = null;
       if (item != null && items != null)
       {
         if (itemKey != null)
         {
-          return itemKey?.Invoke(item).ToString();
+          retval = itemKey?.Invoke(item).ToString();
         }
         else if (typeof(ItemType) == typeof(ListItem))
         {
-          return item.ToString();
+          retval = item.ToString();
         }
-        else
+
+        if (retval == null)
         {
-          return items.ToList().IndexOf(item).ToString();
+          retval = items.ToList().IndexOf(item).ToString();
         }
       }
-      else
-      {
-        return null;
-      }
+      return retval;
     }
     public static object ConvertValue(object newValue, IEnumerable<ItemType> items, Func<ItemType, object> itemKey, Func<ItemType, ValueType> valueSelector)
     {

@@ -1,18 +1,19 @@
-﻿@typeparam ValueType
-@inherits SemInputControlBase<ValueType>
+﻿@inherits SemInputControlBase<bool>
 
 @if (Visible)
 {
   <div id="@Id" class="@ClassMapper.ToString()">
     <input id="inpt_@Id" type="checkbox" @onchange="OnValueChanged" checked="@Value" @attributes="disabledAttribute" />
-    @if (!String.IsNullOrEmpty(Label))
-    {
-      <label for="inpt_@Id">@Label</label>
-    }
-    else
-    {
-      @ChildContent
-    }
+    <label for="inpt_@Id">
+      @if (ChildContent != null)
+      {
+        @ChildContent
+      }
+      else
+      {
+        @Label
+      }
+    </label>
   </div>
 }
 
@@ -30,7 +31,7 @@
   }
   async Task OnValueChanged(ChangeEventArgs e)
   {
-    Value = (ValueType)Convert.ChangeType(e.Value, typeof(ValueType));
+    Value = (bool)Convert.ChangeType(e.Value, typeof(bool));
     await NotifyChanged();
   }
 }
