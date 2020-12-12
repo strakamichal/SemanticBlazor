@@ -137,8 +137,8 @@ window.SemanticDateTimeInput = {
         },
         text: {
           days: [getDayName(1, locale), getDayName(2, locale), getDayName(3, locale), getDayName(4, locale), getDayName(5, locale), getDayName(6, locale), getDayName(7, locale)],
-          months: [getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale), getMonth(12, locale)],
-          monthsShort: [getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale), getMonth(12, locale)],
+          months: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
+          monthsShort: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
           today: todayText
         }
       });
