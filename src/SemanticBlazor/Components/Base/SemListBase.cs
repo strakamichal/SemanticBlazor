@@ -80,14 +80,14 @@ namespace SemanticBlazor.Components.Base
           // Pokud je definová metoda na count, tak se používá stránkování na serveru (API)
           var _itemsCount = await CountMethod();
           totalPages = (int)Math.Ceiling((decimal)_itemsCount / (decimal)pageSize);
-          currentItems = await DataMethod(new DataMethodParams() { StartRowIndex = pageIndex * pageSize, MaximumRows = pageSize });
+          currentItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = pageIndex * pageSize, MaximumRows = pageSize });
         }
         else
         {
           // Pokud nneí definová metoda na count, tak se načtou všechna data a stránkuje se na klientovi
           if (DataMethod != null && (allItems == null || allItems.Count == 0))
           {
-            allItems = await DataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue });
+            allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue });
           }
           totalPages = (int)Math.Ceiling((decimal)(allItems?.Count() ?? 0) / (decimal)pageSize);
           currentItems = allItems?.Skip(pageIndex * pageSize).Take(pageSize).ToList();
@@ -95,12 +95,19 @@ namespace SemanticBlazor.Components.Base
       }
       else
       {
-        if (DataMethod != null) allItems = await DataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue });
+        if (DataMethod != null) allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue });
         currentItems = allItems;
       }
       loading = false;
       //Musí se refreshonout State, jinak se na formuláři role nerefreshuje grid
       StateHasChanged();
+    }
+    async Task<List<ItemType>> CallDataMethod(DataMethodParams e)
+    {
+      List<ItemType> retval;
+      retval = await DataMethod(e);
+      if (retval == null) retval = new List<ItemType>();
+      return retval;
     }
   }
 }

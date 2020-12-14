@@ -39,12 +39,13 @@ namespace SemanticBlazor.Web.Data
 
     public async Task<List<DummyData>> GetAllDataAsync()
     {
+      await Task.Delay(1000);
       return await Task.FromResult(Dummies.ToList());
     }
 
     public async Task<List<DummyData>> GetDataAsync(int startIndex, int pageSize, string search)
     {
-      Task.Delay(1000).Wait();
+      await Task.Delay(1000);
       return await Task.FromResult(
         Dummies
         .Where(d => String.IsNullOrEmpty(search) || d.Name.Contains(search) || d.Description.Contains(search))
