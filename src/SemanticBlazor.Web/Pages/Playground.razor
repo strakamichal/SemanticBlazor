@@ -2,40 +2,58 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 @*<p>
-  <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="true" Icon="Icon.Clock" IconPosition="IconPosition.Left"></SemTimeInput>
-</p>
+    <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="true" Icon="Icon.Clock" IconPosition="IconPosition.Left"></SemTimeInput>
+  </p>
+  <p>
+    Value = @timeSpanValue.ToString(@"hh\:mm");
+  </p>
+
+  <p>
+    <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="false"></SemTimeInput>
+  </p>
+  <p>
+    Value = @timeSpanValue.ToString(@"hh\:mm");
+  </p>*@
+
+
+@*<p>
+    <SemTimeInput @bind-Value="timeSpanNullValue" Clearable="true"></SemTimeInput>
+  </p>
+  <p>
+    Value = @(timeSpanNullValue?.ToString(@"hh\:mm") ?? "null");
+  </p>
+
+  <p style="max-width: 200px">
+    <SemDateTimeInput @bind-Value="dateValue" DateIcon="Icon.Calendar_Alternate_Outline" TimeIcon="Icon.Clock_Outline"></SemDateTimeInput>
+  </p>
+  <p>
+    Value = @dateValue.ToString("dd.MM.yyyy HH:mm");
+  </p>
+
+  <p style="max-width: 400px">
+    <SemDateTimeInput @bind-Value="dateNullValue" Clearable="true"></SemDateTimeInput>
+  </p>
+  <p>
+    Value = @(dateNullValue?.ToString("dd.MM.yyyy HH:mm") ?? "null");
+  </p>*@
+
+@*<h3>Databinding items - Item object value</h3>
+  <p>
+    <SemDataDropdownSelection ItemType="@Data.DummyData" ValueType="@Data.DummyData" @bind-Value="selectedDummyData" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
+  </p>
+  <p>
+    Selected value: @selectedDummyData.ToString())
+  </p>
+  <CodeHighlight Code=@(@"
+        <SemDataDropdownSelection @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataDropdownSelection>") />*@
 <p>
-  Value = @timeSpanValue.ToString(@"hh\:mm");
+  <SemDataDropdownSelection @bind-Value="selectedDummyData" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
 </p>
 
 <p>
-  <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="false"></SemTimeInput>
-</p>
-<p>
-  Value = @timeSpanValue.ToString(@"hh\:mm");
-</p>*@
-
-
-<p>
-  <SemTimeInput @bind-Value="timeSpanNullValue" Clearable="true"></SemTimeInput>
-</p>
-<p>
-  Value = @(timeSpanNullValue?.ToString(@"hh\:mm") ?? "null");
+  <SemDataButtonSwitch @bind-Value="selectedDummyData" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
 </p>
 
-<p style="max-width: 200px">
-  <SemDateTimeInput @bind-Value="dateValue" DateIcon="Icon.Calendar_Alternate_Outline" TimeIcon="Icon.Clock_Outline"></SemDateTimeInput>
-</p>
-<p>
-  Value = @dateValue.ToString("dd.MM.yyyy HH:mm");
-</p>
-
-<p style="max-width: 400px">
-  <SemDateTimeInput @bind-Value="dateNullValue" Clearable="true"></SemDateTimeInput>
-</p>
-<p>
-  Value = @(dateNullValue?.ToString("dd.MM.yyyy HH:mm") ?? "null");
-</p>
 
 
 @code {
@@ -87,7 +105,8 @@
   protected override async Task OnInitializedAsync()
   {
     dummies = await GetDummyData();
-    selectedValue = items[0];
+    selectedDummyData = dummies.First();
+    //selectedValue = items[0];
   }
 
 }

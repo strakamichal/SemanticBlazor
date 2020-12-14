@@ -116,7 +116,7 @@
   <SemDataButtonSwitch @bind-Value="SelectedDummy" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
 </p>
 <p>
-  Selected value: @SelectedDummy.ToString())
+  Selected value: @SelectedDummy?.ToString())
 </p>
 <CodeHighlight Code=@(@"
   <SemDataButtonSwitch @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataButtonSwitch>") />
@@ -133,7 +133,7 @@
 
 <h3>Databinding items - Int value</h3>
 <p>
-  <SemDataButtonSwitch @bind-Value="SelectedDummyId" Items="dummies" ValueSelector="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+  <SemDataButtonSwitch @bind-Value="SelectedDummyId" Items="dummies" ValueSelector="@(dummy => dummy?.DummyId ?? 0)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
 </p>
 <p>
   Selected value: @(SelectedDummyId)

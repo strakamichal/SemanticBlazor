@@ -56,7 +56,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/che
   <SemDataRadioButtonList @bind-Value="SelectedDummy" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
 </p>
 <p>
-  Selected value: @SelectedDummy.ToString())
+  Selected value: @SelectedDummy?.ToString())
 </p>
 <CodeHighlight Code=@(@"
   <SemDataRadioButtonList @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataRadioButtonList>") />
