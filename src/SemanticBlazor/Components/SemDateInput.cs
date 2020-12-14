@@ -1,0 +1,40 @@
+﻿using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SemanticBlazor.Components
+{
+  public class SemDateInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
+  {
+    [Parameter] public bool AmPm { get; set; } = false;
+    [Parameter] public bool MinutesEnabled { get; set; } = true;
+
+    protected override List<Type> restrictedClasses
+    {
+      get
+      {
+        return new List<Type>()
+        {
+          typeof(DateTime),
+          typeof(DateTime?)
+        };
+      }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+      if (firstRender)
+      {
+        await JsFunc.DateTimeInput.InitDateCalendar(js, Id);
+      }
+    }
+    protected override string stringValue
+    {
+      get
+      {
+        return lastValidValue != null ? ((TimeSpan)(object)lastValidValue).ToString(@"h\:mm") : "";
+      }
+    }
+  }
+}

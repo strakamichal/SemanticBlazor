@@ -129,9 +129,8 @@ window.SemanticDateTimeInput = {
             return day + '.' + month + '.' + year;
           }
         },
-        onChange: function (date, text, mode) {
+        onHidden: function () {
           var element = document.getElementById("inpt_" + id);
-          element.value = text;
           var event = new Event('change');
           element.dispatchEvent(event);
         },
@@ -143,30 +142,24 @@ window.SemanticDateTimeInput = {
         }
       });
   },
-  InitTimeCalendar: function (id) {
+  InitTimeCalendar: function (id, minutesEnabled, ampm) {
     $("#" + id).closest('.calendar').calendar(
       {
         type: "time",
-        ampm: false,
-        today: true,
-        disableMinute: true,
+        ampm: ampm,
+        disableMinute: !minutesEnabled,
         formatter: {
           date: function (date, settings) {
             if (!date) return '';
             var hour = date.getHour();
             var minute = date.getMinute();
-
-            hour = hour < 10 ? "0" + hour : hour;
-            minute = minute < 10 ? "0" + minute : minute;
-            return hour + ':' + minute;
+            return hour + ":" + minute;
           }
         },
-        onChange: function (date, text, mode) {
-          var input = $(this).find("input");
-          var e = jQuery.Event("keypress");
-          e.which = 13;
-          e.keyCode = 13;
-          $(input).trigger(e);
+        onHidden: function() {
+          var element = document.getElementById("inpt_" + id);
+          var event = new Event('change');
+          element.dispatchEvent(event);
         },
         text: {
           now: 'Teď'

@@ -343,6 +343,13 @@ namespace SemanticBlazor
     Hover
   }
 
+  public enum TimePrecision
+  {
+    Hour,
+    Minute,
+    //Second
+  }
+
   public class Icons
   {
     public static string GetClass(Icon? icon)

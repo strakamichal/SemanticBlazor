@@ -106,9 +106,9 @@ namespace SemanticBlazor
       {
         await jsRuntime.InvokeAsync<object>("SemanticDateTimeInput.InitDateCalendar", id, locale, todayText, startCalId, endCalId);
       }
-      public static async Task InitTimeCalendar(IJSRuntime jsRuntime, string id)
+      public static async Task InitTimeCalendar(IJSRuntime jsRuntime, string id, bool minutesEnabled, bool ampm)
       {
-        await jsRuntime.InvokeAsync<object>("SemanticDateTimeInput.InitDateCalendar", id);
+        await jsRuntime.InvokeAsync<object>("SemanticDateTimeInput.InitTimeCalendar", id, minutesEnabled, ampm);
       }
       public static async Task GetValue(IJSRuntime jsRuntime, string id)
       {
