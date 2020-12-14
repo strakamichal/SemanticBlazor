@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataDropdownSelection<ValueType, ItemType> : SemDropdownSingleSelectionBase<ValueType, ItemType>
+  public class SemDataDropdownSelection<ItemType, ValueType> : SemDropdownSingleSelectionBase<ItemType, ValueType>
   {
     [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SemanticBlazor.Components.SelectControlsBase
 {
   // Used for data-binded Select controls
-  public class SemSelectControlBase<ValueType, ItemType> : SemInputControlBase<ValueType>
+  public class SemSelectControlBase<ItemType, ValueType> : SemInputControlBase<ValueType>
   {
     [Parameter] public virtual RenderFragment<object> ItemTemplate { get; set; }
     public virtual IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();

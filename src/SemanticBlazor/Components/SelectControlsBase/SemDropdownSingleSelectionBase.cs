@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components.SelectControlsBase
 {
-  public class SemDropdownSingleSelectionBase<ValueType, ItemType> : SemDropdownSelectionBase<ValueType, ItemType>
+  public class SemDropdownSingleSelectionBase<ItemType, ValueType> : SemDropdownSelectionBase<ItemType, ValueType>
   {
     public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
 
-    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
-    protected override object ConvertValue(object newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
-    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
-    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
+    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
+    protected override object ConvertValue(object newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
+    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
 
     protected override string stringValue
     {
       get
       {
-        return GetItemKey(GetItemFromValue(Value));
+        return Value != null ? GetItemKey(GetItemFromValue(Value)) : "";
       }
     }
     protected override async Task SetComboboxValue()

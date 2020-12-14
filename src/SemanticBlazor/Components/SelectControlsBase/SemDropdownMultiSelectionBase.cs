@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components.SelectControlsBase
 {
-  public class SemDropdownMultiSelectionBase<ValueType, ItemType> : SemDropdownSelectionBase<List<ValueType>, ItemType>
+  public class SemDropdownMultiSelectionBase<ItemType, ValueType> : SemDropdownSelectionBase<ItemType, List<ValueType>>
   {
     public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
     [Parameter] public int? MaxSelections { get; set; }
     [Parameter] public bool UseLabels { get; set; } = true;
 
-    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
-    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
-    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
+    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
+    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
+    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
 
     public SemDropdownMultiSelectionBase()
     {
@@ -54,7 +54,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
       var vals = newValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
       selectedItems.AddRange(Items.Where(i => vals.Any(v => v == GetItemKey(i))));
 
-      return vals.ToList().Select(value => (ValueType)SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
+      return vals.ToList().Select(value => (ValueType)SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
     }
     protected override async Task SetComboboxValue()
     {

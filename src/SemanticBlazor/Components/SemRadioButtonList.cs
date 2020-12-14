@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SemanticBlazor.Components
 {
-  public class SemRadioButtonList<ValueType> : SemRadioButtonListBase<ValueType, ListItem>
+  public class SemRadioButtonList<ValueType> : SemRadioButtonListBase<ListItem, ValueType>
   {
     #region ListItems
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }

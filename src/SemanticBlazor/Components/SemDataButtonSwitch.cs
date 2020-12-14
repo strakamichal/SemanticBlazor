@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataButtonSwitch<ValueType, ItemType> : SemButtonSwitchBase<ValueType, ItemType>
+  public class SemDataButtonSwitch<ItemType, ValueType> : SemButtonSwitchBase<ItemType, ValueType>
   {
     [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }

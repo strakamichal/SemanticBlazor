@@ -1,6 +1,6 @@
-﻿@typeparam ValueType
-@typeparam ItemType
-@inherits SelectControlsBase.SemSelectControlBase<List<ValueType>, ItemType>
+﻿@typeparam ItemType
+@typeparam ValueType
+@inherits SelectControlsBase.SemSelectControlBase<ItemType, List<ValueType>>
 
 @if (Visible)
 {
@@ -44,10 +44,10 @@
   ClassMapper InputClassMapper { get; set; } = new ClassMapper();
 
   public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
-  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemFromValue(value, Items, ValueSelector);
-  protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ValueType, ItemType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
-  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemText(item, ItemText);
-  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ValueType, ItemType>.GetItemKey(item, Items, ItemKey);
+  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
+  protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
+  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
 
   public SemCheckboxListBase()
   {

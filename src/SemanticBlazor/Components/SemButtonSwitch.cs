@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SemanticBlazor.Components
 {
-  public class SemButtonSwitch<ValueType> : SemButtonSwitchBase<ValueType, ListItem>
+  public class SemButtonSwitch<ValueType> : SemButtonSwitchBase<ListItem, ValueType>
   {
     #region ListItems
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataRadioButtonList<ValueType, ItemType> : SemRadioButtonListBase<ValueType, ItemType>
+  public class SemDataRadioButtonList<ItemType, ValueType> : SemRadioButtonListBase<ItemType, ValueType>
   {
     [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }

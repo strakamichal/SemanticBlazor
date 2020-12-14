@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDropdownMultiSelection<ValueType> : SemDataDropdownMultiSelection<ValueType, ListItem>
+  public class SemDropdownMultiSelection<ValueType> : SemDataDropdownMultiSelection<ListItem, ValueType>
   {
     #region ListItems
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }

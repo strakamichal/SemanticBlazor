@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDropdownSelection<ValueType> : SemDropdownSingleSelectionBase<ValueType, ListItem>
+  public class SemDropdownSelection<ValueType> : SemDropdownSingleSelectionBase<ListItem, ValueType>
   {
     #region ListItems
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }

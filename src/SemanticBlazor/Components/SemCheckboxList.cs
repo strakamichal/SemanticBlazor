@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SemanticBlazor.Components
 {
-  public class SemCheckboxList<ValueType> : SemCheckboxListBase<ValueType, ListItem>
+  public class SemCheckboxList<ValueType> : SemCheckboxListBase<ListItem, ValueType>
   {
     #region ListItems
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }

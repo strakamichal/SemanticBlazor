@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SemanticBlazor.Components.SelectControlsBase
 {
-  public class SemDataSelectControlHelper<ValueType, ItemType>
+  public class SemDataSelectControlHelper<ItemType, ValueType>
   {
     public virtual IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     public virtual Func<ItemType, object> ItemKey { get; set; }

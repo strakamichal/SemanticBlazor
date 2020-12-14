@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataCheckboxList<ValueType, ItemType> : SemCheckboxListBase<ValueType, ItemType>
+  public class SemDataCheckboxList<ItemType, ValueType> : SemCheckboxListBase<ItemType, ValueType>
   {
     [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }
