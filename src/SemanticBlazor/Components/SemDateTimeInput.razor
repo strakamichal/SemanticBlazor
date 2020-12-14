@@ -1,0 +1,86 @@
+﻿@typeparam ValueType
+@inherits Base.SemInputControlBase<ValueType>
+
+<SemGrid>
+  <SemGridColumn Wide="GridUnit.Nine" Style="padding-right: 5px">
+    <SemDateInput @ref="dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size"
+                  Value="Value" ValueChanged="@((ValueType value) => DateChanged(value))"></SemDateInput>
+  </SemGridColumn>
+  <SemGridColumn Wide="GridUnit.Seven" Style="padding-left: 5px">
+    <SemTimeInput @ref="timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" MinutesEnabled="MinutesEnabled"
+                  Value="timeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
+  </SemGridColumn>
+</SemGrid>
+
+@code {
+  public bool AmPm { get; set; } = false;
+  [Parameter] public bool MinutesEnabled { get; set; } = true;
+
+  [Parameter] public Icon? TimeIcon { get; set; }
+  [Parameter] public Icon? DateIcon { get; set; }
+  [Parameter] public IconPosition? IconPosition { get; set; } = SemanticBlazor.IconPosition.Left;
+  [Parameter] public bool Clearable { get; set; }
+  [Parameter] public string Placeholder { get; set; }
+  [Parameter] public string Culture { get; set; }
+  [Parameter] public InputSize? Size { get; set; }
+
+  SemDateInput<ValueType> dateInput { get; set; }
+  SemTimeInput<TimeSpan?> timeInput { get; set; }
+
+  TimeSpan? timeValue
+  {
+    get
+    {
+      if (Value != null)
+      {
+        return ((DateTime)(object)Value).TimeOfDay;
+      }
+      else
+      {
+        return null;
+      }
+    }
+  }
+
+  async Task DateChanged(object value)
+  {
+    if (value == null)
+    {
+      Value = default(ValueType);
+      await timeInput.ClearValue();
+    }
+    else
+    {
+      var dtValue = (DateTime)(object)value;
+      if (Value != null) dtValue = dtValue.Add(((DateTime)(object)Value).TimeOfDay);
+      Value = (ValueType)(object)dtValue;
+    }
+    await NotifyChanged();
+  }
+  async Task TimeChanged(object value)
+  {
+    if (value == null)
+    {
+      if (Value != null)
+      {
+        Value = (ValueType)(object)((DateTime)(object)Value).Date;
+      }
+      else
+      {
+        //await timeInput.ClearValue();
+      }
+    }
+    else
+    {
+      if (Value != null)
+      {
+        Value = (ValueType)(object)((DateTime)(object)Value).Date.Add(((TimeSpan)value));
+      }
+      else
+      {
+        Value = (ValueType)(object)DateTime.Now.Date.Add(((TimeSpan)value));
+      }
+    }
+    await NotifyChanged();
+  }
+}

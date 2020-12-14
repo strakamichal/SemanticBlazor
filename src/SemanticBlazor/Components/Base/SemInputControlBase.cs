@@ -20,7 +20,7 @@ namespace SemanticBlazor.Components.Base
     protected virtual List<Type> restrictedClasses { get; set; }
     public SemInputControlBase()
     {
-      if (restrictedClasses.Count > 0 && !restrictedClasses.Any(t => t == typeof(ValueType)))
+      if (restrictedClasses?.Count > 0 && !restrictedClasses.Any(t => t == typeof(ValueType)))
       {
         throw new Exception($"{typeof(ValueType).Name} is not supported ValueType for {this.GetType().Name}.");
       }
@@ -35,7 +35,7 @@ namespace SemanticBlazor.Components.Base
         EditContext.NotifyFieldChanged(new Microsoft.AspNetCore.Components.Forms.FieldIdentifier(EditContext.Model, SemanticBlazor.Annotations.GetPropertyNameFor(For ?? ForCasc)));
       }
     }
-    protected virtual async Task ClearValue()
+    public virtual async Task ClearValue()
     {
       Value = default(ValueType);
       await NotifyChanged();

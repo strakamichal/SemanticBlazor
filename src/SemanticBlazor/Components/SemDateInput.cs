@@ -8,9 +8,6 @@ namespace SemanticBlazor.Components
 {
   public class SemDateInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
   {
-    [Parameter] public bool AmPm { get; set; } = false;
-    [Parameter] public bool MinutesEnabled { get; set; } = true;
-
     protected override List<Type> restrictedClasses
     {
       get
@@ -33,7 +30,7 @@ namespace SemanticBlazor.Components
     {
       get
       {
-        return lastValidValue != null ? ((TimeSpan)(object)lastValidValue).ToString(@"h\:mm") : "";
+        return lastValidValue != null ? ((DateTime)(object)lastValidValue).ToString("dd.MM.yyyy") : "";
       }
     }
   }

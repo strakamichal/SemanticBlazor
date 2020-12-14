@@ -1,9 +1,7 @@
 ﻿@page "/playground"
 @inherits PageBase
 @inject Data.DummyDataService dummyData
-
-
-<p>
+@*<p>
   <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="true" Icon="Icon.Clock" IconPosition="IconPosition.Left"></SemTimeInput>
 </p>
 <p>
@@ -15,14 +13,7 @@
 </p>
 <p>
   Value = @timeSpanValue.ToString(@"hh\:mm");
-</p>
-
-@*<p>
-    <SemTimeInput @bind-Value="timeSpanValue" Precision="TimePrecision.Second"></SemTimeInput>
-  </p>
-  <p>
-    Value = @timeSpanValue.ToString(@"hh\:mm");
-  </p>*@
+</p>*@
 
 
 <p>
@@ -31,6 +22,21 @@
 <p>
   Value = @(timeSpanNullValue?.ToString(@"hh\:mm") ?? "null");
 </p>
+
+<p style="max-width: 200px">
+  <SemDateTimeInput @bind-Value="dateValue" DateIcon="Icon.Calendar_Alternate_Outline" TimeIcon="Icon.Clock_Outline"></SemDateTimeInput>
+</p>
+<p>
+  Value = @dateValue.ToString("dd.MM.yyyy HH:mm");
+</p>
+
+<p style="max-width: 400px">
+  <SemDateTimeInput @bind-Value="dateNullValue" Clearable="true"></SemDateTimeInput>
+</p>
+<p>
+  Value = @(dateNullValue?.ToString("dd.MM.yyyy HH:mm") ?? "null");
+</p>
+
 
 @code {
   string selectedStringValue { get; set; }
@@ -73,6 +79,8 @@
   Option SelectedOption { get; set; }
   List<Option> SelectedOptions { get; set; }
 
+  DateTime dateValue = DateTime.Now;
+  DateTime? dateNullValue;
   TimeSpan timeSpanValue = new TimeSpan(10, 30, 00);
   TimeSpan? timeSpanNullValue = new TimeSpan(10, 30, 00);
 

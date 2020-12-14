@@ -20,7 +20,7 @@
 
 @code {
   [Parameter] public Icon? Icon { get; set; }
-  [Parameter] public IconPosition? IconPosition { get; set; }
+  [Parameter] public IconPosition? IconPosition { get; set; } = SemanticBlazor.IconPosition.Left;
   [Parameter] public bool Clearable { get; set; }
   [Parameter] public string Placeholder { get; set; }
   [Parameter] public string Culture { get; set; }
@@ -36,11 +36,12 @@
       .Get(() => Class)
       .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
       .If("icon", () => Icon != null || Clearable)
+      .Get(() => Size?.ToString().ToLower())
       .Add("input");
   }
   protected override void OnInitialized()
   {
-    if (typeof(ValueType) == typeof(TimeSpan)) Clearable = false;
+    if (typeof(ValueType) == typeof(TimeSpan) || typeof(ValueType) == typeof(DateTime)) Clearable = false;
   }
   protected override async Task OnParametersSetAsync()
   {
@@ -50,7 +51,7 @@
     }
     await base.OnParametersSetAsync();
   }
-  protected override async Task ClearValue()
+  public override async Task ClearValue()
   {
     await JsFunc.DateTimeInput.SetDate(js, Id, "");
     await base.ClearValue();
@@ -98,7 +99,7 @@
       retval = DateTime.TryParse(value, out dtValue);
       outValue = (ValueType)(object)dtValue;
     }
-    if (typeof(ValueType) == typeof(TimeSpan) || typeof(ValueType) == typeof(TimeSpan?))
+    else if (typeof(ValueType) == typeof(TimeSpan) || typeof(ValueType) == typeof(TimeSpan?))
     {
       TimeSpan tsValue;
       retval = TimeSpan.TryParse(value, out tsValue);

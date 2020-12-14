@@ -8,7 +8,7 @@ namespace SemanticBlazor.Components
 {
   public class SemTimeInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
   {
-    [Parameter] public bool AmPm { get; set; } = false;
+    public bool AmPm { get; set; } = false;
     [Parameter] public bool MinutesEnabled { get; set; } = true;
 
     protected override List<Type> restrictedClasses

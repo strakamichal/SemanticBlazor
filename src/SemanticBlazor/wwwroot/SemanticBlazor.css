@@ -7,6 +7,10 @@ a {
   cursor: pointer;
 }
 
+.ui.calendar input {
+  width: 100%;
+}
+
 .notifications {
   position: fixed;
   top: 60px;
