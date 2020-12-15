@@ -1,16 +1,19 @@
 ﻿@typeparam ValueType
 @inherits Base.SemInputControlBase<ValueType>
 
-<div class="ui calendar input" style="@Style">
-  <div class="date">
-    <SemDateInput @ref="dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
-                  Value="Value" ValueChanged="@((ValueType value) => DateChanged(value))"></SemDateInput>
+@if (Visible)
+{
+  <div class="ui calendar input" style="@Style">
+    <div class="date">
+      <SemDateInput @ref="dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
+                    Value="Value" ValueChanged="@((ValueType value) => DateChanged(value))"></SemDateInput>
+    </div>
+    <div class="time">
+      <SemTimeInput @ref="timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
+                    MinutesEnabled="MinutesEnabled" Value="timeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
+    </div>
   </div>
-  <div class="time">
-    <SemTimeInput @ref="timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
-                  MinutesEnabled="MinutesEnabled" Value="timeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
-  </div>
-</div>
+}
 
 @code {
   public bool AmPm { get; set; } = false;

@@ -1,8 +1,11 @@
 ﻿@inherits SemControlBase
 
-<div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
-  @ChildContent
-</div>
+@if (Visible)
+{
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    @ChildContent
+  </div>
+}
 
 @code {
   [Parameter] public RenderFragment ChildContent { get; set; }
