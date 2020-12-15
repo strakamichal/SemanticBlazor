@@ -7,24 +7,33 @@
   <CascadingValue Value="@this">
     @ListItems
   </CascadingValue>
-  <div class="@ClassMapper.ToString()" style="@Style">
-    @if (Items != null)
-    {
-      @foreach (var item in Items)
+  @if (!loading)
+  {
+    <div class="@ClassMapper.ToString()" style="@Style">
+      @if (Items != null)
       {
-        <SemButton OnClick="@(() => ButtonClicked(GetItemKey(item)))" Enabled="@Enabled" Class="@(Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item) ? "active" : "")">
-          @if (ItemTemplate != null)
-          {
-            @ItemTemplate(item)
-          }
-          else
-          {
-            @(GetItemText(item))
-          }
-        </SemButton>
+        @foreach (var item in Items)
+        {
+          <SemButton OnClick="@(() => ButtonClicked(GetItemKey(item)))" Enabled="@Enabled" Class="@(Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item) ? "active" : "")">
+            @if (ItemTemplate != null)
+            {
+              @ItemTemplate(item)
+            }
+            else
+            {
+              @(GetItemText(item))
+            }
+          </SemButton>
+        }
       }
-    }
-  </div>
+    </div>
+  }
+  else
+  {
+    <div class="@ClassMapper.ToString()" style="@Style">
+      <SemButton Class="loading" Enabled="false" Style="min-width: 100px">Loading...</SemButton>
+    </div>
+  }
 }
 
 @code {

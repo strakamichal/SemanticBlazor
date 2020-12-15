@@ -19,12 +19,15 @@ namespace SemanticBlazor.Components.SelectControlsBase
     public virtual Func<Task<List<ItemType>>> DataMethod { get; set; }
     public virtual RenderFragment ListItems { get; set; }
     protected bool itemsSet { get; set; } = false;
+    protected bool loading { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
       if (DataMethod != null)
       {
+        SetLoadingState(true);
         Items = await DataMethod.Invoke();
+        SetLoadingState(false);
       }
       itemsSet = Items != null && Items.Any();
       await base.OnInitializedAsync();
@@ -33,7 +36,9 @@ namespace SemanticBlazor.Components.SelectControlsBase
     {
       if (DataMethod != null)
       {
+        SetLoadingState(true);
         Items = await DataMethod.Invoke();
+        SetLoadingState(false);
         if (Value != null)
         {
           await ClearValue();
@@ -52,6 +57,11 @@ namespace SemanticBlazor.Components.SelectControlsBase
         ((List<ListItem>)Items).Add(new ListItem() { Text = ((SemSelectListItem)control).Text, Value = ((SemSelectListItem)control).Value });
         StateHasChanged();
       }
+    }
+    public void SetLoadingState(bool isLoading)
+    {
+      this.loading = isLoading;
+      StateHasChanged();
     }
 
     protected virtual string GetItemText(ItemType item) => throw new NotImplementedException();

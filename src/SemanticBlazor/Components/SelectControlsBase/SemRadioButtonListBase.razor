@@ -7,36 +7,43 @@
   <CascadingValue Value="@this">
     @ListItems
   </CascadingValue>
-  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
-    @if (Items != null)
-    {
-      @foreach (var item in Items)
+  @if (!loading)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Items != null)
       {
-        <div class="field">
-          <div class="ui radio checkbox">
-            @if (Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item))
-            {
-              <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
-            }
-            else
-            {
-              <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
-            }
-            <label for="@($"{Id}-{GetItemKey(item)}")">
-              @if (ItemTemplate == null)
+        @foreach (var item in Items)
+        {
+          <div class="field">
+            <div class="ui radio checkbox">
+              @if (Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item))
               {
-                @GetItemText(item)
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
               }
               else
               {
-                @ItemTemplate(item)
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
               }
-            </label>
+              <label for="@($"{Id}-{GetItemKey(item)}")">
+                @if (ItemTemplate == null)
+                {
+                  @GetItemText(item)
+                }
+                else
+                {
+                  @ItemTemplate(item)
+                }
+              </label>
+            </div>
           </div>
-        </div>
+        }
       }
-    }
-  </div>
+    </div>
+  }
+  else
+  {
+    <SemIcon Icon="Icon.Spinner_Loading" />
+  }
 }
 
 @code {

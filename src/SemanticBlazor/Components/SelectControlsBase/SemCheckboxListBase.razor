@@ -7,35 +7,42 @@
   <CascadingValue Value="@this">
     @ListItems
   </CascadingValue>
-  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
-    @if (Items != null)
-    {
-      @foreach (var item in Items)
+  @if (!loading)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Items != null)
       {
-        <div class="@InputClassMapper.ToString()">
-          @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
-          {
-            <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
-          }
-          else
-          {
-            <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
-          }
-          <label for="@($"{Id}-{GetItemKey(item)}")">
-            @if (ItemTemplate == null)
+        @foreach (var item in Items)
+        {
+          <div class="@InputClassMapper.ToString()">
+            @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
             {
-              @GetItemText(item)
-
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
             }
             else
             {
-              @ItemTemplate(item)
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
             }
-          </label>
-        </div>
+            <label for="@($"{Id}-{GetItemKey(item)}")">
+              @if (ItemTemplate == null)
+              {
+                @GetItemText(item)
+
+              }
+              else
+              {
+                @ItemTemplate(item)
+              }
+            </label>
+          </div>
+        }
       }
-    }
-  </div>
+    </div>
+  }
+  else
+  {
+    <SemIcon Icon="Icon.Spinner_Loading" />
+  }
 }
 
 

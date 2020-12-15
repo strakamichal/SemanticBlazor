@@ -102,6 +102,7 @@
       .Get(() => ButtonColor?.ToString().ToLower())
       .Get(() => ButtonSize?.ToString().ToLower())
       .If("button", () => this.IsButton)
+      .If("loading", () => this.loading)
       .Add("dropdown");
   }
   protected override async Task OnAfterRenderAsync(bool firstRender)
