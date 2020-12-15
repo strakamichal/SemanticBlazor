@@ -3,7 +3,7 @@
 @inject Data.DummyDataService dummyData
 
 
-<SemTabs ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
+@*<SemTabs ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
   <Tabs>
     <SemTab Text="First">
       <p>First</p>
@@ -34,27 +34,21 @@
 </p>
 <p>
   Selected value: @(selectedDummyData?.ToString() ?? "null");
-</p>
+</p>*@
 
 
-@*<div class="ui form" style="max-width: 300px">
-    <div class="ui field">
-      <label>String value</label>
-      <SemInput @bind-Value="selectedStringValue"></SemInput>
-    </div>
-    <div class="ui field">
-      <label>Date value</label>
-      <SemDateInput @bind-Value="dateValue"></SemDateInput>
-    </div>
-    <div class="ui field">
-      <label>String value</label>
-      <SemTimeInput @bind-Value="timeSpanValue"></SemTimeInput>
-    </div>
-    <div class="ui field">
-      <label>Datetime value</label>
-      <SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
-    </div>
-  </div>*@
+<SemForm Model="selectedValue" OnSubmit="FormSubmited">
+  <SemFormField For="@(() => selectedValue.Code)">
+    <SemInput @bind-Value="selectedValue.Code"></SemInput>
+  </SemFormField>
+  <SemFormField For="@(() => selectedValue.Name)">
+    <SemInput @bind-Value="selectedValue.Name"></SemInput>
+  </SemFormField>
+  <SemFormField ValueType="string">
+    <SemInput @bind-Value="selectedStringValue"></SemInput>
+  </SemFormField>
+  <SemButton IsSubmitButton="true">Submit</SemButton>
+</SemForm>
 
 @code {
   async Task RefreshChildren()
@@ -87,7 +81,7 @@
     new SomeClass() { Name = "Test Name 3", Code = 30, Description = "Third Name" }
   };
 
-  SomeClass selectedValue { get; set; }
+  SomeClass selectedValue { get; set; } = new SomeClass();
   int selectedIntValue { get; set; } = 10;
   List<SomeClass> selectedValues { get; set; }
   List<int> selectedIntValues { get; set; }
@@ -151,5 +145,10 @@
   void TabChanged(SemTab tab)
   {
 
+  }
+
+  void FormSubmited()
+  {
+    
   }
 }

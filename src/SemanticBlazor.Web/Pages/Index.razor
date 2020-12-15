@@ -5,7 +5,11 @@
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
+#if DEBUG
+    navigationManager.NavigateTo("/Playground");
+#else
     navigationManager.NavigateTo("/Components/");
+#endif
     await Task.CompletedTask;
   }
 }
