@@ -1,16 +1,16 @@
 ﻿@typeparam ValueType
 @inherits Base.SemInputControlBase<ValueType>
 
-<SemGrid>
-  <SemGridColumn Wide="GridUnit.Nine" Style="padding-right: 5px">
-    <SemDateInput @ref="dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size"
+<div class="ui calendar input" style="@Style">
+  <div class="date">
+    <SemDateInput @ref="dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
                   Value="Value" ValueChanged="@((ValueType value) => DateChanged(value))"></SemDateInput>
-  </SemGridColumn>
-  <SemGridColumn Wide="GridUnit.Seven" Style="padding-left: 5px">
-    <SemTimeInput @ref="timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" MinutesEnabled="MinutesEnabled"
-                  Value="timeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
-  </SemGridColumn>
-</SemGrid>
+  </div>
+  <div class="time">
+    <SemTimeInput @ref="timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
+                  MinutesEnabled="MinutesEnabled" Value="timeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
+  </div>
+</div>
 
 @code {
   public bool AmPm { get; set; } = false;

@@ -47,27 +47,47 @@
   <CodeHighlight Code=@(@"
         <SemDataDropdownSelection @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataDropdownSelection>") />*@
 
-<p>
-  <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
-    <ListItems>
-      <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
-      <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
-      <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
-    </ListItems>
-  </SemDropdownSelection>
-</p>
-<p>
-  <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
-</p>
-<p>
-  <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
-</p>
-<p>
-  <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
-</p>
-<p>
-  Selected value: @(selectedDummyData?.ToString() ?? "null");
-</p>
+@*<p>
+    <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
+      <ListItems>
+        <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
+        <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
+        <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
+      </ListItems>
+    </SemDropdownSelection>
+  </p>
+  <p>
+    <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
+  </p>
+  <p>
+    <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
+  </p>
+  <p>
+    <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+  </p>
+  <p>
+    Selected value: @(selectedDummyData?.ToString() ?? "null");
+  </p>*@
+
+
+<div class="ui form" style="max-width: 300px">
+  <div class="ui field">
+    <label>String value</label>
+    <SemInput @bind-Value="selectedStringValue"></SemInput>
+  </div>
+  <div class="ui field">
+    <label>Date value</label>
+    <SemDateInput @bind-Value="dateValue"></SemDateInput>
+  </div>
+  <div class="ui field">
+    <label>String value</label>
+    <SemTimeInput @bind-Value="timeSpanValue"></SemTimeInput>
+  </div>
+  <div class="ui field">
+    <label>Datetime value</label>
+    <SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
+  </div>
+</div>
 
 @code {
   async Task RefreshChildren()

@@ -7,9 +7,24 @@ a {
   cursor: pointer;
 }
 
-.ui.calendar input {
-  width: 100%;
+.ui.calendar {
+  max-width: 100%;
 }
+
+  .ui.calendar .date {
+    display: inline-flex;
+    width: 60%;
+  }
+
+  .ui.calendar .time {
+    display: inline-flex;
+    width: 40%;
+    padding-left: 5px;
+  }
+
+  .ui.calendar input {
+    width: 100%;
+  }
 
 .notifications {
   position: fixed;
