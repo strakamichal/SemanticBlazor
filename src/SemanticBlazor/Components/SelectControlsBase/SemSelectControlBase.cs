@@ -34,6 +34,10 @@ namespace SemanticBlazor.Components.SelectControlsBase
       if (DataMethod != null)
       {
         Items = await DataMethod.Invoke();
+        if (Value != null)
+        {
+          await ClearValue();
+        }
       }
     }
     internal override void RegistedChildControl(object control)

@@ -46,18 +46,41 @@
   </p>
   <CodeHighlight Code=@(@"
         <SemDataDropdownSelection @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataDropdownSelection>") />*@
-<p>
-  <SemDataDropdownSelection @bind-Value="selectedDummyData" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
-</p>
 
 <p>
-  <SemDataButtonSwitch @bind-Value="selectedDummyData" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+  <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
+    <ListItems>
+      <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
+      <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
+      <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>
 </p>
-
-
+<p>
+  <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
+</p>
+<p>
+  <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
+</p>
+<p>
+  <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+</p>
+<p>
+  Selected value: @(selectedDummyData?.ToString() ?? "null");
+</p>
 
 @code {
+  async Task RefreshChildren()
+  {
+    await childDropdown.RefreshItems();
+    await childRadio.RefreshItems();
+    await childButtonSwitch.RefreshItems();
+  }
+
   string selectedStringValue { get; set; }
+  SemDataDropdownSelection<Data.DummyData, Data.DummyData> childDropdown { get; set; }
+  SemDataRadioButtonList<Data.DummyData, Data.DummyData> childRadio { get; set; }
+  SemDataButtonSwitch<Data.DummyData, Data.DummyData> childButtonSwitch { get; set; }
 
   class SomeClass
   {
@@ -104,9 +127,38 @@
 
   protected override async Task OnInitializedAsync()
   {
-    dummies = await GetDummyData();
-    selectedDummyData = dummies.First();
+    //dummies = await GetDummyData();
+    //selectedDummyData = dummies.First();
     //selectedValue = items[0];
   }
 
+  async Task<List<Data.DummyData>> GetData(string type)
+  {
+    await Task.Delay(100);
+    if (string.IsNullOrEmpty(type))
+    {
+      return null;
+    }
+    else if (type == "A")
+    {
+      return new List<Data.DummyData>()
+{
+        new Data.DummyData() { Name = "A - 01", DummyId = 1 },
+        new Data.DummyData() { Name = "A - 02", DummyId = 2 },
+      };
+    }
+    else if (type == "B")
+    {
+      return new List<Data.DummyData>()
+{
+        new Data.DummyData() { Name = "B - 01", DummyId = 3 },
+        new Data.DummyData() { Name = "B - 02", DummyId = 4 },
+      };
+    }
+    else
+    {
+      return (await GetData("A")).Concat(await GetData("B")).ToList();
+    }
+
+  }
 }
