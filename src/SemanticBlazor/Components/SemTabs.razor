@@ -21,7 +21,7 @@
           else
           {
             @(tab.Text ?? tab.Name)
-      }
+          }
         </SemMenuItem>
       }
     }
@@ -40,6 +40,7 @@
   [Parameter] public Color? Color { get; set; }
   [Parameter] public Size? Size { get; set; }
   [Parameter] public MenuClass[] Classes { get; set; }
+  [Parameter] public EventCallback<SemTab> ActiveTabChanged { get; set; }
   protected List<SemTab> localTabs { get; set; } = new List<SemTab>();
 
   public SemTabs()
@@ -70,14 +71,23 @@
     if (localTabs.Count > 0 && !localTabs.Any(t => t.Active && t.Visible))
     {
       var firstTab = localTabs.FirstOrDefault(t => t.Visible && t.Enabled);
-      if (firstTab != null) firstTab.Active = true;
+      if (firstTab != null)
+      {
+        await SetTabActive(firstTab);
+      }
       StateHasChanged();
     }
     await JsFunc.TabularMenu.Init(js, Id);
   }
-  void SetTabActive(SemTab tab)
+  async Task SetTabActive(SemTab tab)
   {
     localTabs.ForEach(t => t.Active = false);
     localTabs.FirstOrDefault(t => t == tab).Active = true;
+    await ActiveTabChanged.InvokeAsync(tab);
+  }
+
+  public SemTab GetActiveTab()
+  {
+    return localTabs.FirstOrDefault(t => t.Active);
   }
 }
