@@ -1,93 +1,60 @@
 ﻿@page "/playground"
 @inherits PageBase
 @inject Data.DummyDataService dummyData
-@*<p>
-    <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="true" Icon="Icon.Clock" IconPosition="IconPosition.Left"></SemTimeInput>
-  </p>
-  <p>
-    Value = @timeSpanValue.ToString(@"hh\:mm");
-  </p>
-
-  <p>
-    <SemTimeInput @bind-Value="timeSpanValue" MinutesEnabled="false"></SemTimeInput>
-  </p>
-  <p>
-    Value = @timeSpanValue.ToString(@"hh\:mm");
-  </p>*@
 
 
-@*<p>
-    <SemTimeInput @bind-Value="timeSpanNullValue" Clearable="true"></SemTimeInput>
-  </p>
-  <p>
-    Value = @(timeSpanNullValue?.ToString(@"hh\:mm") ?? "null");
-  </p>
+<SemTabs @ref="tabs" ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
+  <Tabs>
+    <SemTab Text="First">
+      <p>First</p>
+    </SemTab>
+    <SemTab Text="Second">
+      <p>Second</p>
+    </SemTab>
+  </Tabs>
+</SemTabs>
 
-  <p style="max-width: 200px">
-    <SemDateTimeInput @bind-Value="dateValue" DateIcon="Icon.Calendar_Alternate_Outline" TimeIcon="Icon.Clock_Outline"></SemDateTimeInput>
-  </p>
-  <p>
-    Value = @dateValue.ToString("dd.MM.yyyy HH:mm");
-  </p>
-
-  <p style="max-width: 400px">
-    <SemDateTimeInput @bind-Value="dateNullValue" Clearable="true"></SemDateTimeInput>
-  </p>
-  <p>
-    Value = @(dateNullValue?.ToString("dd.MM.yyyy HH:mm") ?? "null");
-  </p>*@
-
-@*<h3>Databinding items - Item object value</h3>
-  <p>
-    <SemDataDropdownSelection ItemType="@Data.DummyData" ValueType="@Data.DummyData" @bind-Value="selectedDummyData" Items="dummies" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
-  </p>
-  <p>
-    Selected value: @selectedDummyData.ToString())
-  </p>
-  <CodeHighlight Code=@(@"
-        <SemDataDropdownSelection @bind-Value=""SelectedDummy"" Items=""dummies"" ItemText=""@(dummy => dummy.Name)""></SemDataDropdownSelection>") />*@
-
-@*<p>
-    <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
-      <ListItems>
-        <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
-        <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
-        <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
-      </ListItems>
-    </SemDropdownSelection>
-  </p>
-  <p>
-    <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
-  </p>
-  <p>
-    <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
-  </p>
-  <p>
-    <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
-  </p>
-  <p>
-    Selected value: @(selectedDummyData?.ToString() ?? "null");
-  </p>*@
+<p>
+  <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
+    <ListItems>
+      <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
+      <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
+      <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>
+</p>
+<p>
+  <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
+</p>
+<p>
+  <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
+</p>
+<p>
+  <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+</p>
+<p>
+  Selected value: @(selectedDummyData?.ToString() ?? "null");
+</p>
 
 
-<div class="ui form" style="max-width: 300px">
-  <div class="ui field">
-    <label>String value</label>
-    <SemInput @bind-Value="selectedStringValue"></SemInput>
-  </div>
-  <div class="ui field">
-    <label>Date value</label>
-    <SemDateInput @bind-Value="dateValue"></SemDateInput>
-  </div>
-  <div class="ui field">
-    <label>String value</label>
-    <SemTimeInput @bind-Value="timeSpanValue"></SemTimeInput>
-  </div>
-  <div class="ui field">
-    <label>Datetime value</label>
-    <SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
-  </div>
-</div>
+@*<div class="ui form" style="max-width: 300px">
+    <div class="ui field">
+      <label>String value</label>
+      <SemInput @bind-Value="selectedStringValue"></SemInput>
+    </div>
+    <div class="ui field">
+      <label>Date value</label>
+      <SemDateInput @bind-Value="dateValue"></SemDateInput>
+    </div>
+    <div class="ui field">
+      <label>String value</label>
+      <SemTimeInput @bind-Value="timeSpanValue"></SemTimeInput>
+    </div>
+    <div class="ui field">
+      <label>Datetime value</label>
+      <SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
+    </div>
+  </div>*@
 
 @code {
   async Task RefreshChildren()
@@ -154,7 +121,7 @@
 
   async Task<List<Data.DummyData>> GetData(string type)
   {
-    await Task.Delay(100);
+    await Task.Delay(1000);
     if (string.IsNullOrEmpty(type))
     {
       return null;
@@ -179,6 +146,10 @@
     {
       return (await GetData("A")).Concat(await GetData("B")).ToList();
     }
+
+  }
+  void TabChanged(SemTab tab)
+  {
 
   }
 }
