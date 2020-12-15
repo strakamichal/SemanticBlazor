@@ -3,7 +3,7 @@
 @inject Data.DummyDataService dummyData
 
 
-<SemTabs @ref="tabs" ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
+<SemTabs ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
   <Tabs>
     <SemTab Text="First">
       <p>First</p>
