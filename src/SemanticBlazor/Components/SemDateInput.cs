@@ -30,7 +30,7 @@ namespace SemanticBlazor.Components
     {
       get
       {
-        return lastValidValue != null ? ((DateTime)(object)lastValidValue).ToString("dd.MM.yyyy") : "";
+        return lastValidValue != null ? ((DateTime)(object)lastValidValue).ToString(DateFormat) : "";
       }
     }
   }
