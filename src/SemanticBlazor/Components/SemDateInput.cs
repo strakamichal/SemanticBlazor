@@ -8,6 +8,8 @@ namespace SemanticBlazor.Components
 {
   public class SemDateInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
   {
+    //[Parameter] public override string DateFormat { get; set; } = "dd.MM.yyyy";
+
     protected override List<Type> restrictedClasses
     {
       get

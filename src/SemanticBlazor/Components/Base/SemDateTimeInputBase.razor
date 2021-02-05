@@ -25,7 +25,7 @@
   [Parameter] public string Placeholder { get; set; }
   [Parameter] public string Culture { get; set; }
   [Parameter] public InputSize? Size { get; set; }
-  [Parameter] public string DateFormat { get; set; } = "dd.MM.yyyy";
+  public virtual string DateFormat { get; set; } = "dd.MM.yyyy";
 
   protected virtual string stringValue => throw new NotImplementedException();
   protected ValueType lastValidValue { get; set; }

@@ -2,39 +2,42 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
-
 @*<SemTabs ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
-  <Tabs>
-    <SemTab Text="First">
-      <p>First</p>
-    </SemTab>
-    <SemTab Text="Second">
-      <p>Second</p>
-    </SemTab>
-  </Tabs>
-</SemTabs>
+    <Tabs>
+      <SemTab Text="First">
+        <p>First</p>
+      </SemTab>
+      <SemTab Text="Second">
+        <p>Second</p>
+      </SemTab>
+    </Tabs>
+  </SemTabs>
 
-<p>
-  <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
-    <ListItems>
-      <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
-      <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
-      <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
-    </ListItems>
-  </SemDropdownSelection>
-</p>
-<p>
-  <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
-</p>
-<p>
-  <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
-</p>
-<p>
-  <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
-</p>
-<p>
-  Selected value: @(selectedDummyData?.ToString() ?? "null");
-</p>*@
+  <p>
+    <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
+      <ListItems>
+        <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
+        <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
+        <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
+      </ListItems>
+    </SemDropdownSelection>
+  </p>
+  <p>
+    <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
+  </p>
+  <p>
+    <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
+  </p>
+  <p>
+    <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+  </p>
+  <p>
+    Selected value: @(selectedDummyData?.ToString() ?? "null");
+  </p>*@
+
+<SemDateInput @bind-Value="dateValue"></SemDateInput>
+
+<SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
 
 
 <SemForm Model="selectedValue" OnSubmit="FormSubmited">
@@ -149,6 +152,6 @@
 
   void FormSubmited()
   {
-    
+
   }
 }

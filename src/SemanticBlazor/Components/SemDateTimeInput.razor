@@ -26,6 +26,7 @@
   [Parameter] public string Placeholder { get; set; }
   [Parameter] public string Culture { get; set; }
   [Parameter] public InputSize? Size { get; set; }
+  //[Parameter] public string DateFormat { get; set; } = "dd.MM.yyyy";
 
   SemDateInput<ValueType> dateInput { get; set; }
   SemTimeInput<TimeSpan?> timeInput { get; set; }
