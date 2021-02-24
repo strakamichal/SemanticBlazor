@@ -156,7 +156,7 @@ window.SemanticDateTimeInput = {
             return hour + ":" + minute;
           }
         },
-        onHidden: function() {
+        onHidden: function () {
           var element = document.getElementById("inpt_" + id);
           var event = new Event('change');
           element.dispatchEvent(event);

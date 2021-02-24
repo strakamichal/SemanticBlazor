@@ -28,6 +28,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
         SetLoadingState(true);
         Items = await DataMethod.Invoke();
         SetLoadingState(false);
+        await ItemsLoaded();
       }
       itemsSet = Items != null && Items.Any();
       await base.OnInitializedAsync();
@@ -62,6 +63,10 @@ namespace SemanticBlazor.Components.SelectControlsBase
     {
       this.loading = isLoading;
       StateHasChanged();
+    }
+    protected virtual async Task ItemsLoaded()
+    {
+      await Task.CompletedTask;
     }
 
     protected virtual string GetItemText(ItemType item) => throw new NotImplementedException();

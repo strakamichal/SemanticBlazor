@@ -67,6 +67,10 @@ namespace SemanticBlazor.Components.SelectControlsBase
         await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
       }
     }
+    protected override async Task ItemsLoaded()
+    {
+      await SetComboboxValue();
+    }
 
     protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
     {
