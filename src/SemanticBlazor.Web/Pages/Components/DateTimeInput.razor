@@ -1,0 +1,110 @@
+﻿@page "/Components/DateTimeInput"
+@layout ComponentsLayout
+
+<h1>DateInput, TimeInput, DateTimeInput</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/elements/input.html" target="_blank">Semantic UI</NavLink>.
+
+<h3>Standard</h3>
+<h5>Date</h5>
+<p>
+  <SemDateInput @bind-Value="DateValue"></SemDateInput>
+</p>
+<p>Value: @(DateValue.ToString("dd.MM.yyyy"))</p>
+<CodeHighlight Code=@(@"
+  <SemDateInput @bind-Value=""DateValue""></SemDateInput>") />
+
+<h5>Time</h5>
+<p>
+  <SemTimeInput @bind-Value="TimeValue"></SemTimeInput>
+</p>
+<p>Value: @(TimeValue.ToString(@"hh\:mm"))</p>
+<CodeHighlight Code=@(@"
+  <SemTimeInput @bind-Value=""TimeValue""></SemTimeInput>") />
+
+<h5>DateTime</h5>
+<p>
+  <SemDateTimeInput @bind-Value="DateTimeValue" Style="max-width: 250px"></SemDateTimeInput>
+</p>
+<p>Value: @(DateTimeValue.ToString("dd.MM.yyyy HH:mm"))</p>
+<CodeHighlight Code=@(@"
+  <SemDateTimeInput @bind-Value=""DateTimeValue""></SemDateTimeInput>") />
+
+
+
+<h3>Disabled</h3>
+<h5>Date</h5>
+<p>
+  <SemDateInput @bind-Value="DateValue" Enabled="inputEnabled"></SemDateInput>
+  <SemButton Class="basic" Color="ButtonColor.Teal" OnClick="@(() => inputEnabled = !inputEnabled)">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateInput @bind-Value=""DateValue"" Enabled=""inputEnabled""></SemDateInput>") />
+
+<h5>Time</h5>
+<p>
+  <SemTimeInput @bind-Value="TimeValue" Enabled="inputEnabled"></SemTimeInput>
+  <SemButton Class="basic" Color="ButtonColor.Teal" OnClick="@(() => inputEnabled = !inputEnabled)">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemTimeInput @bind-Value=""TimeValue"" Enabled=""inputEnabled""></SemTimeInput>") />
+
+<h5>DateTime</h5>
+<p>
+  <SemDateTimeInput @bind-Value="DateTimeValue" Enabled="inputEnabled" Style="max-width: 250px"></SemDateTimeInput>
+  <SemButton Class="basic" Color="ButtonColor.Teal" OnClick="@(() => inputEnabled = !inputEnabled)">Toggle</SemButton>
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Enabled=""inputEnabled""></SemDateTimeInput>") />
+
+
+<h3>Transparent</h3>
+<p>
+  <SemDateTimeInput @bind-Value="DateTimeValue" Class="transparent" Style="max-width: 250px"></SemDateTimeInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Class=""transparent""></SemDateTimeInput>") />
+
+<h3>Icon</h3>
+<p>
+  <SemDateTimeInput @bind-Value="DateTimeValue" DateIcon="Icon.Calendar_Alternate_Outline" TimeIcon="Icon.Clock_Outline" Style="max-width: 250px"></SemDateTimeInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" DateIcon=""Icon.Calendar_Alternate_Outline"" TimeIcon=""Icon.Clock_Outline""></SemDateTimeInput>") />
+
+<h3>Clearable</h3>
+<p>
+  <SemDateTimeInput @bind-Value="DateTimeNullValue" Clearable="true" Style="max-width: 250px"></SemDateTimeInput>
+</p>
+<p>Value: @(DateTimeNullValue?.ToString("dd.MM.yyyy HH:mm") ?? "null")</p>
+
+<CodeHighlight Code=@(@"
+  <SemDateTimeInput @bind-Value=""DateTimeNullValue"" Clearable=""true""></SemDateTimeInput>") />
+
+<h3>Sizes</h3>
+<p>
+  <SemDateTimeInput @bind-Value="DateTimeValue" Size="InputSize.Mini" Style="max-width: 200px"></SemDateTimeInput><br /><br />
+  <SemDateTimeInput @bind-Value="DateTimeValue" Size="InputSize.Small" Style="max-width: 200px"></SemDateTimeInput><br /><br />
+  <SemDateTimeInput @bind-Value="DateTimeValue" Style="max-width: 250px"></SemDateTimeInput><br /><br />
+  <SemDateTimeInput @bind-Value="DateTimeValue" Size="InputSize.Large" Style="max-width: 250px"></SemDateTimeInput><br /><br />
+  <SemDateTimeInput @bind-Value="DateTimeValue" Size="InputSize.Big" Style="max-width: 250px"></SemDateTimeInput><br /><br />
+  <SemDateTimeInput @bind-Value="DateTimeValue" Size="InputSize.Huge" Style="max-width: 250px"></SemDateTimeInput><br /><br />
+  <SemDateTimeInput @bind-Value="DateTimeValue" Size="InputSize.Massive" Style="max-width: 300px"></SemDateTimeInput>
+</p>
+<CodeHighlight Code=@(@"
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Size=""InputSize.Mini""></SemDateTimeInput>
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Size=""InputSize.Small""></SemDateTimeInput>
+  <SemDateTimeInput @bind-Value=""DateTimeValue""></SemDateTimeInput>
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Size=""InputSize.Large""></SemDateTimeInput>
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Size=""InputSize.Big""></SemDateTimeInput>
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Size=""InputSize.Huge""></SemDateTimeInput>
+  <SemDateTimeInput @bind-Value=""DateTimeValue"" Size=""InputSize.Massive""></SemDateTimeInput>") />
+
+@code {
+  DateTime DateValue { get; set; } = DateTime.Now.Date.AddDays(2);
+  DateTime DateNullValue { get; set; } = DateTime.Now.Date.AddDays(7);
+  TimeSpan TimeValue { get; set; } = DateTime.Now.TimeOfDay;
+  TimeSpan TimeNullValue { get; set; } = DateTime.Now.TimeOfDay;
+  DateTime DateTimeValue { get; set; } = DateTime.Now.Date.AddDays(5);
+  DateTime? DateTimeNullValue { get; set; } = DateTime.Now.Date.AddDays(14);
+  bool inputEnabled { get; set; } = false;
+}

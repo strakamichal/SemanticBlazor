@@ -1,5 +1,6 @@
-﻿@typeparam ValueType
-@inherits SemSelectControlBase<ValueType>
+﻿@typeparam ItemType
+@typeparam ValueType
+@inherits SemSelectControlBase<ItemType, ValueType>
 
 @if (Visible)
 {
@@ -26,14 +27,14 @@
       {
         @foreach (var item in Items)
         {
-          <div class="item" data-value="@(item.Value ?? item.Text)">
+          <div class="item" data-value="@(GetItemKey(item))">
             @if (ItemTemplate != null)
             {
               @ItemTemplate(item)
             }
             else
             {
-              @(item.Text ?? item.Value)
+              @(GetItemText(item))
             }
           </div>
         }
@@ -43,13 +44,6 @@
 }
 
 @code {
-  protected virtual string stringValue
-  {
-    get
-    {
-      return Value?.ToString();
-    }
-  }
   [Parameter] public string DefaultText { get; set; } = "Select...";
   [Parameter] public Icon? Icon { get; set; }
   [Parameter] public bool Search { get; set; }
@@ -74,6 +68,7 @@
     - fluid
   */
 
+  protected virtual string stringValue { get; }
   protected virtual Dictionary<string, object> initSettings
   {
     get
@@ -91,7 +86,7 @@
   protected bool changeFromGui { get; set; } = false;
   protected bool guiValueChanged => lastStringValue != stringValue;
 
-  public SemDropdownSelection()
+  public SemDropdownSelectionBase()
   {
     ClassMapper
       .Add("ui")
@@ -107,6 +102,7 @@
       .Get(() => ButtonColor?.ToString().ToLower())
       .Get(() => ButtonSize?.ToString().ToLower())
       .If("button", () => this.IsButton)
+      .If("loading", () => this.loading)
       .Add("dropdown");
   }
   protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -116,15 +112,6 @@
       await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
     }
     await base.OnAfterRenderAsync(firstRender);
-  }
-  protected async Task OnValueChanged(ChangeEventArgs e)
-  {
-    if (!guiValueChangeInprogress)
-    {
-      changeFromGui = true;
-      Value = ConvertValue(e.Value);
-      await NotifyChanged();
-    }
   }
   protected override async Task OnParametersSetAsync()
   {
@@ -142,26 +129,20 @@
     }
     changeFromGui = false;
   }
-  protected virtual ValueType ConvertValue(object newValue)
+
+  protected async Task OnValueChanged(ChangeEventArgs e)
   {
-    if (typeof(ValueType) == typeof(Nullable<int>))
+    if (!guiValueChangeInprogress)
     {
-      return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
-    }
-    else
-    {
-      return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));
+      changeFromGui = true;
+      Value = (ValueType)ConvertValue(e.Value);
+      await NotifyChanged();
     }
   }
-  protected virtual async Task SetComboboxValue()
+  protected virtual object ConvertValue(object newValue) => throw new NotImplementedException();
+
+  protected virtual Task SetComboboxValue()
   {
-    if ((typeof(ValueType) != typeof(Int32) && Value != null) || (typeof(ValueType) == typeof(Int32) && Value.ToString() != "0"))
-    {
-      await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, Value.ToString());
-    }
-    else
-    {
-      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
-    }
+    throw new NotImplementedException();
   }
 }

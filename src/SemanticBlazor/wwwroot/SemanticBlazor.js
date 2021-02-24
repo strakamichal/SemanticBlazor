@@ -57,9 +57,10 @@ window.SemanticAccordion = {
 };
 
 window.SemanticDropdownMenu = {
-  Init: function (id) {
+  Init: function (id, on, action) {
     $('#' + id).dropdown({
-      on: 'hover'
+      action: action,
+      on: on
     });
   }
 };
@@ -128,44 +129,37 @@ window.SemanticDateTimeInput = {
             return day + '.' + month + '.' + year;
           }
         },
-        onChange: function (date, text, mode) {
+        onHidden: function () {
           var element = document.getElementById("inpt_" + id);
-          element.value = text;
           var event = new Event('change');
           element.dispatchEvent(event);
         },
         text: {
           days: [getDayName(1, locale), getDayName(2, locale), getDayName(3, locale), getDayName(4, locale), getDayName(5, locale), getDayName(6, locale), getDayName(7, locale)],
-          months: [getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale), getMonth(12, locale)],
-          monthsShort: [getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale), getMonth(12, locale)],
+          months: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
+          monthsShort: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
           today: todayText
         }
       });
   },
-  InitTimeCalendar: function (id) {
+  InitTimeCalendar: function (id, minutesEnabled, ampm) {
     $("#" + id).closest('.calendar').calendar(
       {
         type: "time",
-        ampm: false,
-        today: true,
-        disableMinute: true,
+        ampm: ampm,
+        disableMinute: !minutesEnabled,
         formatter: {
           date: function (date, settings) {
             if (!date) return '';
             var hour = date.getHour();
             var minute = date.getMinute();
-
-            hour = hour < 10 ? "0" + hour : hour;
-            minute = minute < 10 ? "0" + minute : minute;
-            return hour + ':' + minute;
+            return hour + ":" + minute;
           }
         },
-        onChange: function (date, text, mode) {
-          var input = $(this).find("input");
-          var e = jQuery.Event("keypress");
-          e.which = 13;
-          e.keyCode = 13;
-          $(input).trigger(e);
+        onHidden: function () {
+          var element = document.getElementById("inpt_" + id);
+          var event = new Event('change');
+          element.dispatchEvent(event);
         },
         text: {
           now: 'Teď'

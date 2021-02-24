@@ -50,13 +50,25 @@
   }
   protected override void OnInitialized()
   {
-    Required = Editable && Annotations.GetRequiredFor(For);
-    if (EditContext != null)
+    if (EditContext != null && For != null)
     {
-      EditContext.OnValidationStateChanged += HandleValidationStateChanged;
+      if (Editable && Annotations.GetRequiredFor(For))
+      {
+        Required = true;
+      }
+      if (EditContext != null)
+      {
+        EditContext.OnValidationStateChanged += HandleValidationStateChanged;
+      }
     }
   }
-  private void HandleValidationStateChanged(object o, ValidationStateChangedEventArgs args) => validationError = (EditContext != null && EditContext.GetValidationMessages(FieldIdentifier.Create(For)).Any());
+  private void HandleValidationStateChanged(object o, ValidationStateChangedEventArgs args)
+  {
+    if (For != null && EditContext != null)
+    {
+      validationError = EditContext.GetValidationMessages(FieldIdentifier.Create(For)).Any();
+    }
+  }
   public void Dispose()
   {
     if (EditContext != null)

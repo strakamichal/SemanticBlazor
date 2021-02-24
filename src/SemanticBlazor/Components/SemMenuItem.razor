@@ -50,6 +50,8 @@
   [Parameter] public RenderFragment Header { get; set; }
   [Parameter] public string Href { get; set; }
   [Parameter] public bool Dropdown { get; set; }
+  [Parameter] public DropdownOn DropdownOn { get; set; } = DropdownOn.Click;
+  [Parameter] public DropdownAction DropdownAction { get; set; } = DropdownAction.Hide;
   [Parameter] public Color? Color { get; set; }
 
   [Parameter] public bool NeedsConfirmation { get; set; }
@@ -73,14 +75,14 @@
   {
     if (firstRender && Dropdown)
     {
-      await JsFunc.DropDownMenu.Init(js, Id);
+      await JsFunc.DropDownMenu.Init(js, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
     }
   }
-  async Task ClickEvent()
+  async Task ClickEvent(MouseEventArgs e)
   {
-    await OnClick.InvokeAsync(null);
+    await OnClick.InvokeAsync(e);
   }
-  async Task Clicked()
+  async Task Clicked(MouseEventArgs e)
   {
     if (NeedsConfirmation)
     {
@@ -88,7 +90,7 @@
     }
     else
     {
-      await ClickEvent();
+      await ClickEvent(e);
     }
   }
   async Task ShowConfirmation()

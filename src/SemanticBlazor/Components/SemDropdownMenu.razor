@@ -9,26 +9,23 @@
 
 @code {
   [Parameter] public RenderFragment ChildContent { get; set; }
+  [Obsolete]
   [Parameter] public bool ShowOnHover { get; set; } = false;
+  [Parameter] public DropdownOn DropdownOn { get; set; } = DropdownOn.Click;
+  [Parameter] public DropdownAction DropdownAction { get; set; } = DropdownAction.Hide;
 
   public SemDropdownMenu()
   {
     ClassMapper
-      .Add("ui dropdown");
+      .Add("ui dropdown item");
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
     {
-      if (ShowOnHover)
-      {
-        await JsFunc.DropDownMenu.Init(js, Id);
-      }
-      else
-      {
-        await JsFunc.DropDown.Init(js, Id, null);
-      }
+      if (ShowOnHover) DropdownOn = DropdownOn.Hover;
+      await JsFunc.DropDownMenu.Init(js, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
     }
   }
 }

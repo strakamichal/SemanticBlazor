@@ -39,26 +39,26 @@ namespace SemanticBlazor.Web.Data
 
     public async Task<List<DummyData>> GetAllDataAsync()
     {
-      return await Task.FromResult(Dummies.ToList());
+      await Task.Delay(1000);
+      return Dummies.ToList();
     }
 
     public async Task<List<DummyData>> GetDataAsync(int startIndex, int pageSize, string search)
     {
-      Task.Delay(1000).Wait();
-      return await Task.FromResult(
-        Dummies
+      await Task.Delay(1000);
+      return Dummies
         .Where(d => String.IsNullOrEmpty(search) || d.Name.Contains(search) || d.Description.Contains(search))
         .Skip(startIndex)
         .Take(pageSize)
-        .ToList());
+        .ToList();
     }
 
     public async Task<int> GetCountAsync(string search)
     {
-      return await Task.FromResult(
-        Dummies
+      await Task.Delay(100);
+      return Dummies
         .Where(d => String.IsNullOrEmpty(search) || d.Name.Contains(search) || d.Description.Contains(search))
-        .Count());
+        .Count();
     }
 
     public void Delete(int id)

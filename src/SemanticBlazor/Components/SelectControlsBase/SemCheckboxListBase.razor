@@ -1,0 +1,93 @@
+﻿@typeparam ItemType
+@typeparam ValueType
+@inherits SelectControlsBase.SemSelectControlBase<ItemType, List<ValueType>>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  @if (!loading)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="@InputClassMapper.ToString()">
+            @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
+            {
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+            }
+            else
+            {
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+            }
+            <label for="@($"{Id}-{GetItemKey(item)}")">
+              @if (ItemTemplate == null)
+              {
+                @GetItemText(item)
+
+              }
+              else
+              {
+                @ItemTemplate(item)
+              }
+            </label>
+          </div>
+        }
+      }
+    </div>
+  }
+  else
+  {
+    <SemIcon Icon="Icon.Spinner_Loading" />
+  }
+}
+
+
+@code {
+  [Parameter] public CheckboxType Type { get; set; } = CheckboxType.Checkbox;
+  ClassMapper InputClassMapper { get; set; } = new ClassMapper();
+
+  public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
+  protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
+  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
+
+  public SemCheckboxListBase()
+  {
+    ClassMapper
+      .Add("ui")
+      .Add("checkboxes");
+
+    InputClassMapper
+      .Add("ui")
+      .If("disabled", () => !this.Enabled)
+      .Get(() => Type.ToString().ToLower())
+      .Add("checkbox");
+  }
+  async Task CheckedChanged(object value)
+  {
+    if (Value == null) Value = new List<ValueType>();
+    var _value = default(ValueType);
+    if (ValueSelector != null)
+    {
+      _value = ValueSelector.Invoke(GetItem(value));
+    }
+    else
+    {
+      _value = (ValueType)ConvertValue(value);
+    }
+    if (Value.Contains(_value))
+    {
+      Value.Remove(_value);
+    }
+    else
+    {
+      Value.Add(_value);
+    }
+    await NotifyChanged();
+  }
+}

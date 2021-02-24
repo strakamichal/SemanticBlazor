@@ -1,0 +1,68 @@
+﻿@typeparam ItemType
+@typeparam ValueType
+@inherits SelectControlsBase.SemSelectControlBase<ItemType, ValueType>
+
+@if (Visible)
+{
+  <CascadingValue Value="@this">
+    @ListItems
+  </CascadingValue>
+  @if (!loading)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="field">
+            <div class="ui radio checkbox">
+              @if (Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item))
+              {
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
+              }
+              else
+              {
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
+              }
+              <label for="@($"{Id}-{GetItemKey(item)}")">
+                @if (ItemTemplate == null)
+                {
+                  @GetItemText(item)
+                }
+                else
+                {
+                  @ItemTemplate(item)
+                }
+              </label>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
+  else
+  {
+    <SemIcon Icon="Icon.Spinner_Loading" />
+  }
+}
+
+@code {
+  public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+
+  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
+  protected object ConvertValue(string newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
+  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
+
+
+  public SemRadioButtonListBase()
+  {
+    ClassMapper
+      .Add("grouped fields");
+  }
+  async Task ButtonClicked(string value)
+  {
+    Value = (ValueType)ConvertValue(value);
+    await NotifyChanged();
+  }
+}

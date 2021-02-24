@@ -28,16 +28,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8BC566B9-9AD7-4162-8CF3-99A7E90929D7}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://mosoftware.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = SemanticBlazor.Web\\SemanticBlazor.Web.csproj
-		SccProjectName1 = SemanticBlazor.Web
-		SccLocalPath1 = SemanticBlazor.Web
-		SccProjectUniqueName2 = SemanticBlazor\\SemanticBlazor.csproj
-		SccProjectName2 = SemanticBlazor
-		SccLocalPath2 = SemanticBlazor
-	EndGlobalSection
 EndGlobal

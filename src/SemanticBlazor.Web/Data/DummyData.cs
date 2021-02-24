@@ -31,5 +31,10 @@ namespace SemanticBlazor.Web.Data
 
     [Display(Name = "Last update")]
     public DateTime? LastUpdate { get; set; }
+
+    public override string ToString()
+    {
+      return $"[{DummyId}] {Name} - {Created.ToString("dd.MM.yyyy HH:mm")}";
+    }
   }
 }

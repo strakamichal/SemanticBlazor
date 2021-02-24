@@ -38,10 +38,12 @@
     <Content Remove="obj\**" />
     <EmbeddedResource Remove="obj\**" />
     <None Remove="obj\**" />
+    <Content Remove="wwwroot\modules\semantic\.versions" />
     <None Include="Files\semblazor-icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="wwwroot\modules\semantic\.versions" />
   </ItemGroup>
 
   <ItemGroup>
