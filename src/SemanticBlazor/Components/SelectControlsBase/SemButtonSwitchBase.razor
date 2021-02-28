@@ -56,6 +56,28 @@
     .Get(() => Color?.ToString().ToLower())
     .Get(() => Size?.ToString().ToLower());
   }
+  protected override async Task OnParametersSetAsync()
+  {
+    if (Value != null)
+    {
+      SelectedItem = GetItemFromValue(Value);
+    }
+    else
+    {
+      SelectedItem = default(ItemType);
+    }
+    await base.OnParametersSetAsync();
+  }
+  protected override async Task ItemsLoaded()
+  {
+    if (Items != null)
+    {
+      if (!Items.Any(i => GetItemKey(i) == GetItemKey(SelectedItem)))
+      {
+        await ClearValue();
+      }
+    }
+  }
   async Task ButtonClicked(string value)
   {
     Value = (ValueType)ConvertValue(value);

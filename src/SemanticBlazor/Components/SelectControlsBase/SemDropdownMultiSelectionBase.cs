@@ -23,6 +23,18 @@ namespace SemanticBlazor.Components.SelectControlsBase
       ClassMapper
         .Add("multiple");
     }
+    protected override async Task OnParametersSetAsync()
+    {
+      if (Value != null)
+      {
+        SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
+      }
+      else
+      {
+        SelectedItems = null;
+      }
+      await base.OnParametersSetAsync();
+    }
 
     protected override Dictionary<string, object> initSettings
     {
@@ -69,7 +81,25 @@ namespace SemanticBlazor.Components.SelectControlsBase
     }
     protected override async Task ItemsLoaded()
     {
-      await SetComboboxValue();
+      if (Items != null)
+      {
+        var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
+        if (validKeys != null && validKeys.Count > 0)
+        {
+          Value = (List<ValueType>)ConvertValue(string.Join(",", validKeys));
+          await NotifyChanged();
+          await SetComboboxValue();
+        }
+        else
+        {
+          await ClearValue();
+        }
+      }
+    }
+    public override async Task ClearValue()
+    {
+      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+      await base.ClearValue();
     }
 
     protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)

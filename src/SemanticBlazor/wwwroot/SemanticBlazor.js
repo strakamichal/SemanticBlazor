@@ -47,6 +47,7 @@ window.SemanticDropdown = {
   },
   Clear: function (id) {
     $('#' + id).dropdown('clear');
+    $('#' + id).find('.item').removeClass('filtered selected active');
   }
 };
 
