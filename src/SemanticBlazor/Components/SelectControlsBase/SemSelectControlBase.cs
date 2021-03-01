@@ -14,6 +14,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
   {
     [Parameter] public virtual RenderFragment<object> ItemTemplate { get; set; }
     public virtual IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
+    IEnumerable<ItemType> latestItems { get; set; } = new List<ItemType>();
     public virtual ItemType SelectedItem { get; set; }
     public virtual List<ItemType> SelectedItems { get; set; }
     public virtual Func<ItemType, object> ItemKey { get; set; }
@@ -27,8 +28,18 @@ namespace SemanticBlazor.Components.SelectControlsBase
     {
       await RefreshItems();
       itemsSet = Items != null && Items.Any();
+      latestItems = Items;
       await base.OnInitializedAsync();
 
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+      if (latestItems != Items)
+      {
+        latestItems = Items;
+        await ItemsLoaded();
+      }
+      await base.OnParametersSetAsync();
     }
     public async Task RefreshItems()
     {
@@ -37,7 +48,6 @@ namespace SemanticBlazor.Components.SelectControlsBase
         SetLoadingState(true);
         Items = await DataMethod.Invoke();
         SetLoadingState(false);
-        await ItemsLoaded();
       }
     }
     internal override void RegistedChildControl(object control)

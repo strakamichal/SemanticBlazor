@@ -35,39 +35,44 @@
 </p>
 
 
-<p>
+@*<p>
   <SemDataDropdownMultiSelection @ref="childDropdownMulti" @bind-Value="dummies" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownMultiSelection>
-</p>
+</p>*@
 @*<p>
   <SemDataCheckboxList @ref="childCheckboxList" @bind-Value="dummies" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataCheckboxList>
 </p>*@
-<p>
-  Selected values: @(dummies != null ? string.Join(",", dummies.Select(d => d?.DummyId)) : "null")
-</p>
 @*<p>
-    Selected item: @(childDropdown?.SelectedItem?.ToString() ?? "null")
-  </p>*@
+  Selected values: @(dummies != null ? string.Join(",", dummies.Select(d => d?.DummyId)) : "null")
+</p>*@
+@*<p>
+  Selected item: @(childDropdown?.SelectedItem?.ToString() ?? "null")
+</p>*@
 
 @*<SemDateInput @bind-Value="dateValue"></SemDateInput>
 
-  <SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
+<SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
 
 
-  <SemForm Model="selectedValue" OnSubmit="FormSubmited">
-    <SemFormField For="@(() => selectedValue.Code)">
-      <SemInput @bind-Value="selectedValue.Code"></SemInput>
-    </SemFormField>
-    <SemFormField For="@(() => selectedValue.Name)">
-      <SemInput @bind-Value="selectedValue.Name"></SemInput>
-    </SemFormField>
-    <SemFormField ValueType="string">
-      <SemInput @bind-Value="selectedStringValue"></SemInput>
-    </SemFormField>
-    <SemButton IsSubmitButton="true">Submit</SemButton>
-  </SemForm>*@
+<SemForm Model="selectedValue" OnSubmit="FormSubmited">
+  <SemFormField For="@(() => selectedValue.Code)">
+    <SemInput @bind-Value="selectedValue.Code"></SemInput>
+  </SemFormField>
+  <SemFormField For="@(() => selectedValue.Name)">
+    <SemInput @bind-Value="selectedValue.Name"></SemInput>
+  </SemFormField>
+  <SemFormField ValueType="string">
+    <SemInput @bind-Value="selectedStringValue"></SemInput>
+  </SemFormField>
+  <SemButton IsSubmitButton="true">Submit</SemButton>
+</SemForm>*@
 
+<SemDataDropdownSelection @bind-Value="@selectedValue" Items="@items" ItemText="@(i => i.Code.ToString())" ItemKey="@(i => i.Code)"></SemDataDropdownSelection>
+<SemButton OnClick="AddItem">Add item</SemButton>
+<SemButton OnClick="ChangeItems">Change items</SemButton>
 
-
+<p>
+  Selected value: @(selectedValue?.ToString() ?? "null")
+</p>
 
 
 @code {
@@ -76,7 +81,7 @@
     await childDropdown.RefreshItems();
     await childRadio.RefreshItems();
     await childButtonSwitch.RefreshItems();
-    await childDropdownMulti.RefreshItems();
+    //await childDropdownMulti.RefreshItems();
     //await childCheckboxList.RefreshItems();
   }
 
@@ -104,6 +109,19 @@
     new SomeClass() { Name = "Test Name 2", Code = 20, Description = "Second Name" },
     new SomeClass() { Name = "Test Name 3", Code = 30, Description = "Third Name" }
   };
+
+  void AddItem()
+  {
+    items.Add(new SomeClass() { Name = "Test Name xx", Code = items.Max(i => i.Code) + 10, Description = "New item" });
+  }
+  void ChangeItems()
+  {
+    items = new List<SomeClass>() {
+      new SomeClass() { Name = "Test Name 990", Code = 990, Description = "First Name" },
+      new SomeClass() { Name = "Test Name 991", Code = 991, Description = "Second Name" },
+      new SomeClass() { Name = "Test Name 992", Code = 992, Description = "Third Name" }
+    };
+  }
 
   SomeClass selectedValue { get; set; } = new SomeClass();
   int selectedIntValue { get; set; } = 10;
