@@ -37,7 +37,10 @@ namespace SemanticBlazor.Components.SelectControlsBase
       if (latestItems != Items)
       {
         latestItems = Items;
-        await ItemsLoaded();
+        if (DataMethod == null)
+        {
+          await ItemsLoaded();
+        }
       }
       await base.OnParametersSetAsync();
     }
@@ -48,6 +51,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
         SetLoadingState(true);
         Items = await DataMethod.Invoke();
         SetLoadingState(false);
+        await ItemsLoaded();
       }
     }
     internal override void RegistedChildControl(object control)
