@@ -57,7 +57,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
         {
           await SetComboboxValue();
         }
-        else
+        else if (Value != null && !Value.Equals(default(ValueType)))
         {
           await ClearValue();
         }

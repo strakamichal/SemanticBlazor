@@ -91,7 +91,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
           await NotifyChanged();
           await SetComboboxValue();
         }
-        else
+        else if (Value != null)
         {
           await ClearValue();
         }
