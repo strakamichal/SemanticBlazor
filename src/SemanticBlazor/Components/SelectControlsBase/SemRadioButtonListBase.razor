@@ -74,6 +74,10 @@
   }
   protected override async Task ItemsLoaded()
   {
+    if (Value != null)
+    {
+      SelectedItem = GetItemFromValue(Value);
+    }
     if (Items != null)
     {
       if (!Items.Any(i => GetItemKey(i) == GetItemKey(SelectedItem)))

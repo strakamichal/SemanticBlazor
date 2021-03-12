@@ -51,9 +51,13 @@ namespace SemanticBlazor.Components.SelectControlsBase
     protected override async Task ItemsLoaded()
     {
       await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
+      if (Value != null)
+      {
+        SelectedItem = GetItemFromValue(Value);
+      }
       if (Items != null)
       {
-        if (Items.Any(i => GetItemKey(i) == GetItemKey(SelectedItem)))
+        if (Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(Value))))
         {
           await SetComboboxValue();
         }

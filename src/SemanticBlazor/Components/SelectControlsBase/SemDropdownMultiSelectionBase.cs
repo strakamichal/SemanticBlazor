@@ -82,6 +82,10 @@ namespace SemanticBlazor.Components.SelectControlsBase
     protected override async Task ItemsLoaded()
     {
       await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
+      if (Value != null)
+      {
+        SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
+      }
       if (Items != null)
       {
         var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
