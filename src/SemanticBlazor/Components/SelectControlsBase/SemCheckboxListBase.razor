@@ -68,6 +68,38 @@
       .Get(() => Type.ToString().ToLower())
       .Add("checkbox");
   }
+  protected override async Task OnParametersSetAsync()
+  {
+    if (Value != null)
+    {
+      SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
+    }
+    else
+    {
+      SelectedItems = null;
+    }
+    await base.OnParametersSetAsync();
+  }
+  protected override async Task ItemsLoaded()
+  {
+    if (Value != null)
+    {
+      SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
+    }
+    if (Items != null)
+    {
+      var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
+      if (validKeys != null && validKeys.Count > 0)
+      {
+        Value = validKeys.Select(k => (ValueType)ConvertValue(k)).ToList();
+        await NotifyChanged();
+      }
+      else
+      {
+        await ClearValue();
+      }
+    }
+  }
   async Task CheckedChanged(object value)
   {
     if (Value == null) Value = new List<ValueType>();

@@ -1,7 +1,6 @@
 ﻿@page "/playground"
 @inherits PageBase
 @inject Data.DummyDataService dummyData
-
 @*<SemTabs ActiveTabChanged="@((SemTab tab) => TabChanged(tab))">
     <Tabs>
       <SemTab Text="First">
@@ -11,31 +10,45 @@
         <p>Second</p>
       </SemTab>
     </Tabs>
-  </SemTabs>
+  </SemTabs>*@
 
-  <p>
-    <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
-      <ListItems>
-        <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
-        <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
-        <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
-      </ListItems>
-    </SemDropdownSelection>
-  </p>
-  <p>
-    <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
-  </p>
-  <p>
-    <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
-  </p>
-  <p>
-    <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
-  </p>
-  <p>
-    Selected value: @(selectedDummyData?.ToString() ?? "null");
-  </p>*@
+<p>
+  <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
+    <ListItems>
+      <SemSelectListItem Text="Building A" Value="A"></SemSelectListItem>
+      <SemSelectListItem Text="Building B" Value="B"></SemSelectListItem>
+      <SemSelectListItem Text="Building C" Value="C"></SemSelectListItem>
+    </ListItems>
+  </SemDropdownSelection>
+</p>
+<p>
+  <SemDataDropdownSelection @ref="childDropdown" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownSelection>
+</p>
+<p>
+  <SemDataRadioButtonList @ref="childRadio" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataRadioButtonList>
+</p>
+<p>
+  <SemDataButtonSwitch @ref="childButtonSwitch" @bind-Value="selectedDummyData" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataButtonSwitch>
+</p>
+<p>
+  Selected value: @(selectedDummyData?.ToString() ?? "null")
+</p>
 
-<SemDateInput @bind-Value="dateValue"></SemDateInput>
+
+@*<p>
+  <SemDataDropdownMultiSelection @ref="childDropdownMulti" @bind-Value="dummies" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataDropdownMultiSelection>
+</p>*@
+@*<p>
+  <SemDataCheckboxList @ref="childCheckboxList" @bind-Value="dummies" DataMethod="@(() => GetData(selectedStringValue))" ItemKey="@(dummy => dummy.DummyId)" ItemText="@(dummy => dummy.Name)"></SemDataCheckboxList>
+</p>*@
+@*<p>
+  Selected values: @(dummies != null ? string.Join(",", dummies.Select(d => d?.DummyId)) : "null")
+</p>*@
+@*<p>
+  Selected item: @(childDropdown?.SelectedItem?.ToString() ?? "null")
+</p>*@
+
+@*<SemDateInput @bind-Value="dateValue"></SemDateInput>
 
 <SemDateTimeInput @bind-Value="dateValue"></SemDateTimeInput>
 
@@ -51,7 +64,16 @@
     <SemInput @bind-Value="selectedStringValue"></SemInput>
   </SemFormField>
   <SemButton IsSubmitButton="true">Submit</SemButton>
-</SemForm>
+</SemForm>*@
+
+<SemDataDropdownSelection @bind-Value="@selectedValue" Items="@items" ItemText="@(i => i.Code.ToString())" ItemKey="@(i => i.Code)"></SemDataDropdownSelection>
+<SemButton OnClick="AddItem">Add item</SemButton>
+<SemButton OnClick="ChangeItems">Change items</SemButton>
+
+<p>
+  Selected value: @(selectedValue?.ToString() ?? "null")
+</p>
+
 
 @code {
   async Task RefreshChildren()
@@ -59,12 +81,16 @@
     await childDropdown.RefreshItems();
     await childRadio.RefreshItems();
     await childButtonSwitch.RefreshItems();
+    //await childDropdownMulti.RefreshItems();
+    //await childCheckboxList.RefreshItems();
   }
 
   string selectedStringValue { get; set; }
   SemDataDropdownSelection<Data.DummyData, Data.DummyData> childDropdown { get; set; }
   SemDataRadioButtonList<Data.DummyData, Data.DummyData> childRadio { get; set; }
   SemDataButtonSwitch<Data.DummyData, Data.DummyData> childButtonSwitch { get; set; }
+  SemDataDropdownMultiSelection<Data.DummyData, Data.DummyData> childDropdownMulti { get; set; }
+  SemDataCheckboxList<Data.DummyData, Data.DummyData> childCheckboxList { get; set; }
 
   class SomeClass
   {
@@ -83,6 +109,19 @@
     new SomeClass() { Name = "Test Name 2", Code = 20, Description = "Second Name" },
     new SomeClass() { Name = "Test Name 3", Code = 30, Description = "Third Name" }
   };
+
+  void AddItem()
+  {
+    items.Add(new SomeClass() { Name = "Test Name xx", Code = items.Max(i => i.Code) + 10, Description = "New item" });
+  }
+  void ChangeItems()
+  {
+    items = new List<SomeClass>() {
+      new SomeClass() { Name = "Test Name 990", Code = 990, Description = "First Name" },
+      new SomeClass() { Name = "Test Name 991", Code = 991, Description = "Second Name" },
+      new SomeClass() { Name = "Test Name 992", Code = 992, Description = "Third Name" }
+    };
+  }
 
   SomeClass selectedValue { get; set; } = new SomeClass();
   int selectedIntValue { get; set; } = 10;
@@ -118,7 +157,7 @@
 
   async Task<List<Data.DummyData>> GetData(string type)
   {
-    await Task.Delay(1000);
+    await Task.Delay(100);
     if (string.IsNullOrEmpty(type))
     {
       return null;
@@ -127,16 +166,17 @@
     {
       return new List<Data.DummyData>()
 {
-        new Data.DummyData() { Name = "A - 01", DummyId = 1 },
-        new Data.DummyData() { Name = "A - 02", DummyId = 2 },
+        new Data.DummyData() { Name = "10", DummyId = 10 },
+        new Data.DummyData() { Name = "11", DummyId = 11 },
+        new Data.DummyData() { Name = "12", DummyId = 12 },
       };
     }
     else if (type == "B")
     {
       return new List<Data.DummyData>()
 {
-        new Data.DummyData() { Name = "B - 01", DummyId = 3 },
-        new Data.DummyData() { Name = "B - 02", DummyId = 4 },
+        new Data.DummyData() { Name = "20", DummyId = 20 },
+        new Data.DummyData() { Name = "21", DummyId = 21 },
       };
     }
     else

@@ -17,6 +17,19 @@ namespace SemanticBlazor.Components.SelectControlsBase
     protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
     protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
 
+    protected override async Task OnParametersSetAsync()
+    {
+      if (Value != null)
+      {
+        SelectedItem = GetItemFromValue(Value);
+      }
+      else
+      {
+        SelectedItem = default(ItemType);
+      }
+      await base.OnParametersSetAsync();
+    }
+
     protected override string stringValue
     {
       get
@@ -28,7 +41,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
     {
       if ((typeof(ValueType) != typeof(Int32) && Value != null) || (typeof(ValueType) == typeof(Int32) && Value.ToString() != "0"))
       {
-        await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, Value.ToString());
+        await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, GetItemKey(GetItemFromValue(Value)));
       }
       else
       {
@@ -37,7 +50,27 @@ namespace SemanticBlazor.Components.SelectControlsBase
     }
     protected override async Task ItemsLoaded()
     {
-      await SetComboboxValue();
+      await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
+      if (Value != null)
+      {
+        SelectedItem = GetItemFromValue(Value);
+      }
+      if (Items != null)
+      {
+        if (Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(Value))))
+        {
+          //await SetComboboxValue();
+        }
+        else if (Value != null && !Value.Equals(default(ValueType)))
+        {
+          await ClearValue();
+        }
+      }
+    }
+    public override async Task ClearValue()
+    {
+      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+      await base.ClearValue();
     }
 
     protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
