@@ -35,6 +35,12 @@ window.SemanticLists = {
 window.SemanticDropdown = {
   Init: function (id, settings) {
     $('#' + id).dropdown(settings);
+    //$('#' + id).dropdown({
+    //  onChange: function (value, text, $selectedItem) {
+    //    console.log('Changed: ' + value);
+    //  }
+    //});
+
   },
   GetValue: function (id) {
     return $('#' + id).dropdown('get value');
@@ -43,6 +49,7 @@ window.SemanticDropdown = {
     $('#' + id).dropdown('set selected', value);
   },
   SetExactlyValue: function (id, value) {
+    /*console.log("Set value: " + value);*/
     $('#' + id).dropdown('set exactly', value.split(','));
   },
   Clear: function (id) {

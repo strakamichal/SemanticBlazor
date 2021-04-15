@@ -59,7 +59,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
       {
         if (Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(Value))))
         {
-          await SetComboboxValue();
+          //await SetComboboxValue();
         }
         else if (Value != null && !Value.Equals(default(ValueType)))
         {

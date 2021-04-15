@@ -93,7 +93,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
         {
           Value = (List<ValueType>)ConvertValue(string.Join(",", validKeys));
           await NotifyChanged();
-          await SetComboboxValue();
+          //await SetComboboxValue();
         }
         else if (Value != null)
         {
