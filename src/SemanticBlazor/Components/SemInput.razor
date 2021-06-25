@@ -115,7 +115,7 @@
     else if (typeof(ValueType) == typeof(decimal?) || typeof(ValueType) == typeof(decimal))
     {
       decimal val = 0;
-      if (Decimal.TryParse(e.Value.ToString().Replace(".", ","), out val))
+      if (Decimal.TryParse(e.Value.ToString(), out val))//.Replace(".", ",")
       {
         Value = (ValueType)(object)val;
       }
