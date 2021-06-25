@@ -119,6 +119,10 @@
       {
         Value = (ValueType)(object)val;
       }
+      else if (Decimal.TryParse(e.Value.ToString().Replace(".", ","), out val))
+      {
+        Value = (ValueType)(object)val;
+      }
       else
       {
         Value = (ValueType)default;
