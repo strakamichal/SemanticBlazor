@@ -12,6 +12,15 @@
     </Tabs>
   </SemTabs>*@
 
+
+<p>
+  <SemInput @bind-Value="@DecimalValue" NumberStep="0.01m"></SemInput>
+</p>
+
+<p>
+  Value: @(DecimalValue.ToString() ?? "{null}")
+</p>
+
 <p>
   <SemDropdownSelection @bind-Value="selectedStringValue" Changed="@((string val) => RefreshChildren())">
     <ListItems>
@@ -76,6 +85,9 @@
 
 
 @code {
+  public decimal DecimalValue { get; set; } = 30.5m;
+
+
   async Task RefreshChildren()
   {
     await childDropdown.RefreshItems();
