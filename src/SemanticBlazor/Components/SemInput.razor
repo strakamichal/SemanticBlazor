@@ -137,7 +137,7 @@
   }
   async Task KeyPressed(KeyboardEventArgs e)
   {
-    if (e.Key.ToLowerInvariant() == "enter")
+    if (e != null && e.Key != null && e.Key.ToLowerInvariant() == "enter")
     {
       await EnterPressed.InvokeAsync(null);
     }
