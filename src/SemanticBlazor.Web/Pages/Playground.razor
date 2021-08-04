@@ -2,8 +2,13 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
+
+<SemDateInput Id="startDate" @bind-Value="@startDate" EndDateInputId="endDate"></SemDateInput>
+<SemDateInput Id="endDate" @bind-Value="@endDate" StartDateInputId="startDate"></SemDateInput>
+
+
 <SemanticBlazor.Web.Pages.Components.DummyEditModal @ref="dummyEditModal"></SemanticBlazor.Web.Pages.Components.DummyEditModal>
-<SemButton OnClick="@(() => dummyEditModal.Show(new Data.DummyData()))"></SemButton>
+<SemButton OnClick="@(() => dummyEditModal.Show(new Data.DummyData()))">Show modal</SemButton>
 
 @*<SemDataTable @ref="table"
               DataMethod="GetData"
@@ -94,6 +99,12 @@
 
 
 @code {
+  DateTime startDate { get; set; }
+  DateTime endDate { get; set; }
+  //SemDateInput<DateTime> startDateInput { get; set; }
+  //SemDateInput<DateTime> endDateInput { get; set; }
+
+
   //string searchExpr = "";
   //SemDataTable<Data.DummyData> table;
   //SemDataTable<Data.DummyData> table2;

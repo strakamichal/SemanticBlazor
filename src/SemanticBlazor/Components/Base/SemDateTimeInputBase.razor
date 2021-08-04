@@ -3,7 +3,7 @@
 
 @if (Visible)
 {
-  <div class="ui calendar input">
+  <div id="div_@Id" class="ui calendar input">
     <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
       @if (Clearable && Enabled && !String.IsNullOrEmpty(Value?.ToString()))
       {

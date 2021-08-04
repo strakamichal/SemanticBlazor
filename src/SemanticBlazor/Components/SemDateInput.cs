@@ -9,6 +9,8 @@ namespace SemanticBlazor.Components
   public class SemDateInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
   {
     //[Parameter] public override string DateFormat { get; set; } = "dd.MM.yyyy";
+    [Parameter] public string StartDateInputId { get; set; }
+    [Parameter] public string EndDateInputId { get; set; }
 
     protected override List<Type> restrictedClasses
     {
@@ -25,7 +27,14 @@ namespace SemanticBlazor.Components
     {
       if (firstRender)
       {
-        await JsFunc.DateTimeInput.InitDateCalendar(js, Id);
+        if (StartDateInputId == null && EndDateInputId == null)
+        {
+          await JsFunc.DateTimeInput.InitDateCalendar(js, Id);
+        }
+        else
+        {
+          await JsFunc.DateTimeInput.InitDateCalendar(js, Id, null, null, StartDateInputId, EndDateInputId);
+        }
       }
     }
     protected override string stringValue
