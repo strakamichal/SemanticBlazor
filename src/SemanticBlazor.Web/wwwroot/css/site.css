@@ -93,6 +93,9 @@
   display: none !important;
 }
 
+.menucol {
+  width: 30px;
+}
 
 
 #blazor-error-ui {

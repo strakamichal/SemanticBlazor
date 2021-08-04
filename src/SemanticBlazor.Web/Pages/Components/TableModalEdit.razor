@@ -5,60 +5,40 @@
 
 <h1>Advanced table</h1>
 <p>
-  Advanced table with server (API) pagination, searching and editation via modal dialog.
+  Advanced table with server (API) pagination, sorting and searching and editation via modal dialog.
 </p>
 
 <SemGrid>
   <SemGridColumn Wide="GridUnit.Eight" Classes="@(new[] { ColumnClass.Right_Floated, ColumnClass.Right_Aligned })">
-    <SemSearchActionButton OnSearch="(async () => await table.RefreshData())" @bind-Value="searchExpr"></SemSearchActionButton>
+    <SemSearchActionButton OnSearch="(() => table.RefreshData())" @bind-Value="searchExpr"></SemSearchActionButton>
   </SemGridColumn>
 </SemGrid>
-<SemDataTable @ref="table" ItemType="Data.DummyData" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true" DefaultPageSize="5" EmptyDataMessage="No dummy data found...">
-  <Header>
-    <tr>
-      <th>
-        Name
-      </th>
-      <th>
-        Description
-      </th>
-      <th>
-        Type
-      </th>
-      <th>
-        Flags
-      </th>
-      <th>
-        Created
-      </th>
-      <th width="45px">
-      </th>
-    </tr>
-  </Header>
-  <RowTemplate>
-    <tr>
-      <td><a @onclick="@(() => ShowEditModal(context.DummyId))">[@context.DummyId] @context.Name</a></td>
-      <td>@context.Description</td>
-      <td>
-        @if (context.Type != null)
-        {
-          <span class="ui small label">@context.Type</span>
-        }
-      </td>
-      <td>
+<SemDataTable @ref="table" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true" AllowSorting="true" DefaultPageSize="5" EmptyDataMessage="No dummy data found...">
+  <Columns>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Name" SortExpression="Name">
+      <ItemTemplate>
+        <a @onclick="@(() => ShowEditModal(context.DummyId))">[@context.DummyId] @context.Name</a>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Description" SortExpression="Description" ItemText="@(a => a.Description)"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Type" SortExpression="Type">
+      <ItemTemplate>
+        <SemLabel Visible="context.Type != null" Size="Size.Small">@context.Type</SemLabel>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Flags">
+      <ItemTemplate>
         @if (context.Flags != null)
         {
           @foreach (var flag in context.Flags)
           {
-            if (!String.IsNullOrEmpty(flag))
-            {
-              <span class="ui small label">@flag</span>
-            }
+            <SemLabel Visible="!String.IsNullOrEmpty(flag)" Size="Size.Small">@flag</SemLabel>
           }
         }
-      </td>
-      <td>@context.Created.ToString("dd.MM.yyyy HH:mm:ss")</td>
-      <td>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="" HeaderClass="menucol">
+      <ItemTemplate>
         <SemDropdownMenu>
           <SemIcon Class="ellipsis horizontal"></SemIcon>
           <SemMenu>
@@ -67,64 +47,45 @@
             <SemMenuItem OnClick="(() => Delete(context.DummyId))" NeedsConfirmation="true" ConfirmationHeader="Delete item" ConfirmationMessage="Are you sure to delete this item?">Delete</SemMenuItem>
           </SemMenu>
         </SemDropdownMenu>
-      </td>
-    </tr>
-  </RowTemplate>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Created" SortExpression="Created" ItemText="@(a => a.Created.ToString("dd.MM.yyyy HH:mm:ss"))"></SemDataTableColumn>
+  </Columns>
 </SemDataTable>
 <DummyEditModal @ref="editModal" ItemChanged="ItemChanged"></DummyEditModal>
 
-<CodeHighlight Code=@(@"
+@*<CodeHighlight Code=@(@"
 <SemGrid>
   <SemGridColumn Wide=""GridUnit.Eight"" Classes=""@(new[] { ColumnClass.Right_Floated, ColumnClass.Right_Aligned })"">
     <SemSearchActionButton OnSearch=""(async () => await table.RefreshData())"" @bind-Value=""searchExpr""></SemSearchActionButton>
   </SemGridColumn>
 </SemGrid>
 <SemDataTable @ref=""table"" ItemType=""Data.DummyData"" DataMethod=""GetData"" CountMethod=""GetCount"" AllowPaging=""true"" DefaultPageSize=""5"" EmptyDataMessage=""No dummy data found..."">
-  <Header>
-    <tr>
-      <th>
-        Name
-      </th>
-      <th>
-        Description
-      </th>
-      <th>
-        Type
-      </th>
-      <th>
-        Flags
-      </th>
-      <th>
-        Created
-      </th>
-      <th width=""45px"">
-      </th>
-    </tr>
-  </Header>
-  <RowTemplate>
-    <tr>
-      <td><a @onclick=""@(() => ShowEditModal(context.DummyId))"">[@context.DummyId] @context.Name</a></td>
-      <td>@context.Description</td>
-      <td>
-        @if (context.Type != null)
-        {
-          <span class=""ui small label"">@context.Type</span>
-        }
-      </td>
-      <td>
+  <Columns>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Name"" SortExpression=""Name"">
+      <ItemTemplate>
+        <a @onclick=""@(() => ShowEditModal(context.DummyId))"">[@context.DummyId] @context.Name</a>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Description"" SortExpression=""Description"" ItemText=""@(a => a.Description)""></SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Type"" SortExpression=""Type"">
+      <ItemTemplate>
+        <SemLabel Visible=""context.Type != null"" Size=""Size.Small"">@context.Type</SemLabel>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Flags"">
+      <ItemTemplate>
         @if (context.Flags != null)
         {
           @foreach (var flag in context.Flags)
           {
-            if (!String.IsNullOrEmpty(flag))
-            {
-              <span class=""ui small label"">@flag</span>
-            }
+            <SemLabel Visible=""!String.IsNullOrEmpty(flag)"" Size=""Size.Small"">@flag</SemLabel>
           }
         }
-      </td>
-      <td>@context.Created.ToString(""dd.MM.yyyy HH:mm:ss"")</td>
-      <td>
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText="""" HeaderClass=""menucol"">
+      <ItemTemplate>
         <SemDropdownMenu>
           <SemIcon Class=""ellipsis horizontal""></SemIcon>
           <SemMenu>
@@ -133,10 +94,11 @@
             <SemMenuItem OnClick=""(() => Delete(context.DummyId))"" NeedsConfirmation=""true"" ConfirmationHeader=""Delete item"" ConfirmationMessage=""Are you sure to delete this item?"">Delete</SemMenuItem>
           </SemMenu>
         </SemDropdownMenu>
-      </td>
-    </tr>
-  </RowTemplate>
-</SemDataTable>") />
+      </ItemTemplate>
+    </SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Created"" SortExpression=""Created"" ItemText=""@(a => a.Created.ToString(""dd.MM.yyyy HH:mm:ss""))""></SemDataTableColumn>
+  </Columns>
+</SemDataTable>") />*@
 
 
 @code {
@@ -148,7 +110,7 @@
 
   async Task<List<Data.DummyData>> GetData(DataMethodParams e)
   {
-    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, searchExpr);
+    return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, searchExpr, e.SortExpression, e.SortDirection);
   }
 
   async Task<int> GetCount()

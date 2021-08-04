@@ -1,68 +1,131 @@
 ﻿@typeparam ItemType
 @inherits SemListBase<ItemType>
 
+
 @if (Visible)
 {
-  @if (currentItems == null)
-  {
-    <div class="@SegmentClassMapper.ToString()" style="padding: 0px">
-      <table class="ui @Class table">
-        <thead>
-          <tr>
-            <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-            <th style="width: 15%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-            <th style="width: 30%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-            <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-            <th style="width: 20%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-            <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-            <th style="width: 5%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (int i = 0; i < 5; i++)
-          {
-            <tr>
-              <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              <td style="width: 15%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              <td style="width: 30%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              <td style="width: 20%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              <td style="width: 5%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  }
-  else if (currentItems.Count() == 0)
-  {
-    <div class="ui message">@EmptyDataMessage</div>
-  }
-  else
-  {
-    <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0px;">
-      <table class="@ClassMapper.ToString()">
-        <thead>
-          @Header
-        </thead>
-        <tbody>
-          @foreach (var item in currentItems)
-          {
-            @RowTemplate(item)
-          }
-        </tbody>
-      </table>
-    </div>
-    @if (AllowPaging)
+  <CascadingValue Value="this">
+    @Columns
+    @if (currentItems == null)
     {
-      <SemPagination TotalPages="totalPages" PageIndex="pageIndex" PageIndexChanged="(async (int indx) => await SetPageIndex(indx))"></SemPagination>
+      <div class="@SegmentClassMapper.ToString()" style="padding: 0px">
+        <table class="ui @Class table">
+          <thead>
+            <tr>
+              <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 15%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 30%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 20%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 5%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (int i = 0; i < 5; i++)
+            {
+              <tr>
+                <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+                <td style="width: 15%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+                <td style="width: 30%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+                <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+                <td style="width: 20%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+                <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+                <td style="width: 5%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
-  }
+    else if (currentItems.Count() == 0)
+    {
+      <div class="ui message">@EmptyDataMessage</div>
+    }
+    else
+    {
+      <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0px;">
+        <table class="@ClassMapper.ToString()">
+          <thead>
+            @if (Header != null)
+            {
+              @Header
+            }
+            else
+            {
+              <tr>
+                @foreach (var column in localColumns)
+                {
+                  <th @attributes="GetHeaderAttributes(column)">
+                    @if (column.HeaderTemplate != null)
+                    {
+                      @column.HeaderTemplate
+                    }
+                    else
+                    {
+                      @if (AllowSorting && !string.IsNullOrEmpty(column.SortExpression))
+                      {
+                        <SemDataTableSortLink SortExpression="@column.SortExpression" Table="this">
+                          @column.HeaderText
+                        </SemDataTableSortLink>
+                      }
+                      else
+                      {
+                        @column.HeaderText
+                      }
+                    }
+                  </th>
+                }
+              </tr>
+            }
+          </thead>
+          <tbody>
+            @foreach (var item in currentItems)
+            {
+              @if (RowTemplate != null)
+              {
+                @RowTemplate(item)
+              }
+              else
+              {
+                <tr @attributes="GetRowAttributes(item)">
+                  @foreach (var column in localColumns)
+                  {
+                    <td @attributes="GetBodyAttributes(column, item)">
+                      @if (column.ItemTemplate != null)
+                      {
+                        @(column.ItemTemplate(item))
+                      }
+                      else
+                      {
+                        @(column.ItemText.Invoke(item))
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      @if (AllowPaging)
+      {
+        <SemPagination TotalPages="totalPages" PageIndex="pageIndex" PageIndexChanged="(async (int indx) => await SetPageIndex(indx))"></SemPagination>
+      }
+    }
+  </CascadingValue>
 }
 
 @code {
   [Parameter] public string SegmentClass { get; set; } = "basic";
+
+  [Parameter] public RenderFragment Columns { get; set; }
+  [Parameter] public bool AllowSorting { get; set; }
+  protected List<SemDataTableColumn<ItemType>> localColumns { get; set; } = new List<SemDataTableColumn<ItemType>>();
+  [Parameter] public Func<ItemType, string> RowClassFunc { get; set; }
+  [Parameter] public string RowClass { get; set; }
+
+
   [Parameter] public RenderFragment Header { get; set; }
   [Parameter] public RenderFragment<ItemType> RowTemplate { get; set; }
   [Parameter] public string EmptyDataMessage { get; set; } = "No records has been found...";
@@ -79,5 +142,61 @@
     ClassMapper
     .Add("ui")
     .Add("table");
+  }
+
+  internal override void RegistedChildControl(object control)
+  {
+    if (control.GetType() == typeof(SemDataTableColumn<ItemType>))
+    {
+      if (this.RowTemplate != null || this.Header != null)
+      {
+        throw new Exception("Columns collection cannot be used together with RowTemplate or Header.");
+      }
+      this.localColumns.Add((SemDataTableColumn<ItemType>)control);
+    }
+  }
+
+  public async Task Sort(string sortExpression)
+  {
+    if (this.SortExpression == sortExpression)
+    {
+      this.SortDirection = this.SortDirection == "ASC" ? "DESC" : "ASC";
+    }
+    else
+    {
+      this.SortExpression = sortExpression;
+      this.SortDirection = "ASC";
+    }
+    await RefreshData();
+  }
+
+  public Dictionary<string, object> GetHeaderAttributes(SemDataTableColumn<ItemType> column)
+  {
+    var retval = new Dictionary<string, object>();
+    if (!string.IsNullOrEmpty(column.HeaderClass))
+    {
+      retval.Add("class", column.HeaderClass);
+    }
+    return retval;
+  }
+  public Dictionary<string, object> GetRowAttributes(ItemType item)
+  {
+    var retval = new Dictionary<string, object>();
+    var classAttr = $"{RowClass} {RowClassFunc?.Invoke(item)}";
+    if (!string.IsNullOrWhiteSpace(classAttr))
+    {
+      retval.Add("class", classAttr.Trim());
+    }
+    return retval;
+  }
+  public Dictionary<string, object> GetBodyAttributes(SemDataTableColumn<ItemType> column, ItemType item)
+  {
+    var retval = new Dictionary<string, object>();
+    var classAttr = $"{column.ItemClass} {column.ItemClassFunc?.Invoke(item)}";
+    if (!string.IsNullOrWhiteSpace(classAttr))
+    {
+      retval.Add("class", classAttr.Trim());
+    }
+    return retval;
   }
 }

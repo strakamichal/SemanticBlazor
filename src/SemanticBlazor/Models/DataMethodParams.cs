@@ -8,5 +8,7 @@ namespace SemanticBlazor.Models
   {
     public int StartRowIndex { get; set; }
     public int MaximumRows { get; set; }
+    public string SortExpression { get; set; }
+    public string SortDirection { get; set; }
   }
 }

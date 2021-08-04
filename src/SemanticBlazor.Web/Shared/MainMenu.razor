@@ -1,5 +1,5 @@
 ﻿@inherits PageBase
-@inject PackageInformationService packageInfo
+@*@inject PackageInformationService packageInfo*@
 @using System.Reflection
 
 @*@attributes="@(new Dictionary<string, string>() { ("style", "height: 50px") })"*@
@@ -17,11 +17,11 @@
 
 @code
 {
-  string packageVersion = "";
+  //string packageVersion = "";
 
-  protected override void OnInitialized()
-  {
-    System.Reflection.Assembly semBlazor = typeof(SemanticBlazor.Annotations).Assembly;
-    packageVersion = ((AssemblyInformationalVersionAttribute)semBlazor.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute))).InformationalVersion;
-  }
+  //protected override void OnInitialized()
+  //{
+  //  System.Reflection.Assembly semBlazor = typeof(SemanticBlazor.Annotations).Assembly;
+  //  packageVersion = ((AssemblyInformationalVersionAttribute)semBlazor.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute))).InformationalVersion;
+  //}
 }

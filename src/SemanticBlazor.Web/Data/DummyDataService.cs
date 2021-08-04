@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SemanticBlazor.Web.Data
@@ -43,11 +45,26 @@ namespace SemanticBlazor.Web.Data
       return Dummies.ToList();
     }
 
-    public async Task<List<DummyData>> GetDataAsync(int startIndex, int pageSize, string search)
+    public async Task<List<DummyData>> GetDataAsync(int startIndex, int pageSize, string search, string sortExpression = null, string sortDirection = null)
     {
       await Task.Delay(1000);
-      return Dummies
-        .Where(d => String.IsNullOrEmpty(search) || d.Name.Contains(search) || d.Description.Contains(search))
+      var query = Dummies
+        .Where(d => String.IsNullOrEmpty(search) || d.Name.Contains(search) || d.Description.Contains(search));
+
+      if (sortExpression != null)
+      {
+        PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(DummyData)).Find(sortExpression, true);
+        if (sortDirection != "DESC")
+        {
+          query = query.OrderBy(x => prop.GetValue(x));
+        }
+        else
+        {
+          query = query.OrderByDescending(x => prop.GetValue(x));
+        }
+      }
+
+      return query
         .Skip(startIndex)
         .Take(pageSize)
         .ToList();

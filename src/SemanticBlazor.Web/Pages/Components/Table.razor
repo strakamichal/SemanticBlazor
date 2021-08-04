@@ -7,53 +7,50 @@
 
 <h3>Empty table</h3>
 <SemDataTable ItemType="Data.DummyData">
-  <Header>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Type</th>
-    </tr>
-  </Header>
-  <RowTemplate>
-    <tr>
-      <td>@context.DummyId</td>
-      <td>@context.Name</td>
-      <td>@context.Type</td>
-    </tr>
-  </RowTemplate>
+  <Columns>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="ID" ItemText="@(a => a.DummyId.ToString())"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Name" ItemText="@(a => a.Name)"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Type" ItemText="@(a => a.Type)"></SemDataTableColumn>
+  </Columns>
 </SemDataTable>
 <CodeHighlight Code=@(@"
 <SemDataTable ItemType=""Data.DummyData"">
-  <Header>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Type</th>
-    </tr>
-  </Header>
-  <RowTemplate>
-    <tr>
-      <td>@context.DummyId</td>
-      <td>@context.Name</td>
-      <td>@context.Type</td>
-    </tr>
-  </RowTemplate>
+  <Columns>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""ID"" ItemText=""@(a => a.DummyId.ToString())""></SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Name"" ItemText=""@(a => a.Name)""></SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Type"" ItemText=""@(a => a.Type)""></SemDataTableColumn>
+  </Columns>
 </SemDataTable>") />
 
 <h3>Items set via "Items" parameter</h3>
 <SemDataTable Items="@Items">
+  <Columns>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="ID" ItemText="@(a => a.DummyId.ToString())"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Name" ItemText="@(a => a.Name)"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Type" ItemText="@(a => a.Type)"></SemDataTableColumn>
+  </Columns>
+</SemDataTable>
+<CodeHighlight Code=@(@"
+<SemDataTable Items=""@Items"">
+  <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""ID"" ItemText=""@(a => a.DummyId.ToString())""></SemDataTableColumn>
+  <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Name"" ItemText=""@(a => a.Name)""></SemDataTableColumn>
+  <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Type"" ItemText=""@(a => a.Type)""></SemDataTableColumn>
+</SemDataTable>") />
+
+<h3>Header and RowTemplate instead of Columns collection</h3>
+<SemDataTable Items="@Items">
   <Header>
-    <tr>
-      <th>
-        ID
-      </th>
-      <th>
-        Name
-      </th>
-      <th>
-        Type
-      </th>
-    </tr>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Name
+    </th>
+    <th>
+      Type
+    </th>
+  </tr>
   </Header>
   <RowTemplate>
     <tr>
@@ -87,11 +84,12 @@
   </RowTemplate>
 </SemDataTable>") />
 
+
 @code {
   List<Data.DummyData> Items;
 
   protected override async Task OnInitializedAsync()
   {
-    Items = await DummyDataService.GetAllDataAsync();
+    Items = await DummyDataService.GetDataAsync(0, 10, null);
   }
 }

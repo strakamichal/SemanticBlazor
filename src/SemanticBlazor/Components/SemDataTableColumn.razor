@@ -1,0 +1,24 @@
+﻿@typeparam ItemType
+
+@code {
+  [CascadingParameter] public SemControlBase Parent { get; set; }
+
+  [Parameter] public string HeaderText { get; set; }
+  [Parameter] public RenderFragment HeaderTemplate { get; set; }
+  [Parameter] public string HeaderClass { get; set; }
+
+  [Parameter] public Func<ItemType, string> ItemText { get; set; }
+  [Parameter] public RenderFragment<ItemType> ItemTemplate { get; set; }
+  [Parameter] public string ItemClass { get; set; }
+  [Parameter] public Func<ItemType, string> ItemClassFunc { get; set; }
+
+  [Parameter] public string SortExpression { get; set; }
+
+  protected override void OnInitialized()
+  {
+    if (Parent != null)
+    {
+      Parent.RegistedChildControl(this);
+    }
+  }
+}
