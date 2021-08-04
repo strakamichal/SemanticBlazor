@@ -34,7 +34,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
     }
     protected override async Task OnParametersSetAsync()
     {
-      if (latestItems != Items)
+      if (latestItems != Items && (latestItems == null || (!latestItems.SequenceEqual(Items ?? new List<ItemType>()))))
       {
         latestItems = Items;
         if (DataMethod == null)
