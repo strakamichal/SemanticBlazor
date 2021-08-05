@@ -37,6 +37,7 @@
         }
       </ItemTemplate>
     </SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Created" SortExpression="Created" ItemText="@(a => a.Created.ToString("dd.MM.yyyy HH:mm:ss"))"></SemDataTableColumn>
     <SemDataTableColumn ItemType="Data.DummyData" HeaderText="" HeaderClass="menucol">
       <ItemTemplate>
         <SemDropdownMenu>
@@ -49,7 +50,6 @@
         </SemDropdownMenu>
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Created" SortExpression="Created" ItemText="@(a => a.Created.ToString("dd.MM.yyyy HH:mm:ss"))"></SemDataTableColumn>
   </Columns>
 </SemDataTable>
 <DummyEditModal @ref="editModal" ItemChanged="ItemChanged"></DummyEditModal>
