@@ -19,7 +19,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
     public virtual List<ItemType> SelectedItems { get; set; }
     public virtual Func<ItemType, object> ItemKey { get; set; }
     public virtual Func<ItemType, string> ItemText { get; set; }
-    public virtual Func<Task<List<ItemType>>> DataMethod { get; set; }
+    public virtual Func<Task<IEnumerable<ItemType>>> DataMethod { get; set; }
     public virtual RenderFragment ListItems { get; set; }
     protected bool itemsSet { get; set; } = false;
     protected bool loading { get; set; }
