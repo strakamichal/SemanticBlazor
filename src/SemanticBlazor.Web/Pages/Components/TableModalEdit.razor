@@ -54,7 +54,7 @@
 </SemDataTable>
 <DummyEditModal @ref="editModal" ItemChanged="ItemChanged"></DummyEditModal>
 
-@*<CodeHighlight Code=@(@"
+<CodeHighlight Code=@(@"
 <SemGrid>
   <SemGridColumn Wide=""GridUnit.Eight"" Classes=""@(new[] { ColumnClass.Right_Floated, ColumnClass.Right_Aligned })"">
     <SemSearchActionButton OnSearch=""(async () => await table.RefreshData())"" @bind-Value=""searchExpr""></SemSearchActionButton>
@@ -98,11 +98,10 @@
     </SemDataTableColumn>
     <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Created"" SortExpression=""Created"" ItemText=""@(a => a.Created.ToString(""dd.MM.yyyy HH:mm:ss""))""></SemDataTableColumn>
   </Columns>
-</SemDataTable>") />*@
+</SemDataTable>") />
 
 
 @code {
-  int pageSize = 5;
   string searchExpr = "";
   SemDataTable<Data.DummyData> table;
 
@@ -130,7 +129,7 @@
     await table.RefreshData(false);
   }
 
-  async void Delete(int dummyId)
+  void Delete(int dummyId)
   {
     DummyDataService.Delete(dummyId);
   }

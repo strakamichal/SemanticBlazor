@@ -2,7 +2,8 @@
 
 @code {
   [CascadingParameter] public SemControlBase Parent { get; set; }
-
+  [Parameter] public SemDataTable<ItemType> Table { get; set; } //Another way ho to set ItemType (instead of ItemType="TypeName")
+  
   [Parameter] public string HeaderText { get; set; }
   [Parameter] public RenderFragment HeaderTemplate { get; set; }
   [Parameter] public string HeaderClass { get; set; }
