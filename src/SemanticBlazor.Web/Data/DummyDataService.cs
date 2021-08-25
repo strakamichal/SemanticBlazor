@@ -39,13 +39,13 @@ namespace SemanticBlazor.Web.Data
       return await Task.FromResult(Dummies.FirstOrDefault(d => d.DummyId == id));
     }
 
-    public async Task<List<DummyData>> GetAllDataAsync()
+    public async Task<IEnumerable<DummyData>> GetAllDataAsync()
     {
       await Task.Delay(1000);
       return Dummies.ToList();
     }
 
-    public async Task<List<DummyData>> GetDataAsync(int startIndex, int pageSize, string search, string sortExpression = null, string sortDirection = null)
+    public async Task<IEnumerable<DummyData>> GetDataAsync(int startIndex, int pageSize, string search, string sortExpression = null, string sortDirection = null)
     {
       await Task.Delay(1000);
       var query = Dummies

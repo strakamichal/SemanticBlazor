@@ -142,7 +142,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/che
   public int SelectedDummyId { get; set; } = 4;
   public string SelectedDummyName { get; set; } = "Lorem";
   SemanticBlazor.Web.Data.DummyData SelectedDummy { get; set; }
-  List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  IEnumerable<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
   Option SelectedOption { get; set; }
 
   protected override async Task OnInitializedAsync()

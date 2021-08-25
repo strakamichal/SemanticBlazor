@@ -174,7 +174,7 @@
   public List<int> SelectedDummyId { get; set; }
   public List<string> SelectedDummyName { get; set; }
   public List<SemanticBlazor.Web.Data.DummyData> SelectedDummies { get; set; }
-  List<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  IEnumerable<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
   List<Option> SelectedOptions { get; set; }
 
   protected override async Task OnInitializedAsync()

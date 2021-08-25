@@ -10,10 +10,10 @@ namespace SemanticBlazor.Components.Base
 {
   public class SemListBase<ItemType> : SemControlBase
   {
-    protected List<ItemType> allItems { get; set; } = new List<ItemType>();
+    protected IEnumerable<ItemType> allItems { get; set; } = new List<ItemType>();
     protected IEnumerable<ItemType> currentItems { get; set; }
     [Parameter]
-    public List<ItemType> Items
+    public IEnumerable<ItemType> Items
     {
       get
       {
@@ -30,7 +30,7 @@ namespace SemanticBlazor.Components.Base
         }
       }
     }
-    [Parameter] public Func<DataMethodParams, Task<List<ItemType>>> DataMethod { get; set; }
+    [Parameter] public Func<DataMethodParams, Task<IEnumerable<ItemType>>> DataMethod { get; set; }
     [Parameter] public Func<Task<int>> CountMethod { get; set; }
     [Parameter] public EventCallback<int> PageIndexChanged { get; set; }
 
@@ -86,7 +86,7 @@ namespace SemanticBlazor.Components.Base
         else
         {
           // Pokud nneí definová metoda na count, tak se načtou všechna data a stránkuje se na klientovi
-          if (DataMethod != null && (allItems == null || allItems.Count == 0))
+          if (DataMethod != null && (allItems == null || !allItems.Any()))
           {
             allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection });
           }
@@ -102,9 +102,9 @@ namespace SemanticBlazor.Components.Base
       loading = false;
       StateHasChanged();
     }
-    async Task<List<ItemType>> CallDataMethod(DataMethodParams e)
+    async Task<IEnumerable<ItemType>> CallDataMethod(DataMethodParams e)
     {
-      List<ItemType> retval;
+      IEnumerable<ItemType> retval;
       retval = await DataMethod(e);
       if (retval == null) retval = new List<ItemType>();
       return retval;
