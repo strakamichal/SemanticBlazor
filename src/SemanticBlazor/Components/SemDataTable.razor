@@ -153,6 +153,7 @@
         throw new Exception("Columns collection cannot be used together with RowTemplate or Header.");
       }
       this.localColumns.Add((SemDataTableColumn<ItemType>)control);
+      if (currentItems != null) StateHasChanged();
     }
   }
 
