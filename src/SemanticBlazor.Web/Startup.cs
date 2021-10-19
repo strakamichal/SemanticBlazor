@@ -31,7 +31,7 @@ namespace SemanticBlazor.Web
       services.AddSingleton<WeatherForecastService>();
       services.AddSingleton<DummyDataService>();
       services.AddScoped<Services.NotificationService>();
-      services.AddSingleton<Services.PackageInformationService>();
+      //services.AddSingleton<Services.PackageInformationService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

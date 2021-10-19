@@ -1,55 +1,49 @@
-﻿@inject IJSRuntime jsRuntime
-
-<SemModal @ref="modal">
+﻿<SemModal @ref="modal">
   <Header>
     @headerText
   </Header>
   <Content>
     @if (Item != null)
     {
-    <EditForm Model="@Item" class="ui form" OnValidSubmit="FormSubmited">
-      <RecursiveDataAnnotationsValidator jSRuntime="jsRuntime"></RecursiveDataAnnotationsValidator>
-
-      <SemFormField For="@(() => Item.DummyId)" IsEditable="false">
-        @Item.DummyId
-      </SemFormField>
-
-      <SemFormField For="@(() => Item.Name)">
-        <SemInput @bind-Value="Item.Name"></SemInput>
-      </SemFormField>
-
-      <SemFormField For="@(() => Item.Enabled)" ShowLabel="false">
-        <SemCheckbox @bind-Value="Item.Enabled" Label="@Annotations.GetNameFor(() => Item.Enabled)"></SemCheckbox>
-      </SemFormField>
-
-      <SemFormField For="@(() => Item.Description)">
-        <InputTextArea @bind-Value="Item.Description"></InputTextArea>
-      </SemFormField>
-
-      <div class="two fields">
-        <SemFormField For="@(() => Item.Type)">
-          <SemDropdownSelection @bind-Value="Item.Type" Items="@(types.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownSelection>
+      <SemForm Model="@Item" class="ui form" OnSubmit="FormSubmited">
+        <SemFormField For="@(() => Item.DummyId)" IsEditable="false">
+          @Item.DummyId
         </SemFormField>
+
+        <SemFormField For="@(() => Item.Name)">
+          <SemInput @bind-Value="Item.Name"></SemInput>
+        </SemFormField>
+
+        <SemFormField For="@(() => Item.Enabled)" ShowLabel="false">
+          <SemCheckbox @bind-Value="Item.Enabled" Label="@Annotations.GetNameFor(() => Item.Enabled)"></SemCheckbox>
+        </SemFormField>
+
+        <SemFormField For="@(() => Item.Description)">
+          <InputTextArea @bind-Value="Item.Description"></InputTextArea>
+        </SemFormField>
+
+        <div class="two fields">
+          <SemFormField For="@(() => Item.Type)">
+            <SemDataDropdownSelection @bind-Value="Item.Type" Items="@types"></SemDataDropdownSelection>
+          </SemFormField>
+
+          <SemFormField For="@(() => Item.Flags)">
+            <SemDataDropdownMultiSelection @bind-Value="Item.Flags" Items="@flags"></SemDataDropdownMultiSelection>
+          </SemFormField>
+        </div>
 
         <SemFormField For="@(() => Item.Flags)">
-          <SemDropdownMultiSelection @bind-Value="Item.Flags" Items="@(flags.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownMultiSelection>
+          <SemDataCheckboxList @bind-Value="Item.Flags" Items="@flags"></SemDataCheckboxList>
         </SemFormField>
-      </div>
 
-      <SemFormField For="@(() => Item.Flags)">
-        <SemCheckboxList @bind-Value="Item.Flags" Items="@(flags.Select(li => new Models.ListItem() { Value = li }))"></SemCheckboxList>
-      </SemFormField>
+        <SemFormField For="@(() => Item.Created)" IsEditable="false">
+          @Item.Created
+        </SemFormField>
 
-      <SemFormField For="@(() => Item.Created)" IsEditable="false">
-        @Item.Created
-      </SemFormField>
-
-      <SemFormField For="@(() => Item.LastUpdate)" IsEditable="false">
-        @Item.LastUpdate
-      </SemFormField>
-
-      <FormHiddenSubmit></FormHiddenSubmit>
-    </EditForm>
+        <SemFormField For="@(() => Item.LastUpdate)" IsEditable="false">
+          @Item.LastUpdate
+        </SemFormField>
+      </SemForm>
     }
   </Content>
   <Actions>
@@ -58,8 +52,6 @@
   </Actions>
 </SemModal>
 
-
-
 @code {
   [Parameter] public Data.DummyData Item { get; set; }
   [Parameter] public EventCallback<Data.DummyData> ItemChanged { get; set; }
@@ -67,8 +59,14 @@
   public SemModal modal { get; set; }
 
   //TEMP
-  string[] types = { "Dummy type 1", "Dummy type 2", "Dummy type 3" };
-  string[] flags = { "DM1", "ABC", "DEF", "GHI", "JKL", "MNO", "PRQ", "STU", "VWX", "XYZ" };
+  string[] types;
+  string[] flags;
+
+  protected override void OnInitialized()
+  {
+    types = new string[] { "Dummy type 1", "Dummy type 2", "Dummy type 3" };
+    flags = new string[] { "DM1", "ABC", "DEF", "GHI", "JKL", "MNO", "PRQ", "STU", "VWX", "XYZ" };
+  }
 
   public async Task Show(Data.DummyData dummyItem)
   {

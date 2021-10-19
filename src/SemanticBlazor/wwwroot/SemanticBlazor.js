@@ -109,13 +109,14 @@ window.NotifcationPanel = {
 
 window.SemanticDateTimeInput = {
   InitDateCalendar: function (id, locale, todayText, startCal, endCal) {
-    if (locale === "") {
+    if (locale === "" || locale === null) {
       locale = getLanguage();
     }
 
-    if (todayText === "" && locale.indexOf('en') !== -1) todayText = "Today";
-    else if (todayText === "" && locale.indexOf('cs') !== -1) todayText = "Dnes";
-
+    if ((todayText === "" || todayText === null) && locale.indexOf('cs') !== -1) todayText = "Dnes";
+    else todayText = "Today";
+    console.log(startCal);
+    console.log(endCal);
     $("#" + id).closest('.calendar').calendar(
       {
         type: "date",
@@ -123,8 +124,8 @@ window.SemanticDateTimeInput = {
         ampm: false,
         monthFirst: false,
         today: true,
-        //endCalendar: endCal !== undefined ? $("#" + endCal) : null,
-        //startCalendar: startCal !== undefined ? $("#" + startCal) : null,
+        endCalendar: endCal !== null ? $("#" + endCal).parent() : "",
+        startCalendar: startCal !== null ? $("#" + startCal).parent() : "",
         formatter: {
           date: function (date, settings) {
             if (!date) return '';

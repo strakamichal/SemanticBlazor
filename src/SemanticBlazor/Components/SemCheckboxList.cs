@@ -10,6 +10,7 @@ namespace SemanticBlazor.Components
   public class SemCheckboxList<ValueType> : SemCheckboxListBase<ListItem, ValueType>
   {
     #region ListItems
+    [Obsolete]
     [Parameter] public override IEnumerable<ListItem> Items { get; set; }
     [Parameter] public override RenderFragment<object> ItemTemplate { get; set; }
     [Parameter] public override RenderFragment ListItems { get; set; }

@@ -16,7 +16,7 @@ namespace SemanticBlazor.Components
     [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }
     [Parameter] public override Func<ItemType, object> ItemKey { get; set; }
     [Parameter] public override Func<ItemType, string> ItemText { get; set; }
-    [Parameter] public override Func<Task<List<ItemType>>> DataMethod { get; set; }
+    [Parameter] public override Func<Task<IEnumerable<ItemType>>> DataMethod { get; set; }
 
     protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
     {

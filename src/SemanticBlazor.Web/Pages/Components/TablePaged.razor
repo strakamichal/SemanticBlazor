@@ -6,26 +6,11 @@
 <p>Table without direct connection to server (API) data. Items are stored and paged locally.</p>
 
 <SemDataTable @ref="table" Items="@Items" AllowPaging="true" DefaultPageSize="5" PageIndexChanged="PageIndexChanged">
-  <Header>
-    <tr>
-      <th>
-        ID
-      </th>
-      <th>
-        Name
-      </th>
-      <th>
-        Type
-      </th>
-    </tr>
-  </Header>
-  <RowTemplate>
-    <tr>
-      <td>@context.DummyId</td>
-      <td>@context.Name</td>
-      <td>@context.Type</td>
-    </tr>
-  </RowTemplate>
+  <Columns>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="ID" ItemText="@(a => a.DummyId.ToString())"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Name" ItemText="@(a => a.Name)"></SemDataTableColumn>
+    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Type" ItemText="@(a => a.Type)"></SemDataTableColumn>
+  </Columns>
 </SemDataTable>
 <br />
 <br />
@@ -34,33 +19,18 @@
 </p>
 <CodeHighlight Code=@(@"
 <SemDataTable @ref=""table"" Items=""@Items"" AllowPaging=""true"" DefaultPageSize=""5"" PageIndexChanged=""PageIndexChanged"">
-  <Header>
-    <tr>
-      <th>
-        ID
-      </th>
-      <th>
-        Name
-      </th>
-      <th>
-        Type
-      </th>
-    </tr>
-  </Header>
-  <RowTemplate>
-    <tr>
-      <td>@context.DummyId</td>
-      <td>@context.Name</td>
-      <td>@context.Type</td>
-    </tr>
-  </RowTemplate>
+  <Columns>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""ID"" ItemText=""@(a => a.DummyId.ToString())""></SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Name"" ItemText=""@(a => a.Name)""></SemDataTableColumn>
+    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Type"" ItemText=""@(a => a.Type)""></SemDataTableColumn>
+  </Columns>
 </SemDataTable>
 <p>
   Current index: @pageIndex
 </p>") />
 
 @code {
-  List<Data.DummyData> Items;
+  IEnumerable<Data.DummyData> Items;
   SemDataTable<Data.DummyData> table;
   int pageIndex;
 

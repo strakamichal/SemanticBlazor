@@ -10,10 +10,10 @@ namespace SemanticBlazor.Components.Base
 {
   public class SemListBase<ItemType> : SemControlBase
   {
-    protected List<ItemType> allItems { get; set; } = new List<ItemType>();
+    protected IEnumerable<ItemType> allItems { get; set; } = new List<ItemType>();
     protected IEnumerable<ItemType> currentItems { get; set; }
     [Parameter]
-    public List<ItemType> Items
+    public IEnumerable<ItemType> Items
     {
       get
       {
@@ -30,18 +30,20 @@ namespace SemanticBlazor.Components.Base
         }
       }
     }
-    [Parameter] public Func<DataMethodParams, Task<List<ItemType>>> DataMethod { get; set; }
+    [Parameter] public Func<DataMethodParams, Task<IEnumerable<ItemType>>> DataMethod { get; set; }
     [Parameter] public Func<Task<int>> CountMethod { get; set; }
     [Parameter] public EventCallback<int> PageIndexChanged { get; set; }
 
     [Parameter] public bool AllowPaging { get; set; }
     [Parameter] public int DefaultPageSize { get; set; } = 5;
+    [Parameter] public string SortExpression { get; set; }
+    [Parameter] public string SortDirection { get; set; }
 
     protected int pageSize { get; set; }
     protected int pageIndex { get; set; } = 0;
     protected int totalPages { get; set; } = 0;
     protected int pagerStart = 0;
-    protected bool loading = false;
+    protected bool loading = false;    
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,7 +73,6 @@ namespace SemanticBlazor.Components.Base
     {
       loading = true;
       StateHasChanged();
-      //await Task.Delay(10); //Čekáním se uvolní vlákno a nastaví se loading třída uživateli
 
       if (AllowPaging)
       {
@@ -80,14 +81,14 @@ namespace SemanticBlazor.Components.Base
           // Pokud je definová metoda na count, tak se používá stránkování na serveru (API)
           var _itemsCount = await CountMethod();
           totalPages = (int)Math.Ceiling((decimal)_itemsCount / (decimal)pageSize);
-          currentItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = pageIndex * pageSize, MaximumRows = pageSize });
+          currentItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = pageIndex * pageSize, MaximumRows = pageSize, SortExpression = SortExpression, SortDirection = SortDirection });
         }
         else
         {
           // Pokud nneí definová metoda na count, tak se načtou všechna data a stránkuje se na klientovi
-          if (DataMethod != null && (allItems == null || allItems.Count == 0))
+          if (DataMethod != null && (allItems == null || !allItems.Any()))
           {
-            allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue });
+            allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection });
           }
           totalPages = (int)Math.Ceiling((decimal)(allItems?.Count() ?? 0) / (decimal)pageSize);
           currentItems = allItems?.Skip(pageIndex * pageSize).Take(pageSize).ToList();
@@ -95,16 +96,15 @@ namespace SemanticBlazor.Components.Base
       }
       else
       {
-        if (DataMethod != null) allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue });
+        if (DataMethod != null) allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection });
         currentItems = allItems;
       }
       loading = false;
-      //Musí se refreshonout State, jinak se na formuláři role nerefreshuje grid
       StateHasChanged();
     }
-    async Task<List<ItemType>> CallDataMethod(DataMethodParams e)
+    async Task<IEnumerable<ItemType>> CallDataMethod(DataMethodParams e)
     {
-      List<ItemType> retval;
+      IEnumerable<ItemType> retval;
       retval = await DataMethod(e);
       if (retval == null) retval = new List<ItemType>();
       return retval;

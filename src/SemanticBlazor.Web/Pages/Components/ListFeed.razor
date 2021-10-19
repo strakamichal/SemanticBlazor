@@ -36,7 +36,7 @@
 </div>
 
 @code {
-  async Task<List<Data.DummyData>> GetData(DataMethodParams e)
+  async Task<IEnumerable<Data.DummyData>> GetData(DataMethodParams e)
   {
     return await DummyDataService.GetDataAsync(e.StartRowIndex, e.MaximumRows, null);
   }
