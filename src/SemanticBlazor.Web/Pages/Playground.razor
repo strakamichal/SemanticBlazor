@@ -2,126 +2,25 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
-
-<SemDateInput Id="startDate" @bind-Value="@startDate" EndDateInputId="endDate"></SemDateInput>
-<SemDateInput Id="endDate" @bind-Value="@endDate" StartDateInputId="startDate"></SemDateInput>
-
-
-<SemanticBlazor.Web.Pages.Components.DummyEditModal @ref="dummyEditModal"></SemanticBlazor.Web.Pages.Components.DummyEditModal>
-<SemButton OnClick="@(() => dummyEditModal.Show(new Data.DummyData()))">Show modal</SemButton>
-
-@*<SemDataTable @ref="table"
-              DataMethod="GetData"
-              CountMethod="GetCount"
-              AllowPaging="true"
-              DefaultPageSize="7"
-              EmptyDataMessage="No dummy data found...">
-  <Header>
-  <tr>
-    <th><SemDataTableSortLink Table="table" SortExpression="Name">Name</SemDataTableSortLink></th>
-    <th><SemDataTableSortLink Table="table" SortExpression="Description"><SemIcon Icon="Icon.File_Alternate_Outline"></SemIcon> Description</SemDataTableSortLink></th>
-    <th><SemDataTableSortLink Table="table" SortExpression="Type">Type</SemDataTableSortLink></th>
-    <th class="menucol"></th>
-  </tr>
-  </Header>
-  <RowTemplate>
-    <tr class="@(context.Name == "Lorem" ? "negative" : "")">
-      <td>@context.Name</td>
-      <td>@context.Description</td>
-      <td>
-        @if (context.Type != null)
-  {
-  <span class="ui small label">@context.Type</span>
-}
-      </td>
-      <td>
-        <SemDropdownMenu>
-          <SemIcon Class="ellipsis horizontal"></SemIcon>
-          <SemMenu>
-            <SemMenuItem>Edit</SemMenuItem>
-            <SemDivider></SemDivider>
-            <SemMenuItem>Delete</SemMenuItem>
-          </SemMenu>
-        </SemDropdownMenu>
-      </td>
-    </tr>
-  </RowTemplate>
-</SemDataTable>
-
-
-
-
-
-<SemDataTable @ref="table2"
-              DataMethod="GetData"
-              CountMethod="GetCount"
-              AllowPaging="true"
-              AllowSorting="true"
-              DefaultPageSize="7"
-              EmptyDataMessage="No dummy data found..."
-              RowClassFunc="@(a => a.Name == "Lorem" ? "negative" : "")">
-  <Columns>
-    <SemDataTableColumn ItemType="Data.DummyData" SortExpression="Name" HeaderText="Name" ItemClassFunc="@(a => a.Name == "Sed" ? "warning" : "")">
-      <ItemTemplate>
-        <a @onclick="@(() => dummyEditModal.Show(context))">@context.Name</a>
-      </ItemTemplate>
-    </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" SortExpression="Description" ItemText="@(a => a.Description)">
-      <HeaderTemplate>
-        <SemDataTableSortLink SortExpression="Description" Table="table2"><SemIcon Icon="Icon.File_Alternate_Outline"></SemIcon> Description</SemDataTableSortLink>
-      </HeaderTemplate>
-    </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" SortExpression="Type" HeaderText="Type">
-      <ItemTemplate>
-        @if (context.Type != null)
-        {
-          <span class="ui small label">@context.Type</span>
-        }
-      </ItemTemplate>
-    </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderClass="menucol">
-      <ItemTemplate>
-        <SemDropdownMenu>
-          <SemIcon Class="ellipsis horizontal"></SemIcon>
-          <SemMenu>
-            <SemMenuItem>Edit</SemMenuItem>
-            <SemDivider></SemDivider>
-            <SemMenuItem>Delete</SemMenuItem>
-          </SemMenu>
-        </SemDropdownMenu>
-      </ItemTemplate>
-    </SemDataTableColumn>
-  </Columns>
-</SemDataTable>*@
-
-
-
+<SemButton @onclick="@(()=> modal1.Show())">Open modal 1</SemButton>
+<SemModal @ref="modal1">
+  <Header>Modal1</Header>
+  <Content>
+    Test modal 1
+    <SemModal @ref="modal2" Size="ModalSize.Small" AllowMultiple="true">
+      <Header>Modal2</Header>
+      <Content>
+        Test modal 2
+      </Content>
+    </SemModal>
+  </Content>
+  <Actions>
+    <SemButton @onclick="@(() => modal2.Show())">Open modal 2</SemButton>
+  </Actions>
+</SemModal>
 
 
 @code {
-  DateTime startDate { get; set; }
-  DateTime endDate { get; set; }
-  //SemDateInput<DateTime> startDateInput { get; set; }
-  //SemDateInput<DateTime> endDateInput { get; set; }
-
-
-  //string searchExpr = "";
-  //SemDataTable<Data.DummyData> table;
-  //SemDataTable<Data.DummyData> table2;
-  SemanticBlazor.Web.Pages.Components.DummyEditModal dummyEditModal { get; set; }
-
-  async Task<Data.DummyData> GetDummy()
-  {
-    return await dummyData.GetByIdAsync(1);
-  }
-
-  //async Task<List<Data.DummyData>> GetData(DataMethodParams e)
-  //{
-  //  return await dummyData.GetDataAsync(e.StartRowIndex, e.MaximumRows, searchExpr, e.SortExpression, e.SortDirection);
-  //}
-
-  //async Task<int> GetCount()
-  //{
-  //  return await dummyData.GetCountAsync(searchExpr);
-  //}
+  SemModal modal1;
+  SemModal modal2;
 }
