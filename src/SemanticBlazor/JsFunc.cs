@@ -66,9 +66,9 @@ namespace SemanticBlazor
 
     public class Modal
     {
-      public static async Task Show(IJSRuntime jsRuntime, string id, bool allowMultiple = false)
+      public static async Task Show(IJSRuntime jsRuntime, string id, bool allowMultiple = false, bool closable = true)
       {
-        await jsRuntime.InvokeAsync<object>("SemanticModal.Show", id, allowMultiple);
+        await jsRuntime.InvokeAsync<object>("SemanticModal.Show", id, allowMultiple, closable);
       }
       public static async Task Hide(IJSRuntime jsRuntime, string id)
       {

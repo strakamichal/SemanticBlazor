@@ -75,3 +75,9 @@ a {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.ui.fullscreen.modal > .close, .ui.modal > .close.inside {
+  top: 1.0535rem;
+  right: 1rem;
+  color:rgba(0, 0, 0, .87)
+}

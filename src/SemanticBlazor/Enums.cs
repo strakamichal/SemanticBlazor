@@ -350,6 +350,13 @@ namespace SemanticBlazor
     //Second
   }
 
+  public enum ModalCloseIcon
+  {
+    Outside,
+    Inside,
+    None
+  }
+
   public class Icons
   {
     public static string GetClass(Icon? icon)
