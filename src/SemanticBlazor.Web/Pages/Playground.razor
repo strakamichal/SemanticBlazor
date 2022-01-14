@@ -2,25 +2,44 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
-<SemButton @onclick="@(()=> modal1.Show())">Open modal 1</SemButton>
-<SemModal @ref="modal1">
+<SemButton @onclick="@(() => modal1.Show())">Open modal 1</SemButton>
+<SemModal @ref="modal1" AllowMultiple="true" CloseIcon="ModalCloseIcon.None">
   <Header>Modal1</Header>
   <Content>
     Test modal 1
-    <SemModal @ref="modal2" Size="ModalSize.Small" AllowMultiple="true">
-      <Header>Modal2</Header>
-      <Content>
-        Test modal 2
-      </Content>
-    </SemModal>
   </Content>
   <Actions>
     <SemButton @onclick="@(() => modal2.Show())">Open modal 2</SemButton>
   </Actions>
 </SemModal>
+<SemModal @ref="modal2" Size="ModalSize.Small" AllowMultiple="true" Closable="false" CloseIcon="ModalCloseIcon.None">
+  <Header>Modal2</Header>
+  <Content>
+    Test modal 2
+  </Content>
+</SemModal>
 
+@*<div>
+  <SemDataDropdownSelection @bind-Value="SelectedItem" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownSelection>
+  @(SelectedItem ?? "n/a")
+</div>
+
+<div>
+  <SemDataDropdownMultiSelection @bind-Value="SelectedItems" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
+  @(SelectedItems?.Count ?? 0)
+  @if (SelectedItems != null)
+  {
+    string.Join(",", SelectedItems);
+  }
+</div>*@
 
 @code {
   SemModal modal1;
   SemModal modal2;
+
+  string SelectedItem { get; set; }
+  List<string> SelectedItems { get; set; }
+
+  List<string> Data = new() {"Olexa", "Straka", "Havel", "Zeman", "Klaus"};
+
 }

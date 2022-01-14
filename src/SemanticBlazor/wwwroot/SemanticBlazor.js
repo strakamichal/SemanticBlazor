@@ -80,9 +80,13 @@ window.SemanticTabularMenu = {
 };
 
 window.SemanticModal = {
-  Show: function (id, multiple) {
+  Show: function (id, multiple, closable) {
     $('#' + id)
-        .modal({allowMultiple: multiple})
+        .modal(
+            {
+              allowMultiple: multiple,
+              closable: closable
+            })
         .modal('show');
   },
   Hide: function (id) {
