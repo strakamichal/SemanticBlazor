@@ -34,7 +34,7 @@ namespace SemanticBlazor.Components.Base
         return retval;
       }
     }
-    internal virtual void RegistedChildControl(object control) { }
+    internal virtual void RegisterChildControl(object control) { }
     public void InvokeStateHasChanged()
     {
       StateHasChanged();

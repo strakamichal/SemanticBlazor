@@ -2,6 +2,22 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
+<SemButton @onclick="@(() => tabs.SetActiveTab("firstTabaaa"))"></SemButton>
+<SemTabs @ref="tabs">
+  <Tabs>
+    <SemTab Name="firstTab">
+      <h2>First tab</h2>
+    </SemTab>
+    <SemTab Name="secondTab">
+      <h2>Second tab</h2>
+    </SemTab>
+    <SemTab Name="lastTab">
+      <h2>Last tab</h2>
+    </SemTab>
+  </Tabs>
+</SemTabs>
+
+
 <SemButton @onclick="@(() => modal1.Show())">Open modal 1</SemButton>
 <SemModal @ref="modal1" AllowMultiple="true" CloseIcon="ModalCloseIcon.None">
   <Header>Modal1</Header>
@@ -42,4 +58,5 @@
 
   List<string> Data = new() {"Olexa", "Straka", "Havel", "Zeman", "Klaus"};
 
+  private SemTabs tabs;
 }
