@@ -54,7 +54,7 @@ namespace SemanticBlazor.Components.SelectControlsBase
         await ItemsLoaded();
       }
     }
-    internal override void RegistedChildControl(object control)
+    internal override void RegisterChildControl(object control)
     {
       if (control.GetType() == typeof(SemSelectListItem))
       {

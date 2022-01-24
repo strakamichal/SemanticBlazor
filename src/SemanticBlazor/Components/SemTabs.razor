@@ -59,7 +59,7 @@
     }
     await base.OnAfterRenderAsync(firstRender);
   }
-  internal override void RegistedChildControl(object control)
+  internal override void RegisterChildControl(object control)
   {
     if (control.GetType() == typeof(SemTab))
     {
@@ -84,6 +84,14 @@
     localTabs.ForEach(t => t.Active = false);
     localTabs.FirstOrDefault(t => t == tab).Active = true;
     await ActiveTabChanged.InvokeAsync(tab);
+  }
+
+  public async Task SetActiveTab(string tabName)
+  {
+    var tab = localTabs.FirstOrDefault(t => t.Name == tabName);
+    if (tab == null) throw new ArgumentException($"Tab \"{tabName}\" does not exists");
+    await SetTabActive(tab);
+    StateHasChanged();
   }
 
   public SemTab GetActiveTab()
