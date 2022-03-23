@@ -2,7 +2,7 @@
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
-<SemButton @onclick="@(() => tabs.SetActiveTab("firstTabaaa"))"></SemButton>
+@*<SemButton @onclick="@(() => tabs.SetActiveTab("firstTabaaa"))"></SemButton>
 <SemTabs @ref="tabs">
   <Tabs>
     <SemTab Name="firstTab">
@@ -33,14 +33,17 @@
   <Content>
     Test modal 2
   </Content>
-</SemModal>
+</SemModal>*@
+
+<SemForm Model="formModel"></SemForm>
+<SemFormField For="@(() => formModel.SelectedValue)">
+<SemDataDropdownSelection @bind-Value="formModel.SelectedValue" DataMethod="@(() => GetData())" ItemKey="@(e => e.IntValue)" ItemText="@(e => e.StringText)" ValueSelector="@(e => e.IntValue)"></SemDataDropdownSelection>
+  @(formModel.SelectedValue.ToString() ?? "n/a")
+</SemFormField>
+
+
 
 @*<div>
-  <SemDataDropdownSelection @bind-Value="SelectedItem" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownSelection>
-  @(SelectedItem ?? "n/a")
-</div>
-
-<div>
   <SemDataDropdownMultiSelection @bind-Value="SelectedItems" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
   @(SelectedItems?.Count ?? 0)
   @if (SelectedItems != null)
@@ -53,10 +56,36 @@
   SemModal modal1;
   SemModal modal2;
 
-  string SelectedItem { get; set; }
+  int SelectedItem { get; set; } = 0;
   List<string> SelectedItems { get; set; }
+  FormModel formModel { get; set; } = new();
 
-  List<string> Data = new() {"Olexa", "Straka", "Havel", "Zeman", "Klaus"};
+  private class FormModel
+  {
+    public int SelectedValue { get; set; }
+  }
+
+  //List<int> Data = new() {4,3,2,1,0};
+  List<TestModel> Data = new()
+  {
+    new TestModel { IntValue = -1, StringText = "Nic"},
+    new TestModel {IntValue = 2, StringText = "[2] Dva"},
+    new TestModel {IntValue = 1, StringText = "[1] Jedna"},
+    new TestModel { IntValue = 0, StringText = "[0] Nula"}
+  };
 
   private SemTabs tabs;
+
+  private class TestModel
+  {
+    public int IntValue { get; set; }
+    public string StringText { get; set; }
+  }
+
+  private async Task<IEnumerable<TestModel>> GetData()
+  {
+    await Task.Delay(1000);
+    return Data;
+  }
+
 }
