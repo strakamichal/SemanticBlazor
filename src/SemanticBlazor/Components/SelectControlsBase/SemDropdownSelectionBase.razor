@@ -49,7 +49,18 @@
   [Parameter] public bool Search { get; set; }
   [Parameter] public bool Scrolling { get; set; }
   [Parameter] public bool FullTextSearch { get; set; } = true;
-  [Parameter] public bool Clearable { get; set; } = false;
+  [Parameter] public bool Clearable
+  {
+    get => _clearable;
+    set
+    {
+      _clearable = value; 
+      if (!IsNullable(typeof(ValueType)) && _clearable)
+      {
+        throw new Exception("Dropdown cannot be Clearable - ValueType is not nullable.");
+      }
+    }
+  }
   [Parameter] public bool AllowAdditions { get; set; } = false;
 
   // Button paremeters
@@ -61,6 +72,8 @@
   [Parameter] public Emphasis? ButtonEmphasis { get; set; }
   [Parameter] public Size? ButtonSize { get; set; }
   [Parameter] public ButtonClass[] ButtonClasses { get; set; }
+  
+  bool IsNullable(Type type) => Nullable.GetUnderlyingType(type) != null;
 
   /*
     Not implemented parameters:
@@ -146,4 +159,6 @@
   {
     throw new NotImplementedException();
   }
+
+  private bool _clearable = false;
 }

@@ -39,7 +39,8 @@ namespace SemanticBlazor.Components.SelectControlsBase
     }
     protected override async Task SetComboboxValue()
     {
-      if ((typeof(ValueType) != typeof(Int32) && Value != null) || (typeof(ValueType) == typeof(Int32) && Value.ToString() != "0"))
+      if (Value != null)
+      /*if (typeof(ValueType) != typeof(Int32) && Value != null || typeof(ValueType) == typeof(Int32))*/
       {
         await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, GetItemKey(GetItemFromValue(Value)));
       }

@@ -10,6 +10,9 @@
   <SemMenuItem Href="/Components">
     Components
   </SemMenuItem>
+  <SemMenuItem Href="/Playground" Visible="playgroundVisible">
+    Playground
+  </SemMenuItem>
   <SemMenuItem Href="/Release-notes">
     Release Notes
   </SemMenuItem>
@@ -17,6 +20,16 @@
 
 @code
 {
+  bool playgroundVisible = false;
+
+  protected override async Task OnInitializedAsync()
+  {
+    #if DEBUG
+    playgroundVisible = true;
+    #endif
+    await base.OnInitializedAsync();
+  }
+
   //string packageVersion = "";
 
   //protected override void OnInitialized()
