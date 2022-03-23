@@ -55,7 +55,7 @@
     set
     {
       _clearable = value; 
-      if (!IsNullable(typeof(ValueType)) && _clearable)
+      if ((typeof(ValueType) == typeof(short) || typeof(ValueType) == typeof(int) || typeof(ValueType) == typeof(long)) && _clearable)
       {
         throw new Exception("Dropdown cannot be Clearable - ValueType is not nullable.");
       }
@@ -72,8 +72,6 @@
   [Parameter] public Emphasis? ButtonEmphasis { get; set; }
   [Parameter] public Size? ButtonSize { get; set; }
   [Parameter] public ButtonClass[] ButtonClasses { get; set; }
-  
-  bool IsNullable(Type type) => Nullable.GetUnderlyingType(type) != null;
 
   /*
     Not implemented parameters:
