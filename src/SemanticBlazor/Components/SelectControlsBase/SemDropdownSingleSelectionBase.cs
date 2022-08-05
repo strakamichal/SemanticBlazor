@@ -60,7 +60,9 @@ namespace SemanticBlazor.Components.SelectControlsBase
       {
         if (Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(Value))))
         {
-          //await SetComboboxValue();
+          lastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
+          guiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
+          //await SetComboboxValue(); Tohle volat nemusíme, zavolá se samo při OnParametersSetAsync
         }
         else if (Value != null && !Value.Equals(default(ValueType)))
         {

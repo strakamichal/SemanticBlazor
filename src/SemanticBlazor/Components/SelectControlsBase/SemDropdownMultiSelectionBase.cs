@@ -91,9 +91,11 @@ namespace SemanticBlazor.Components.SelectControlsBase
         var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
         if (validKeys != null && validKeys.Count > 0)
         {
+          lastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
+          guiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
           Value = (List<ValueType>)ConvertValue(string.Join(",", validKeys));
           await NotifyChanged();
-          //await SetComboboxValue();
+          //await SetComboboxValue(); Tohle volat nemusíme, zavolá se samo při OnParametersSetAsync
         }
         else if (Value != null)
         {
