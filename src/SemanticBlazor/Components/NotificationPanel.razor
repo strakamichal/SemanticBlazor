@@ -26,9 +26,9 @@
         <p>
           @((MarkupString) item.Message)
         </p>
-        <div class="ui progress bottom attached" data-value="@((int)(DateTime.Now - item.CreatedAt).TotalSeconds)" data-total="@item.Duration" id="@($"{item.Id}-progress")">
+        @*<div class="ui progress bottom attached" data-value="@((int)(DateTime.Now - item.CreatedAt).TotalSeconds)" data-total="@item.Duration" id="@($"{item.Id}-progress")">
           <div class="bar"></div>
-        </div>
+        </div>*@
       </div>
     }
     @if (notifications.Count > 1)
@@ -71,11 +71,7 @@
       _timer = null;
       notifications.Clear();
     }
-    InvokeAsync(() =>
-    {
-      StateHasChanged();
-      jsRuntime.InvokeVoidAsync("Notification.IncrementProgress");
-    });
+    InvokeAsync(StateHasChanged);
   }
 
   void HideNotification(string id)
