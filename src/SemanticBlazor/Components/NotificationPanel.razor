@@ -1,8 +1,11 @@
-﻿@inject Services.NotificationService notificationService
+﻿@inject NotificationService notificationService
 @inject IJSRuntime jsRuntime
 @using System.Threading
 @using System.Linq
+@using System.Runtime.InteropServices.ComTypes
+@using SemanticBlazor.Services
 @inherits SemControlBase
+@implements IDisposable;
 
 @if (Visible)
 {
@@ -10,43 +13,69 @@
     @foreach (var item in notifications)
     {
       <div class="ui raised @item.Color segment" id="@item.Id">
-        <a @onclick="@(() => HideNotification(item.Id))"><SemIcon Class="close"></SemIcon></a>
-        <p><b>@item.Title</b></p>
-        @((MarkupString)item.Message)
+        <a @onclick="@(() => HideNotification(item.Id))">
+          <SemIcon Class="close"></SemIcon>
+        </a>
+        <div class="header">
+          @if (item.Icon != null)
+          {
+            <SemIcon Icon="item.Icon" class="@item.Color"></SemIcon>
+          }
+          <b>@item.Title</b>
+        </div>
+        <p>
+          @((MarkupString) item.Message)
+        </p>
+        <div class="ui progress bottom attached" data-value="@((int)(DateTime.Now - item.CreatedAt).TotalSeconds)" data-total="@item.Duration" id="@($"{item.Id}-progress")">
+          <div class="bar"></div>
+        </div>
       </div>
     }
     @if (notifications.Count > 1)
     {
-      <SemButton Class="icon labeled" OnClick="ClearAll"><SemIcon Class="delete" />Clear all</SemButton>
+      <SemButton Class="icon labeled" OnClick="ClearAll"><SemIcon Class="delete"/>Clear all</SemButton>
     }
   </div>
 }
 
 @code {
-  public List<Services.NotificationModel>
-  notifications
-  { get; set; } = new List<Services.NotificationModel>
-    ();
+  private List<NotificationModel> notifications { get; set; } = new List<NotificationModel>();
+  private Timer _timer;
 
   protected override void OnInitialized()
   {
     notificationService.OnShow += ShowNotification;
   }
 
-  void ShowNotification(string message, string title = "", string color = "")
+  void ShowNotification(NotificationModel notification)
   {
-    var notification = new Services.NotificationModel() { Message = message, Color = color, Title = title };
     notifications.Insert(0, notification);
     StateHasChanged();
 
-    Timer t = new Timer(new TimerCallback(_ =>
+    if (_timer == null)
     {
-      if (notifications.Contains(notification))
-      {
-        notifications.Remove(notification);
-        InvokeAsync(StateHasChanged);
-      }
-    }), null, 5000, Timeout.Infinite);
+      _timer = new Timer(_ => HideExpiredNotifications(), null, 1000, 1000);
+    }
+  }
+
+  void HideExpiredNotifications()
+  {
+    var toBeRemoved = notifications.Where(n => n.Expiration < DateTime.Now).ToList();
+    if (toBeRemoved.Count > 0)
+    {
+      notifications.RemoveAll(n => n.Expiration < DateTime.Now);
+    }
+    if (notifications.Count == 0)
+    {
+      _timer.Dispose();
+      _timer = null;
+      notifications.Clear();
+    }
+    InvokeAsync(() =>
+    {
+      StateHasChanged();
+      jsRuntime.InvokeVoidAsync("Notification.IncrementProgress");
+    });
   }
 
   void HideNotification(string id)
@@ -64,4 +93,10 @@
     notifications.Clear();
     StateHasChanged();
   }
+
+  public void Dispose()
+  {
+    _timer?.Dispose();
+  }
+
 }

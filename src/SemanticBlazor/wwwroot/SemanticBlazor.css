@@ -30,13 +30,22 @@ a {
   position: fixed;
   top: 60px;
   right: 20px;
-  width: 250px;
+  width: 350px;
   z-index: 999;
 }
 
   .notifications .segment .close.icon {
     float: right;
     color: black;
+  }
+  
+  .notifications .progress
+  {
+    margin-top: -20px;
+  }
+  .notifications .progress .bar
+  {
+    height: 5px;
   }
 
 

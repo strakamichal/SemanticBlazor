@@ -217,3 +217,12 @@ window.Validation = {
     }, 250);
   }
 };
+
+window.Notification = {
+  IncrementProgress: function ()
+  {
+    $(".notifications .progress").each(function () {
+      $(this).progress('update progress', parseInt($(this).attr("data-value")) + 1);
+    });
+  }
+}
