@@ -50,6 +50,7 @@
     {
       lastValidValue = Value;
     }
+    await ResetInputValue();
     await base.OnParametersSetAsync();
   }
   public override async Task ClearValue()
@@ -123,4 +124,6 @@
       await JsFunc.DateTimeInput.SetDate(js, Id, "");
     }
   }
+
+  
 }
