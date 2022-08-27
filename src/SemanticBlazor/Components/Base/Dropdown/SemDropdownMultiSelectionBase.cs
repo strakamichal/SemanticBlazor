@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
-using SemanticBlazor.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using SemanticBlazor.Components.Base.Common;
+using SemanticBlazor.Mappers;
 
-namespace SemanticBlazor.Components.SelectControlsBase
+namespace SemanticBlazor.Components.Base.Dropdown
 {
   public class SemDropdownMultiSelectionBase<ItemType, ValueType> : SemDropdownSelectionBase<ItemType, List<ValueType>>
   {

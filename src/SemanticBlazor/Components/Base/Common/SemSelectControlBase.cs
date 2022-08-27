@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using SemanticBlazor.Components.Base;
-using SemanticBlazor.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using SemanticBlazor.Models;
 
-namespace SemanticBlazor.Components.SelectControlsBase
+namespace SemanticBlazor.Components.Base.Common
 {
   // Used for data-binded Select controls
   public class SemSelectControlBase<ItemType, ValueType> : SemInputControlBase<ValueType>

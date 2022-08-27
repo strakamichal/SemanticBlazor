@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using SemanticBlazor.Components.Base.Common;
 using SemanticBlazor.Models;
 
-namespace SemanticBlazor.Components.Base
+namespace SemanticBlazor.Components.Base.List
 {
   public class SemListBase<ItemType> : SemControlBase
   {

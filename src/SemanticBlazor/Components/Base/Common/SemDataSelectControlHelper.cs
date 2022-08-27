@@ -1,10 +1,9 @@
-﻿using SemanticBlazor.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using SemanticBlazor.Models;
 
-namespace SemanticBlazor.Components.SelectControlsBase
+namespace SemanticBlazor.Components.Base.Common
 {
   public class SemDataSelectControlHelper<ItemType, ValueType>
   {

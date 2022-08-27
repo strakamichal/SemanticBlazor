@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.DateTimeInput;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDateInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
+  public class SemDateInput<ValueType> : SemDateTimeInputBase<ValueType>
   {
     //[Parameter] public override string DateFormat { get; set; } = "dd.MM.yyyy";
     [Parameter] public string StartDateInputId { get; set; }

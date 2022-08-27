@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using SemanticBlazor.Mappers;
 
-namespace SemanticBlazor.Components.Base
+namespace SemanticBlazor.Components.Base.Common
 {
   public class SemControlBase : ComponentBase
   {

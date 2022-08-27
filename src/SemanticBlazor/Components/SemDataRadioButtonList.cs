@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using SemanticBlazor.Components.SelectControlsBase;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.RadioButton;
 
 namespace SemanticBlazor.Components
 {

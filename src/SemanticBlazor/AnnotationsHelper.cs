@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace SemanticBlazor
 {
-  public class Annotations
+  public static class Annotations
   {
     public static string GetNameFor<ValueType>(System.Linq.Expressions.Expression<Func<ValueType>> forExpr)
     {
@@ -69,12 +69,5 @@ namespace SemanticBlazor
         return "";
       }
     }
-
-    //public static string GetPropertyName<ValueType>(System.Linq.Expressions.Expression<Func<ValueType>> forExpr)
-    //{
-    //  var expression = forExpr.Body as MemberExpression ?? ((UnaryExpression)forExpr.Body).Operand as MemberExpression;
-    //  var propertyInfo = (PropertyInfo)expression.Member;
-    //  return propertyInfo.Name;
-    //}
   }
 }

@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.DateTimeInput;
 
 namespace SemanticBlazor.Components
 {
-  public class SemTimeInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
+  public class SemTimeInput<ValueType> : SemDateTimeInputBase<ValueType>
   {
     public bool AmPm { get; set; } = false;
     [Parameter] public bool MinutesEnabled { get; set; } = true;

@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SemanticBlazor.Components.Base;
-using SemanticBlazor.Components.SelectControlsBase;
 using SemanticBlazor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.Dropdown;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataDropdownMultiSelection<ItemType, ValueType> : SelectControlsBase.SemDropdownMultiSelectionBase<ItemType, ValueType>
+  public class SemDataDropdownMultiSelection<ItemType, ValueType> : SemDropdownMultiSelectionBase<ItemType, ValueType>
   {
     [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }

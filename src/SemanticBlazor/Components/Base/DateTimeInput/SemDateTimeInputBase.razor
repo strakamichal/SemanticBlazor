@@ -1,5 +1,6 @@
 ﻿@typeparam ValueType
-@inherits SemInputControlBase<ValueType>
+@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<ValueType>
 
 @if (Visible)
 {
@@ -7,29 +8,35 @@
     <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
       @if (Clearable && Enabled && !String.IsNullOrEmpty(Value?.ToString()))
       {
-        <SemIcon Icon="SemanticBlazor.Icon.X_Icon" @onclick="ClearValue" />
+        <SemIcon Icon="SemanticBlazor.Icon.X_Icon" @onclick="ClearValue"/>
       }
       else if (Icon != null)
       {
-        <SemIcon Icon="@Icon" />
+        <SemIcon Icon="@Icon"/>
       }
-      <input id="inpt_@Id" type="text" value="@stringValue" @onchange="OnValueChanged" placeholder="@Placeholder" @attributes="disabledAttribute" />
+      <input id="inpt_@Id" type="text" value="@stringValue" @onchange="OnValueChanged" placeholder="@Placeholder" @attributes="@disabledAttribute"/>
     </div>
   </div>
 }
 
 @code {
-  [Parameter] public Icon? Icon { get; set; }
-  [Parameter] public IconPosition? IconPosition { get; set; } = SemanticBlazor.IconPosition.Left;
-  [Parameter] public bool Clearable { get; set; }
-  [Parameter] public string Placeholder { get; set; }
-  [Parameter] public string Culture { get; set; }
-  [Parameter] public InputSize? Size { get; set; }
+  [Parameter]
+  public Icon? Icon { get; set; }
+  [Parameter]
+  public IconPosition? IconPosition { get; set; } = SemanticBlazor.IconPosition.Left;
+  [Parameter]
+  public bool Clearable { get; set; }
+  [Parameter]
+  public string Placeholder { get; set; }
+  [Parameter]
+  public string Culture { get; set; }
+  [Parameter]
+  public InputSize? Size { get; set; }
   public virtual string DateFormat { get; set; } = "dd.MM.yyyy";
 
   protected virtual string stringValue => throw new NotImplementedException();
   protected ValueType lastValidValue { get; set; }
-
+  
   public SemDateTimeInputBase()
   {
     ClassMapper
@@ -40,19 +47,26 @@
       .Get(() => Size?.ToString().ToLower())
       .Add("input");
   }
+
   protected override void OnInitialized()
   {
     if (typeof(ValueType) == typeof(TimeSpan) || typeof(ValueType) == typeof(DateTime)) Clearable = false;
   }
+
   protected override async Task OnParametersSetAsync()
   {
-    if (Value != null)
+    if (!lastValidValue.Equals(Value))
     {
-      lastValidValue = Value;
+      if (Value != null)
+      {
+        lastValidValue = Value;
+        await Task.Delay(10); // Aby se předešlo zobrazení minulé hodnoty
+      }
+      await ResetInputValue();
+      await base.OnParametersSetAsync();
     }
-    await ResetInputValue();
-    await base.OnParametersSetAsync();
   }
+
   public override async Task ClearValue()
   {
     await JsFunc.DateTimeInput.SetDate(js, Id, "");
@@ -62,7 +76,7 @@
   protected async Task OnValueChanged(ChangeEventArgs e)
   {
     bool formatError = false;
-    var newValue = ConvertValue(e.Value, out formatError); 
+    var newValue = ConvertValue(e.Value, out formatError);
     if (formatError)
     {
       await ResetInputValue();
@@ -70,11 +84,11 @@
     else
     {
       if (lastValidValue.Equals(newValue)) return;
-      Value = newValue;
-      lastValidValue = Value;
+      lastValidValue = Value = newValue;
       await NotifyChanged();
     }
   }
+
   protected virtual ValueType ConvertValue(object value, out bool formatError)
   {
     formatError = false;
@@ -94,6 +108,7 @@
       return lastValidValue;
     }
   }
+
   protected virtual bool TryParse(string value, out ValueType outValue)
   {
     var retval = false;
@@ -101,13 +116,13 @@
     {
       DateTime dtValue;
       retval = DateTime.TryParseExact(value, DateFormat, null, System.Globalization.DateTimeStyles.None, out dtValue);
-      outValue = (ValueType)(object)dtValue;
+      outValue = (ValueType) (object) dtValue;
     }
     else if (typeof(ValueType) == typeof(TimeSpan) || typeof(ValueType) == typeof(TimeSpan?))
     {
       TimeSpan tsValue;
       retval = TimeSpan.TryParse(value, out tsValue);
-      outValue = (ValueType)(object)tsValue;
+      outValue = (ValueType) (object) tsValue;
     }
     else
     {
@@ -115,6 +130,7 @@
     }
     return retval;
   }
+
   protected async Task ResetInputValue()
   {
     if (stringValue != null)
@@ -127,5 +143,5 @@
     }
   }
 
-  
+
 }

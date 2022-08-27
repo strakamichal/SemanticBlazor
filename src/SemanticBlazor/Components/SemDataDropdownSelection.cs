@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SemanticBlazor.Components.Base;
-using SemanticBlazor.Components.SelectControlsBase;
 using SemanticBlazor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.Dropdown;
 
 namespace SemanticBlazor.Components
 {

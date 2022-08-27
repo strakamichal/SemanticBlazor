@@ -35,12 +35,6 @@ window.SemanticLists = {
 window.SemanticDropdown = {
   Init: function (id, settings) {
     $('#' + id).dropdown(settings);
-    //$('#' + id).dropdown({
-    //  onChange: function (value, text, $selectedItem) {
-    //    console.log('Changed: ' + value);
-    //  }
-    //});
-
   },
   GetValue: function (id) {
     return $('#' + id).dropdown('get value');
@@ -121,8 +115,6 @@ window.SemanticDateTimeInput = {
 
     if ((todayText === "" || todayText === null) && locale.indexOf('cs') !== -1) todayText = "Dnes";
     else todayText = "Today";
-    console.log(startCal);
-    console.log(endCal);
     $("#" + id).closest('.calendar').calendar(
       {
         type: "date",
@@ -205,12 +197,7 @@ window.Validation = {
         $(this).closest(".field").addClass("error");
         $(this).closest("form").addClass("error");
       });
-
-      //$(".validation-message").each(function () {
-      //  $(this).closest(".field").addClass("error");
-      //  $(this).closest("form").addClass("error");
-      //});
-
+      
       $(".form.error").each(function () {
         $(this).find('.validation-message').show();
       });

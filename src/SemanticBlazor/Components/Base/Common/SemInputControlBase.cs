@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using SemanticBlazor.Components.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
-namespace SemanticBlazor.Components.Base
+namespace SemanticBlazor.Components.Base.Common
 {
   public class SemInputControlBase<ValueType> : SemControlBase
   {
