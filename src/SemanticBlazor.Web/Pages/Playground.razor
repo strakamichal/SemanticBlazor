@@ -35,13 +35,22 @@
   </Content>
 </SemModal>*@
 
-<SemForm Model="formModel"></SemForm>
-<SemFormField For="@(() => formModel.SelectedValue)">
-<SemDataDropdownSelection @bind-Value="formModel.SelectedValue" DataMethod="@(() => GetData())" ItemKey="@(e => e.IntValue)" ItemText="@(e => e.StringText)" ValueSelector="@(e => e.IntValue)"></SemDataDropdownSelection>
-  @(formModel.SelectedValue.ToString() ?? "n/a")
-</SemFormField>
+@* <SemForm Model="formModel"></SemForm> *@
+@* <SemFormField For="@(() => formModel.SelectedValue)"> *@
+@* <SemDataDropdownSelection @bind-Value="formModel.SelectedValue" DataMethod="@(() => GetData())" ItemKey="@(e => e.IntValue)" ItemText="@(e => e.StringText)" ValueSelector="@(e => e.IntValue)"></SemDataDropdownSelection> *@
+@*   @(formModel.SelectedValue.ToString() ?? "n/a") *@
+@* </SemFormField> *@
 
+<SemForm Model="_dateModel">
+  <SemDateInput Id="dateFrom" @bind-Value="@_dateModel.DateFrom" EndDateInputId="dateTo" Changed="@((DateTime _) => { _events.Add(DateTime.Now); StateHasChanged(); })"></SemDateInput>
+  <SemDateInput Id="dateTo" @bind-Value="@_dateModel.DateTo" StartDateInputId="dateFrom"></SemDateInput>
+</SemForm>
+@_dateModel.DateFrom.ToString("dd.MM.yyyy") - @_dateModel.DateTo.ToString("dd.MM.yyyy")
 
+@foreach (var date in _events)
+{
+  @date.ToString("hh:mm:ss.fff")<br/>
+}
 
 @*<div>
   <SemDataDropdownMultiSelection @bind-Value="SelectedItems" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
@@ -56,6 +65,10 @@
   SemModal modal1;
   SemModal modal2;
 
+  DateModel _dateModel = new DateModel();
+
+  List<DateTime> _events = new List<DateTime>();
+
   int SelectedItem { get; set; } = 0;
   List<string> SelectedItems { get; set; }
   FormModel formModel { get; set; } = new();
@@ -68,10 +81,10 @@
   //List<int> Data = new() {4,3,2,1,0};
   List<TestModel> Data = new()
   {
-    new TestModel { IntValue = -1, StringText = "Nic"},
+    new TestModel {IntValue = -1, StringText = "Nic"},
     new TestModel {IntValue = 2, StringText = "[2] Dva"},
     new TestModel {IntValue = 1, StringText = "[1] Jedna"},
-    new TestModel { IntValue = 0, StringText = "[0] Nula"}
+    new TestModel {IntValue = 0, StringText = "[0] Nula"}
   };
 
   private SemTabs tabs;
@@ -86,6 +99,12 @@
   {
     await Task.Delay(1000);
     return Data;
+  }
+
+  private class DateModel
+  {
+    public DateTime DateFrom { get; set; }
+    public DateTime DateTo { get; set; }
   }
 
 }
