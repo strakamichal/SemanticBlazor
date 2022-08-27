@@ -4,7 +4,7 @@
 @if (Visible)
 {
   <div id="@Id" class="@ClassMapper.ToString()">
-    <input id="inpt_@Id" type="checkbox" @onchange="OnValueChanged" checked="@Value" @attributes="disabledAttribute" />
+    <input id="inpt_@Id" type="checkbox" @onchange="OnValueChanged" checked="@Value" @attributes="@DisabledAttribute" />
     <label for="inpt_@Id">
       @if (ChildContent != null)
       {

@@ -25,7 +25,7 @@ namespace SemanticBlazor.Components.Base.Common
       ClassMapper.Get(() => this.Class)
                  .If("disabled", () => !this.Enabled);
     }
-    protected Dictionary<string, object> disabledAttribute
+    protected Dictionary<string, object> DisabledAttribute
     {
       get
       {

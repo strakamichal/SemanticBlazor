@@ -19,11 +19,11 @@
             <div class="ui radio checkbox">
               @if (Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item))
               {
-                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="@DisabledAttribute">
               }
               else
               {
-                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="disabledAttribute">
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="@DisabledAttribute">
               }
               <label for="@($"{Id}-{GetItemKey(item)}")">
                 @if (ItemTemplate == null)

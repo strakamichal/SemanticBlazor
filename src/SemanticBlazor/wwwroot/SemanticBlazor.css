@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.ui.form .ui.input
+{
+  width: 100%;
+}
+
 
 a {
   cursor: pointer;

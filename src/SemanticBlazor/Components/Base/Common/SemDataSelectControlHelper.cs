@@ -5,21 +5,12 @@ using SemanticBlazor.Models;
 
 namespace SemanticBlazor.Components.Base.Common
 {
-  public class SemDataSelectControlHelper<ItemType, ValueType>
+  internal class SemDataSelectControlHelper<ItemType, ValueType>
   {
     public virtual IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
     public virtual Func<ItemType, object> ItemKey { get; set; }
     public virtual Func<ItemType, string> ItemText { get; set; }
     public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
-
-    public SemDataSelectControlHelper() { }
-    public SemDataSelectControlHelper(IEnumerable<ItemType> items, Func<ItemType, object> itemKey, Func<ItemType, string> itemText, Func<ItemType, ValueType> valueSelector)
-    {
-      this.Items = items;
-      this.ItemKey = itemKey;
-      this.ItemText = itemText;
-      this.ValueSelector = valueSelector;
-    }
 
     public ItemType GetItemFromValue(ValueType value)
     {

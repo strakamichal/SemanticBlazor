@@ -18,11 +18,11 @@
           <div class="@InputClassMapper.ToString()">
             @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
             {
-              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="@DisabledAttribute">
             }
             else
             {
-              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="@DisabledAttribute">
             }
             <label for="@($"{Id}-{GetItemKey(item)}")">
               @if (ItemTemplate == null)

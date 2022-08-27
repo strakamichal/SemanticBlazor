@@ -41,7 +41,24 @@
 @*   @(formModel.SelectedValue.ToString() ?? "n/a") *@
 @* </SemFormField> *@
 
+<SemForm Model="_dateModel">
+  <SemInput Rows="3" @bind-Value="LongText" Clearable="true"></SemInput><br>
+  <InputTextArea rows="3" @bind-Value="LongText"></InputTextArea>
+  @LongText
+</SemForm>
 
+
+<SemForm Model="_dateModel">
+  <SemFormField For="@(() => _dateModel.DateFrom)" Wide="GridUnit.Eight">
+    <SemInput Rows="3" @bind-Value="LongText" Clearable="true"></SemInput>
+  </SemFormField>
+  <SemFormField For="@(() => _dateModel.DateFrom)" Wide="GridUnit.Eight">
+    <InputTextArea rows="3" @bind-Value="LongText"></InputTextArea>
+  </SemFormField>
+  @LongText
+</SemForm>
+
+@*
 <SemButton Icon="Icon.Angle_Double_Left" OnClick="@(() => _date = _date.AddDays(-1))"></SemButton>
 <SemDateInput @bind-Value="_date" Icon="Icon.Calendar_Alternate_Outline" Style="width: 130px" Changed="@((DateTime _) => { _events.Add(DateTime.Now); StateHasChanged(); })"></SemDateInput>
 <SemButton Icon="Icon.Angle_Double_Right" OnClick="@(() => _date = _date.AddDays(1))"></SemButton>
@@ -59,6 +76,7 @@
 {
   @date.ToString("hh:mm:ss.fff")<br/>
 }
+*@
 
 @*<div>
   <SemDataDropdownMultiSelection @bind-Value="SelectedItems" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
@@ -81,6 +99,8 @@
   int SelectedItem { get; set; } = 0;
   List<string> SelectedItems { get; set; }
   FormModel formModel { get; set; } = new();
+
+  public string LongText { get; set; }
 
   private class FormModel
   {
