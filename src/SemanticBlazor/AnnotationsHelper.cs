@@ -8,7 +8,7 @@ namespace SemanticBlazor
 {
   public static class Annotations
   {
-    public static string GetNameFor<ValueType>(System.Linq.Expressions.Expression<Func<ValueType>> forExpr)
+    public static string GetNameFor<TValue>(Expression<Func<TValue>> forExpr)
     {
       string retval = "";
       if (forExpr != null)
@@ -24,7 +24,7 @@ namespace SemanticBlazor
       return retval;
     }
 
-    public static string GetDescriptionFor<ValueType>(System.Linq.Expressions.Expression<Func<ValueType>> forExpr)
+    public static string GetDescriptionFor<TValue>(Expression<Func<TValue>> forExpr)
     {
       string retval = "";
       if (forExpr != null)
@@ -40,7 +40,7 @@ namespace SemanticBlazor
       return retval;
     }
 
-    public static bool GetRequiredFor<ValueType>(System.Linq.Expressions.Expression<Func<ValueType>> forExpr)
+    public static bool GetRequiredFor<TValue>(Expression<Func<TValue>> forExpr)
     {
       bool retval = false;
       if (forExpr != null)
@@ -56,7 +56,7 @@ namespace SemanticBlazor
       return retval;
     }
 
-    public static string GetPropertyNameFor<ValueType>(System.Linq.Expressions.Expression<Func<ValueType>> forExpr)
+    public static string GetPropertyNameFor<TValue>(Expression<Func<TValue>> forExpr)
     {
       if (forExpr != null)
       {

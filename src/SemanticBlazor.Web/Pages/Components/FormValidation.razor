@@ -23,10 +23,10 @@
       </SemFormField>
       <SemFormFields Fields="GridUnit.Two">
         <SemFormField For="@(() => item.Type)">
-          <SemDropdownSelection @bind-Value="item.Type" Items="@(types.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownSelection>
+          <SemDropdownSelection @bind-Value="item.Type" Items="@(types.Select(li => new ListItem() { Value = li }))"></SemDropdownSelection>
         </SemFormField>
         <SemFormField For="@(() => item.Flags)">
-          <SemDropdownMultiSelection @bind-Value="item.Flags" Items="@(flags.Select(li => new Models.ListItem() { Value = li }))"></SemDropdownMultiSelection>
+          <SemDropdownMultiSelection @bind-Value="item.Flags" Items="@(flags.Select(li => new ListItem() { Value = li }))"></SemDropdownMultiSelection>
         </SemFormField>
       </SemFormFields>
       <SemFormFields Fields="GridUnit.Two">
@@ -41,7 +41,7 @@
     </SemForm>
     <div style="margin-top: 20px">
       <b>Form validation position:</b><br />
-      <SemButtonSwitch Value="(int)formValidPos" ValueChanged="@((e) => ChangeFormValidationPosition(e))" ValueType="int" Class="basic">
+      <SemButtonSwitch Value="(int)formValidPos" ValueChanged="@((e) => ChangeFormValidationPosition(e))" TValue="int" Class="basic">
         <ListItems>
           <SemSelectListItem Text="Hidden" Value="0" />
           <SemSelectListItem Text="Top" Value="1" />
@@ -52,7 +52,7 @@
     <div style="margin-top: 20px">
       <b>Fields validation position:</b><br />
       <div class="ui buttons">
-        <SemButtonSwitch Value="(int)fieldValidPos" ValueChanged="@((e) => ChangeFieldValidationPosition(e))" ValueType="int" Class="basic">
+        <SemButtonSwitch Value="(int)fieldValidPos" ValueChanged="@((e) => ChangeFieldValidationPosition(e))" TValue="int" Class="basic">
           <ListItems>
             <SemSelectListItem Text="Hidden" Value="0" />
             <SemSelectListItem Text="Top" Value="1" />
@@ -82,7 +82,7 @@
       <span class="ui label">@item.Type</span>
     </p>
     <p>
-      @foreach (var flag in item.Flags)
+      @foreach (var flag in item.Flags ?? new List<string>())
       {
         if (!String.IsNullOrEmpty(flag))
         {
@@ -92,7 +92,7 @@
     </p>
     <p>
       Created: <b>@item.Created</b>
-      @if (@item.LastUpdate != null)
+      @if (item.LastUpdate != null)
       {<br /><span>Updated: @item.LastUpdate</span>}
     </p>
   </div>
@@ -143,6 +143,7 @@
   {
     item = await DummyDataService.GetByIdAsync(id);
   }
+  
   async Task FormSubmited()
   {
     await Task.Delay(2000);

@@ -7,9 +7,6 @@
 
   protected override void OnInitialized()
   {
-    if (Parent != null)
-    {
-      Parent.RegisterChildControl(this);
-    }
+    Parent?.RegisterChildControl(this);
   }
 }

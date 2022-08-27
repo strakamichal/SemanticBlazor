@@ -1,54 +1,43 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using SemanticBlazor.Components.Base.Common;
 
 namespace SemanticBlazor.Components.Base.Dropdown
 {
-  public class SemDropdownSingleSelectionBase<ItemType, ValueType> : SemDropdownSelectionBase<ItemType, ValueType>
+  public class SemDropdownSingleSelectionBase<TItem, TValue> : SemDropdownSelectionBase<TItem, TValue>
   {
-    public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+    public virtual Func<TItem, TValue> ValueSelector { get; set; }
 
-    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
-    protected override object ConvertValue(object newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
-    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
-    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
+    private TItem GetItemFromValue(TValue value) => SemDataSelectControlHelper<TItem, TValue>.GetItemFromValue(value, Items, ValueSelector);
+    protected override object ConvertValue(object newValue) => SemDataSelectControlHelper<TItem, TValue>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+    protected override string GetItemText(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemText(item, ItemText);
+    protected override string GetItemKey(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemKey(item, Items, ItemKey);
 
     protected override async Task OnParametersSetAsync()
     {
-      if (Value != null)
-      {
-        SelectedItem = GetItemFromValue(Value);
-      }
-      else
-      {
-        SelectedItem = default(ItemType);
-      }
+      SelectedItem = Value != null ? GetItemFromValue(Value) : default(TItem);
       await base.OnParametersSetAsync();
     }
 
-    protected override string stringValue
-    {
-      get
-      {
-        return Value != null ? GetItemKey(GetItemFromValue(Value)) : "";
-      }
-    }
+    protected override string StringValue => Value != null ? GetItemKey(GetItemFromValue(Value)) : "";
+
     protected override async Task SetComboboxValue()
     {
       if (Value != null)
-      /*if (typeof(ValueType) != typeof(Int32) && Value != null || typeof(ValueType) == typeof(Int32))*/
       {
-        await SemanticBlazor.JsFunc.DropDown.SetValue(js, Id, GetItemKey(GetItemFromValue(Value)));
+        await JsFunc.DropDown.SetValue(JsRuntime, Id, GetItemKey(GetItemFromValue(Value)));
       }
       else
       {
-        await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+        await JsFunc.DropDown.Clear(JsRuntime, Id);
       }
     }
     protected override async Task ItemsLoaded()
     {
-      await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
+      await Init(InitSettings);
+      /*await JsFunc.DropDown.Init(JsRuntime, Id, InitSettings);*/
       if (Value != null)
       {
         SelectedItem = GetItemFromValue(Value);
@@ -57,11 +46,11 @@ namespace SemanticBlazor.Components.Base.Dropdown
       {
         if (Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(Value))))
         {
-          lastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
-          guiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
+          LastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
+          GuiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
           //await SetComboboxValue(); Tohle volat nemusíme, zavolá se samo při OnParametersSetAsync
         }
-        else if (Value != null && !Value.Equals(default(ValueType)))
+        else if (Value != null && !Value.Equals(default(TValue)))
         {
           await ClearValue();
         }
@@ -69,13 +58,8 @@ namespace SemanticBlazor.Components.Base.Dropdown
     }
     public override async Task ClearValue()
     {
-      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+      await JsFunc.DropDown.Clear(JsRuntime, Id);
       await base.ClearValue();
-    }
-
-    protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
-    {
-      base.BuildRenderTree(__builder);
     }
   }
 }

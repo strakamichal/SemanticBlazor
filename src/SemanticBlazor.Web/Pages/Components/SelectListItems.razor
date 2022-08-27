@@ -29,8 +29,8 @@
         </ListItems>
         <ItemTemplate>
           <SemLabel Class="red empty circular"></SemLabel>
-          <span class="text">@(((SemanticBlazor.Models.ListItem)context).Text)</span>
-          <span class="description">@(((SemanticBlazor.Models.ListItem)context).Value)</span>
+          <span class="text">@(((ListItem)context).Text)</span>
+          <span class="description">@(((ListItem)context).Value)</span>
         </ItemTemplate>
       </SemDropdownSelection>
     </div>

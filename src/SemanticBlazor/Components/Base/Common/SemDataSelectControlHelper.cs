@@ -5,134 +5,18 @@ using SemanticBlazor.Models;
 
 namespace SemanticBlazor.Components.Base.Common
 {
-  internal class SemDataSelectControlHelper<ItemType, ValueType>
+  internal static class SemDataSelectControlHelper<TItem, TValue>
   {
-    public virtual IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
-    public virtual Func<ItemType, object> ItemKey { get; set; }
-    public virtual Func<ItemType, string> ItemText { get; set; }
-    public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
-
-    public ItemType GetItemFromValue(ValueType value)
+    public static TItem GetItemFromValue(TValue value, IEnumerable<TItem> items, Func<TItem, TValue> valueSelector)
     {
-      if (Items != null && value != null)
-      {
-        if (ValueSelector != null)
-        {
-          return Items.FirstOrDefault(i => ValueSelector.Invoke(i).Equals(value));
-        }
-        else if (typeof(ItemType) == typeof(ListItem))
-        {
-          return Items.FirstOrDefault(i => i.ToString() == value.ToString());
-        }
-        else
-        {
-          try
-          {
-            return (ItemType)Convert.ChangeType(value, typeof(ItemType));
-          }
-          catch (Exception err)
-          {
-            throw new Exception("Cannot convert value to ItemType, please specify ValueSelector.", err);
-          }
-        }
-      }
-      else
-      {
-        return default(ItemType);
-      }
-    }
-    public string GetItemText(ItemType item)
-    {
-      if (item != null)
-      {
-        if (ItemText != null)
-        {
-          return ItemText?.Invoke(item);
-        }
-        else if (typeof(ItemType) == typeof(ListItem))
-        {
-          return ((ListItem)Convert.ChangeType(item, typeof(ListItem))).Text;
-        }
-        else
-        {
-          return item.ToString();
-        }
-      }
-      else
-      {
-        return null;
-      }
-    }
-    public string GetItemKey(ItemType item)
-    {
-      if (item != null && Items != null)
-      {
-        if (ItemKey != null)
-        {
-          return ItemKey?.Invoke(item).ToString();
-        }
-        else if (typeof(ItemType) == typeof(ListItem))
-        {
-          return item.ToString();
-        }
-        else
-        {
-          return Items.ToList().IndexOf(item).ToString();
-        }
-      }
-      else
-      {
-        return null;
-      }
-    }
-    public object ConvertValue(object newValue)
-    {
-      var item = Items.FirstOrDefault(i => GetItemKey(i) == newValue.ToString());
-      if (ValueSelector != null)
-      {
-        return ValueSelector.Invoke(item);
-      }
-      else
-      {
-        if (typeof(ItemType) == typeof(ListItem))
-        {
-          if (typeof(ValueType) == typeof(Nullable<int>))
-          {
-            return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
-          }
-          else if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
-          {
-            return (ValueType)Enum.Parse(typeof(ValueType), newValue.ToString());
-          }
-          else
-          {
-            return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));
-          }
-        }
-        else
-        {
-          try
-          {
-            return (ValueType)Convert.ChangeType(item, typeof(ValueType));
-          }
-          catch (Exception err)
-          {
-            throw new Exception("Cannot convert selected item to defined ValueType, please specify ValueSelector.", err);
-          }
-        }
-      }
-    }
-
-    public static ItemType GetItemFromValue(ValueType value, IEnumerable<ItemType> items, Func<ItemType, ValueType> valueSelector)
-    {
-      ItemType retval = default(ItemType);
+      TItem retval = default(TItem);
       if (items != null && value != null)
       {
         if (valueSelector != null)
         {
           retval = items.FirstOrDefault(i => valueSelector.Invoke(i).Equals(value));
         }
-        else if (typeof(ItemType) == typeof(ListItem))
+        else if (typeof(TItem) == typeof(ListItem))
         {
           retval = items.FirstOrDefault(i => i.ToString() == value.ToString());
         }
@@ -140,96 +24,80 @@ namespace SemanticBlazor.Components.Base.Common
         {
           try
           {
-            return (ItemType)Convert.ChangeType(value, typeof(ItemType));
+            return (TItem)Convert.ChangeType(value, typeof(TItem));
           }
           catch (Exception err)
           {
-            throw new Exception("Cannot convert value to ItemType, please specify ValueSelector.", err);
+            throw new Exception("Cannot convert value to TItem, please specify ValueSelector.", err);
           }
         }
       }
       return retval;
     }
-    public static string GetItemText(ItemType item, Func<ItemType, string> itemText)
+    public static string GetItemText(TItem item, Func<TItem, string> itemText)
     {
       if (item != null)
       {
         if (itemText != null)
         {
-          return itemText?.Invoke(item);
+          return itemText(item);
         }
-        else if (typeof(ItemType) == typeof(ListItem))
+        if (typeof(TItem) == typeof(ListItem))
         {
           ListItem liItem = ((ListItem)Convert.ChangeType(item, typeof(ListItem)));
           return liItem.Text ?? liItem.Value;
         }
-        else
-        {
-          return item.ToString();
-        }
+        return item.ToString();
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
-    public static string GetItemKey(ItemType item, IEnumerable<ItemType> items, Func<ItemType, object> itemKey)
+    public static string GetItemKey(TItem item, IEnumerable<TItem> items, Func<TItem, object> itemKey)
     {
       string retval = null;
-      if (item != null && items != null)
+      if (item == null || items == null) return null;
+      if (itemKey != null)
       {
-        if (itemKey != null)
-        {
-          retval = itemKey?.Invoke(item).ToString();
-        }
-        else if (typeof(ItemType) == typeof(ListItem))
-        {
-          retval = item.ToString();
-        }
-
-        if (retval == null)
-        {
-          retval = items.ToList().IndexOf(item).ToString();
-        }
+        retval = itemKey(item).ToString();
       }
+      else if (typeof(TItem) == typeof(ListItem))
+      {
+        retval = item.ToString();
+      }
+      retval ??= item.GetHashCode().ToString();
       return retval;
     }
-    public static object ConvertValue(object newValue, IEnumerable<ItemType> items, Func<ItemType, object> itemKey, Func<ItemType, ValueType> valueSelector)
+    public static object ConvertValue(object newValue, IEnumerable<TItem> items, Func<TItem, object> itemKey, Func<TItem, TValue> valueSelector)
     {
-      var item = items.FirstOrDefault(i => GetItemKey(i, items, itemKey) == newValue.ToString());
+      var itemsList = items.ToList();
+      var item = itemsList.FirstOrDefault(i => GetItemKey(i, itemsList, itemKey) == newValue.ToString());
       if (valueSelector != null)
       {
         return valueSelector.Invoke(item);
       }
-      else
+      return typeof(TItem) == typeof(ListItem) ? TryChangeTypeOfList(newValue) : TryChangeType(item);
+    }
+    private static object TryChangeType(TItem item)
+    {
+      try
       {
-        if (typeof(ItemType) == typeof(ListItem))
-        {
-          if (typeof(ValueType) == typeof(Nullable<int>))
-          {
-            return string.IsNullOrEmpty(newValue.ToString()) ? (ValueType)(object)null : (ValueType)Convert.ChangeType(newValue, typeof(int));
-          }
-          else if (typeof(ValueType).BaseType != null && typeof(ValueType).BaseType == typeof(Enum))
-          {
-            return (ValueType)Enum.Parse(typeof(ValueType), newValue.ToString());
-          }
-          else
-          {
-            return (ValueType)Convert.ChangeType(newValue, typeof(ValueType));
-          }
-        }
-        else
-        {
-          try
-          {
-            return (ValueType)Convert.ChangeType(item, typeof(ValueType));
-          }
-          catch (Exception err)
-          {
-            throw new Exception("Cannot convert selected item to defined ValueType, please specify ValueSelector.", err);
-          }
-        }
+        return (TValue) Convert.ChangeType(item, typeof(TValue));
       }
+      catch (Exception err)
+      {
+        throw new Exception("Cannot convert selected item to defined TValue, please specify ValueSelector.", err);
+      }
+    }
+    private static object TryChangeTypeOfList(object newValue)
+    {
+      if (typeof(TValue) == typeof(int?))
+      {
+        return string.IsNullOrEmpty(newValue.ToString()) ? (TValue) (object) null : (TValue) Convert.ChangeType(newValue, typeof(int));
+      }
+      if (typeof(TValue).BaseType != null && typeof(TValue).BaseType == typeof(Enum))
+      {
+        return (TValue) Enum.Parse(typeof(TValue), newValue.ToString());
+      }
+      return (TValue) Convert.ChangeType(newValue, typeof(TValue));
     }
   }
 }

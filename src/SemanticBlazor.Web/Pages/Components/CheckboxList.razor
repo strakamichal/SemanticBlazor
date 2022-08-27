@@ -1,6 +1,6 @@
 ﻿@page "/Components/Checkboxlist"
 @layout ComponentsLayout
-@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+@inject Data.DummyDataService dummyData
 
 <h1>CheckboxList & DataCheckboxList</h1>
 
@@ -173,8 +173,8 @@
   public List<string> SelectedValue2 { get; set; }
   public List<int> SelectedDummyId { get; set; }
   public List<string> SelectedDummyName { get; set; }
-  public List<SemanticBlazor.Web.Data.DummyData> SelectedDummies { get; set; }
-  IEnumerable<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  public List<Data.DummyData> SelectedDummies { get; set; }
+  IEnumerable<Data.DummyData> dummies = new List<Data.DummyData>();
   List<Option> SelectedOptions { get; set; }
 
   protected override async Task OnInitializedAsync()

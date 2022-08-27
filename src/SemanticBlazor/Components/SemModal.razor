@@ -47,14 +47,14 @@
   }
   public async Task Show()
   {
-    await JsFunc.Modal.Show(js, Id, AllowMultiple, Closable);
+    await JsFunc.Modal.Show(JsRuntime, Id, AllowMultiple, Closable);
   }
   public async Task Hide()
   {
-    await JsFunc.Modal.Hide(js, Id);
+    await JsFunc.Modal.Hide(JsRuntime, Id);
   }
   public async Task SubmitForm()
   {
-    await JsFunc.Modal.SubmitForm(js, Id);
+    await JsFunc.Modal.SubmitForm(JsRuntime, Id);
   }
 }

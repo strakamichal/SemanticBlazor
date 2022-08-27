@@ -7,7 +7,7 @@ using SemanticBlazor.Components.Base.RadioButton;
 
 namespace SemanticBlazor.Components
 {
-  public class SemRadioButtonList<ValueType> : SemRadioButtonListBase<ListItem, ValueType>
+  public class SemRadioButtonList<TValue> : SemRadioButtonListBase<ListItem, TValue>
   {
     #region ListItems
     [Obsolete]
@@ -15,10 +15,5 @@ namespace SemanticBlazor.Components
     [Parameter] public override RenderFragment<object> ItemTemplate { get; set; }
     [Parameter] public override RenderFragment ListItems { get; set; }
     #endregion
-
-    protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
-    {
-      base.BuildRenderTree(__builder);
-    }
   }
 }

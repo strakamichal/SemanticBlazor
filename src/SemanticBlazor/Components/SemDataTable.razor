@@ -1,15 +1,15 @@
-﻿@typeparam ItemType
+﻿@typeparam TItem
 @using SemanticBlazor.Mappers
-@inherits SemanticBlazor.Components.Base.List.SemListBase<ItemType>
+@inherits SemanticBlazor.Components.Base.List.SemListBase<TItem>
 
 
 @if (Visible)
 {
   <CascadingValue Value="this">
     @Columns
-    @if (currentItems == null)
+    @if (CurrentItems == null)
     {
-      <div class="@SegmentClassMapper.ToString()" style="padding: 0px">
+      <div class="@SegmentClassMapper.ToString()" style="padding: 0">
         <table class="ui @Class table">
           <thead>
             <tr>
@@ -39,13 +39,13 @@
         </table>
       </div>
     }
-    else if (currentItems.Count() == 0)
+    else if (!CurrentItems.Any())
     {
       <div class="ui message">@EmptyDataMessage</div>
     }
     else
     {
-      <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0px;">
+      <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0;">
         <table class="@ClassMapper.ToString()">
           <thead>
             @if (Header != null)
@@ -55,7 +55,7 @@
             else
             {
               <tr>
-                @foreach (var column in localColumns)
+                @foreach (var column in _localColumns)
                 {
                   <th @attributes="GetHeaderAttributes(column)">
                     @if (column.HeaderTemplate != null)
@@ -81,7 +81,7 @@
             }
           </thead>
           <tbody>
-            @foreach (var item in currentItems)
+            @foreach (var item in CurrentItems)
             {
               @if (RowTemplate != null)
               {
@@ -90,7 +90,7 @@
               else
               {
                 <tr @attributes="GetRowAttributes(item)">
-                  @foreach (var column in localColumns)
+                  @foreach (var column in _localColumns)
                   {
                     <td @attributes="GetBodyAttributes(column, item)">
                       @if (column.ItemTemplate != null)
@@ -111,7 +111,7 @@
       </div>
       @if (AllowPaging)
       {
-        <SemPagination TotalPages="totalPages" PageIndex="pageIndex" PageIndexChanged="(async (int indx) => await SetPageIndex(indx))"></SemPagination>
+        <SemPagination TotalPages="TotalPages" PageIndex="PageIndex" PageIndexChanged="@(async index => await SetPageIndex(index))"></SemPagination>
       }
     }
   </CascadingValue>
@@ -122,13 +122,12 @@
 
   [Parameter] public RenderFragment Columns { get; set; }
   [Parameter] public bool AllowSorting { get; set; }
-  protected List<SemDataTableColumn<ItemType>> localColumns { get; set; } = new List<SemDataTableColumn<ItemType>>();
-  [Parameter] public Func<ItemType, string> RowClassFunc { get; set; }
+  private List<SemDataTableColumn<TItem>> _localColumns = new List<SemDataTableColumn<TItem>>();
+  [Parameter] public Func<TItem, string> RowClassFunc { get; set; }
   [Parameter] public string RowClass { get; set; }
 
-
   [Parameter] public RenderFragment Header { get; set; }
-  [Parameter] public RenderFragment<ItemType> RowTemplate { get; set; }
+  [Parameter] public RenderFragment<TItem> RowTemplate { get; set; }
   [Parameter] public string EmptyDataMessage { get; set; } = "No records has been found...";
   ClassMapper SegmentClassMapper { get; set; } = new ClassMapper();
 
@@ -137,7 +136,7 @@
     SegmentClassMapper
     .Add("ui basic")
     .Get(() => SegmentClass)
-    .If("loading", () => loading)
+    .If("loading", () => Loading)
     .Add("segment");
 
     ClassMapper
@@ -147,32 +146,30 @@
 
   internal override void RegisterChildControl(object control)
   {
-    if (control.GetType() == typeof(SemDataTableColumn<ItemType>))
+    if (control.GetType() != typeof(SemDataTableColumn<TItem>)) return;
+    if (RowTemplate != null || Header != null)
     {
-      if (this.RowTemplate != null || this.Header != null)
-      {
-        throw new Exception("Columns collection cannot be used together with RowTemplate or Header.");
-      }
-      this.localColumns.Add((SemDataTableColumn<ItemType>)control);
-      if (currentItems != null) StateHasChanged();
+      throw new Exception("Columns collection cannot be used together with RowTemplate or Header.");
     }
+    _localColumns.Add((SemDataTableColumn<TItem>)control);
+    if (CurrentItems != null) StateHasChanged();
   }
 
   public async Task Sort(string sortExpression)
   {
-    if (this.SortExpression == sortExpression)
+    if (SortExpression == sortExpression)
     {
-      this.SortDirection = this.SortDirection == "ASC" ? "DESC" : "ASC";
+      SortDirection = SortDirection == "ASC" ? "DESC" : "ASC";
     }
     else
     {
-      this.SortExpression = sortExpression;
-      this.SortDirection = "ASC";
+      SortExpression = sortExpression;
+      SortDirection = "ASC";
     }
     await RefreshData();
   }
 
-  public Dictionary<string, object> GetHeaderAttributes(SemDataTableColumn<ItemType> column)
+  public Dictionary<string, object> GetHeaderAttributes(SemDataTableColumn<TItem> column)
   {
     var retval = new Dictionary<string, object>();
     if (!string.IsNullOrEmpty(column.HeaderClass))
@@ -181,7 +178,7 @@
     }
     return retval;
   }
-  public Dictionary<string, object> GetRowAttributes(ItemType item)
+  public Dictionary<string, object> GetRowAttributes(TItem item)
   {
     var retval = new Dictionary<string, object>();
     var classAttr = $"{RowClass} {RowClassFunc?.Invoke(item)}";
@@ -191,7 +188,7 @@
     }
     return retval;
   }
-  public Dictionary<string, object> GetBodyAttributes(SemDataTableColumn<ItemType> column, ItemType item)
+  public Dictionary<string, object> GetBodyAttributes(SemDataTableColumn<TItem> column, TItem item)
   {
     var retval = new Dictionary<string, object>();
     var classAttr = $"{column.ItemClass} {column.ItemClassFunc?.Invoke(item)}";

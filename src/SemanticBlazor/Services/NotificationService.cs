@@ -12,7 +12,7 @@ namespace SemanticBlazor.Services
     [Obsolete]
     public void ShowNotification(string message, string title = "", string color = "")
     {
-      var notification = new Services.NotificationModel()
+      var notification = new NotificationModel()
       {
         Message = message,
         Color = color,
@@ -24,7 +24,7 @@ namespace SemanticBlazor.Services
     
     public void ShowNotification(string message, string title = "", int duration = 5, Color? color = null, Icon? icon = null)
     {
-      var notification = new Services.NotificationModel()
+      var notification = new NotificationModel()
       {
         Message = message,
         Color = color?.ToString().ToLower(),

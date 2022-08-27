@@ -2,7 +2,7 @@
 
 @if (Visible)
 {
-  <SemModal Class="tiny" @ref="confirmationModal" Style="@Style" @attributes="Attributes">
+  <SemModal Class="tiny" @ref="_confirmationModal" Style="@Style" @attributes="Attributes">
     <Header>
       @Header
     </Header>
@@ -22,12 +22,11 @@
   [Parameter] public string CancelButtonText { get; set; } = "No";
   [Parameter] public string ConfirmButtonText { get; set; } = "Yes";
   [Parameter] public string ConfirmButtonIconClass { get; set; } = "checkmark";
-
-  SemModal confirmationModal;
   [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+  SemModal _confirmationModal;
 
   public async Task Show()
   {
-    await confirmationModal.Show();
+    await _confirmationModal.Show();
   }
 }

@@ -1,6 +1,6 @@
-﻿@typeparam ValueType
+﻿@typeparam TValue
 @using SemanticBlazor.Mappers
-@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<ValueType>
+@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<TValue>
 
 @if (Visible)
 {
@@ -15,16 +15,16 @@
     }
     @if (InputType == "number")
     {
-      <input id="inpt_@Id" type="@InputType" value="@_value" @onchange="OnValueChanged" placeholder="@Placeholder" @onkeypress="KeyPressed" class="@InputClass" style="@InputStyle" @attributes="@DisabledAttribute"
+      <input id="inpt_@Id" type="@InputType" value="@StringValue" @onchange="OnValueChanged" placeholder="@Placeholder" @onkeydown="KeyPressed" class="@InputClass" style="@InputStyle" @attributes="@DisabledAttribute"
              step="@(NumberStep?.ToString().Replace(",", "."))" max="@(NumberMax?.ToString().Replace(",", "."))" min="@(NumberMin?.ToString().Replace(",", "."))"/>
     }
     else if (InputType == "textarea")
     {
-      <textarea id="inpt_@Id" value="@_value" @onchange="OnValueChanged" placeholder="@Placeholder" @onkeypress="KeyPressed" class="@InputClass" style="@InputStyle" rows="@Rows" @attributes="@DisabledAttribute"></textarea>
+      <textarea id="inpt_@Id" value="@StringValue" @onchange="OnValueChanged" placeholder="@Placeholder" @onkeydown="KeyPressed" class="@InputClass" style="@InputStyle" rows="@Rows" @attributes="@DisabledAttribute"></textarea>
     }
     else
     {
-      <input id="inpt_@Id" type="@InputType" value="@_value" @onchange="OnValueChanged" placeholder="@Placeholder" @onkeypress="KeyPressed" class="@InputClass" style="@InputStyle" @attributes="@DisabledAttribute"/>
+      <input id="inpt_@Id" type="@InputType" value="@StringValue" @onchange="OnValueChanged" placeholder="@Placeholder" @onkeydown="KeyPressed" class="@InputClass" style="@InputStyle" @attributes="@DisabledAttribute"/>
     }
   </div>
 }
@@ -69,41 +69,39 @@
       .Get(() => Size?.ToString().ToLower());
   }
 
-  private string _value
+  private string StringValue
   {
     get
     {
-      if (typeof(ValueType) == typeof(decimal?) || typeof(ValueType) == typeof(decimal))
+      if (typeof(TValue) == typeof(decimal?) || typeof(TValue) == typeof(decimal))
       {
         return Value?.ToString().Replace(",", ".");
       }
-      else
-      {
-        return Value?.ToString();
-      }
+      return Value?.ToString();
     }
   }
-  public string InputType
+  
+  private string InputType
   {
     get
     {
-      var tValuetypeCode = Type.GetTypeCode(typeof(ValueType));
-      if (tValuetypeCode == TypeCode.String)
+      var tValueTypeCode = Type.GetTypeCode(typeof(TValue));
+      if (tValueTypeCode == TypeCode.String)
       {
         if (IsPassword) return "password";
         if (Rows > 1) return "textarea";
         return "password";
       }
-      if (tValuetypeCode == TypeCode.Int16
-          || tValuetypeCode == TypeCode.Int32
-          || tValuetypeCode == TypeCode.Int64
-          || tValuetypeCode == TypeCode.Decimal
-          || tValuetypeCode == TypeCode.Double
-          || tValuetypeCode == Type.GetTypeCode(typeof(Nullable<Int32>)))
+      if (tValueTypeCode == TypeCode.Int16
+          || tValueTypeCode == TypeCode.Int32
+          || tValueTypeCode == TypeCode.Int64
+          || tValueTypeCode == TypeCode.Decimal
+          || tValueTypeCode == TypeCode.Double
+          || tValueTypeCode == Type.GetTypeCode(typeof(int?)))
       {
         return "number";
       }
-      if (tValuetypeCode == TypeCode.DateTime)
+      if (tValueTypeCode == TypeCode.DateTime)
       {
         return "date";
       }
@@ -113,37 +111,35 @@
 
   async Task OnValueChanged(ChangeEventArgs e)
   {
-    if (typeof(ValueType) == typeof(int?) || typeof(ValueType) == typeof(int))
+    if (typeof(TValue) == typeof(int?) || typeof(TValue) == typeof(int))
     {
-      int val = 0;
-      if (Int32.TryParse(e.Value.ToString(), out val))
+      if (Int32.TryParse(e.Value.ToString(), out var val))
       {
-        Value = (ValueType) (object) val;
+        Value = (TValue) (object) val;
       }
       else
       {
-        Value = (ValueType) default;
+        Value = default;
       }
     }
-    else if (typeof(ValueType) == typeof(decimal?) || typeof(ValueType) == typeof(decimal))
+    else if (typeof(TValue) == typeof(decimal?) || typeof(TValue) == typeof(decimal))
     {
-      decimal val = 0;
-      if (Decimal.TryParse(e.Value.ToString(), out val)) //.Replace(".", ",")
+      if (Decimal.TryParse(e.Value.ToString(), out var val)) //.Replace(".", ",")
       {
-        Value = (ValueType) (object) val;
+        Value = (TValue) (object) val;
       }
       else if (Decimal.TryParse(e.Value.ToString().Replace(".", ","), out val))
       {
-        Value = (ValueType) (object) val;
+        Value = (TValue) (object) val;
       }
       else
       {
-        Value = (ValueType) default;
+        Value = default;
       }
     }
     else
     {
-      Value = (ValueType) Convert.ChangeType(e.Value.ToString(), typeof(ValueType));
+      Value = (TValue) Convert.ChangeType(e.Value.ToString(), typeof(TValue));
     }
 
     await NotifyChanged();
@@ -151,7 +147,7 @@
 
   async Task KeyPressed(KeyboardEventArgs e)
   {
-    if (e != null && e.Key != null && e.Key.ToLowerInvariant() == "enter")
+    if (e?.Key?.ToLowerInvariant() == "enter")
     {
       await EnterPressed.InvokeAsync(null);
     }

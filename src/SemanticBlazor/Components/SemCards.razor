@@ -1,10 +1,10 @@
-﻿@typeparam ItemType
+﻿@typeparam TItem
 @using SemanticBlazor.Mappers
-@inherits SemanticBlazor.Components.Base.List.SemListBase<ItemType>
+@inherits SemanticBlazor.Components.Base.List.SemListBase<TItem>
 
 @if (Visible)
 {
-  @if (currentItems == null)
+  @if (CurrentItems == null)
   {
     @if (PlaceHolderTemplate != null)
     {
@@ -20,7 +20,7 @@
       </div>
     }
   }
-  else if (currentItems.Count() == 0)
+  else if (!CurrentItems.Any())
   {
     @if (EmptyDataTemplate != null)
     {
@@ -33,9 +33,9 @@
   }
   else
   {
-    <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0px;">
+    <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0;">
       <div class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
-        @foreach (var item in currentItems)
+        @foreach (var item in CurrentItems)
         {
           @ItemTemplate(item)
         }
@@ -43,27 +43,27 @@
     </div>
     @if (AllowPaging)
     {
-      <SemPagination TotalPages="totalPages" PageIndex="pageIndex" PageIndexChanged="(async (int indx) => await SetPageIndex(indx))"></SemPagination>
+      <SemPagination TotalPages="TotalPages" PageIndex="PageIndex" PageIndexChanged="@(async index => await SetPageIndex(index))"></SemPagination>
     }
   }}
 
 @code {
   [Parameter] public string SegmentClass { get; set; } = "basic";
-  [Parameter] public RenderFragment<ItemType> ItemTemplate { get; set; }
+  [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
   [Parameter] public RenderFragment PlaceHolderTemplate { get; set; }
   [Parameter] public RenderFragment EmptyDataTemplate { get; set; }
   [Parameter] public string EmptyDataMessage { get; set; } = "No records has been found...";
   [Parameter] public string LoadingMessage { get; set; } = "Loading...";
   [Parameter] public int PlaceHolderCount { get; set; } = 1;
   [Parameter] public bool ScrollOnTopOnPageChanged { get; set; } = true;
-  ClassMapper SegmentClassMapper { get; set; } = new ClassMapper();
+  ClassMapper SegmentClassMapper { get; } = new ClassMapper();
 
   public SemCards()
   {
     SegmentClassMapper
     .Add("ui")
     .Get(() => SegmentClass)
-    .If("loading", () => loading)
+    .If("loading", () => Loading)
     .Add("segment");
 
     ClassMapper
@@ -71,9 +71,9 @@
     .Get(() => Class)
     .Add("cards");
   }
-  public override async Task SetPageIndex(int pageIndx)
+  public override async Task SetPageIndex(int pageIndex)
   {
-    await base.SetPageIndex(pageIndx);
-    if (ScrollOnTopOnPageChanged) await SemanticBlazor.JsFunc.Lists.ScrollTop(js, Id);
+    await base.SetPageIndex(pageIndex);
+    if (ScrollOnTopOnPageChanged) await JsFunc.Lists.ScrollTop(JsRuntime, Id);
   }
 }

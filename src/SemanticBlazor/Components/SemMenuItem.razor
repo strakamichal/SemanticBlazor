@@ -37,7 +37,7 @@
 
   @if (NeedsConfirmation)
   {
-    <SemModalConfirmation @ref="confirmationModal" @onclick="ClickEvent" Header="@ConfirmationHeader" CancelButtonText="@CancelButtonText" ConfirmButtonText="@ConfirmButtonText" ConfirmButtonIconClass="@ConfirmButtonIconClass">
+    <SemModalConfirmation @ref="_confirmationModal" @onclick="ClickEvent" Header="@ConfirmationHeader" CancelButtonText="@CancelButtonText" ConfirmButtonText="@ConfirmButtonText" ConfirmButtonIconClass="@ConfirmButtonIconClass">
       <Content>
         @ConfirmationMessage
       </Content>
@@ -61,9 +61,8 @@
   [Parameter] public string CancelButtonText { get; set; } = "No";
   [Parameter] public string ConfirmButtonText { get; set; } = "Yes";
   [Parameter] public string ConfirmButtonIconClass { get; set; } = "checkmark";
-
-  string allClasses { get; set; }
-  SemModalConfirmation confirmationModal;
+  
+  SemModalConfirmation _confirmationModal;
 
   public SemMenuItem()
   {
@@ -76,7 +75,7 @@
   {
     if (firstRender && Dropdown)
     {
-      await JsFunc.DropDownMenu.Init(js, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
+      await JsFunc.DropDownMenu.Init(JsRuntime, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
     }
   }
   async Task ClickEvent(MouseEventArgs e)
@@ -96,6 +95,6 @@
   }
   async Task ShowConfirmation()
   {
-    await confirmationModal.Show();
+    await _confirmationModal.Show();
   }
 }

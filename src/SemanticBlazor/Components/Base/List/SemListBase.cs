@@ -8,29 +8,24 @@ using SemanticBlazor.Models;
 
 namespace SemanticBlazor.Components.Base.List
 {
-  public class SemListBase<ItemType> : SemControlBase
+  public class SemListBase<TItem> : SemControlBase
   {
-    protected IEnumerable<ItemType> allItems { get; set; } = new List<ItemType>();
-    protected IEnumerable<ItemType> currentItems { get; set; }
+    private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
+    protected IEnumerable<TItem> CurrentItems { get; private set; }
     [Parameter]
-    public IEnumerable<ItemType> Items
+    public IEnumerable<TItem> Items
     {
-      get
-      {
-        return allItems;
-      }
+      get => AllItems;
       set
       {
         if (DataMethod != null) throw new Exception("Items cannot be set when DataMethod is defined");
-        if (allItems != value)
-        {
-          allItems = value;
-          pageIndex = 0;
-          GetData();
-        }
+        if (Equals(AllItems, value)) return;
+        AllItems = value;
+        PageIndex = 0;
+        GetData();
       }
     }
-    [Parameter] public Func<DataMethodParams, Task<IEnumerable<ItemType>>> DataMethod { get; set; }
+    [Parameter] public Func<DataMethodParams, Task<IEnumerable<TItem>>> DataMethod { get; set; }
     [Parameter] public Func<Task<int>> CountMethod { get; set; }
     [Parameter] public EventCallback<int> PageIndexChanged { get; set; }
 
@@ -39,39 +34,43 @@ namespace SemanticBlazor.Components.Base.List
     [Parameter] public string SortExpression { get; set; }
     [Parameter] public string SortDirection { get; set; }
 
-    protected int pageSize { get; set; }
-    protected int pageIndex { get; set; } = 0;
-    protected int totalPages { get; set; } = 0;
-    protected int pagerStart = 0;
-    protected bool loading = false;    
+    private int _pageSize;
+    public int PageIndex { get; private set; }
+    public int TotalPages { get; private set; }
+    protected int PagerStart = 0;
+    protected bool Loading;
 
     protected override async Task OnInitializedAsync()
     {
-      pageIndex = 0;
-      pageSize = DefaultPageSize;
+      PageIndex = 0;
+      _pageSize = DefaultPageSize;
       await GetData();
     }
+
     public virtual async Task SetPageIndex(int newPageIndex)
     {
-      pageIndex = newPageIndex;
-      await PageIndexChanged.InvokeAsync(pageIndex);
+      PageIndex = newPageIndex;
+      await PageIndexChanged.InvokeAsync(PageIndex);
       await GetData();
     }
+
     public void SetLoadingState(bool isLoading)
     {
-      this.loading = isLoading;
+      Loading = isLoading;
       StateHasChanged();
     }
+
     public async Task RefreshData(bool resetPaging = true)
     {
-      loading = true;
-      if (resetPaging) pageIndex = 0;
-      allItems = null;
+      Loading = true;
+      if (resetPaging) PageIndex = 0;
+      AllItems = null;
       await GetData();
     }
-    async Task GetData()
+
+    private async Task GetData()
     {
-      loading = true;
+      Loading = true;
       StateHasChanged();
 
       if (AllowPaging)
@@ -79,35 +78,37 @@ namespace SemanticBlazor.Components.Base.List
         if (CountMethod != null)
         {
           // Pokud je definová metoda na count, tak se používá stránkování na serveru (API)
-          var _itemsCount = await CountMethod();
-          totalPages = (int)Math.Ceiling((decimal)_itemsCount / (decimal)pageSize);
-          currentItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = pageIndex * pageSize, MaximumRows = pageSize, SortExpression = SortExpression, SortDirection = SortDirection });
+          var itemsCount = await CountMethod();
+          TotalPages = (int) Math.Ceiling((decimal) itemsCount / _pageSize);
+          CurrentItems = await CallDataMethod(new DataMethodParams() {StartRowIndex = PageIndex * _pageSize, MaximumRows = _pageSize, SortExpression = SortExpression, SortDirection = SortDirection});
         }
         else
         {
           // Pokud nneí definová metoda na count, tak se načtou všechna data a stránkuje se na klientovi
-          if (DataMethod != null && (allItems == null || !allItems.Any()))
+          if (DataMethod != null && (AllItems == null || !AllItems.Any()))
           {
-            allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection });
+            AllItems = await CallDataMethod(new DataMethodParams() {StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection});
           }
-          totalPages = (int)Math.Ceiling((decimal)(allItems?.Count() ?? 0) / (decimal)pageSize);
-          currentItems = allItems?.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+          if (AllItems != null)
+          {
+            var allItems = AllItems.ToList();
+            TotalPages = (int) Math.Ceiling((decimal) allItems.Count() / _pageSize);
+            CurrentItems = allItems.Skip(PageIndex * _pageSize).Take(_pageSize).ToList();
+          }
         }
       }
       else
       {
-        if (DataMethod != null) allItems = await CallDataMethod(new DataMethodParams() { StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection });
-        currentItems = allItems;
+        if (DataMethod != null) AllItems = await CallDataMethod(new DataMethodParams() {StartRowIndex = 0, MaximumRows = int.MaxValue, SortExpression = SortExpression, SortDirection = SortDirection});
+        CurrentItems = AllItems;
       }
-      loading = false;
+      Loading = false;
       StateHasChanged();
     }
-    async Task<IEnumerable<ItemType>> CallDataMethod(DataMethodParams e)
+
+    private async Task<IEnumerable<TItem>> CallDataMethod(DataMethodParams e)
     {
-      IEnumerable<ItemType> retval;
-      retval = await DataMethod(e);
-      if (retval == null) retval = new List<ItemType>();
-      return retval;
+      return await DataMethod(e) ?? new List<TItem>();
     }
   }
 }

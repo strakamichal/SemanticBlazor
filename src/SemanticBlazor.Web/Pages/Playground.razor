@@ -1,4 +1,5 @@
 ﻿@page "/playground"
+@using System.ComponentModel.DataAnnotations
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
@@ -41,22 +42,7 @@
 @*   @(formModel.SelectedValue.ToString() ?? "n/a") *@
 @* </SemFormField> *@
 
-<SemForm Model="_dateModel">
-  <SemInput Rows="3" @bind-Value="LongText" Clearable="true"></SemInput><br>
-  <InputTextArea rows="3" @bind-Value="LongText"></InputTextArea>
-  @LongText
-</SemForm>
 
-
-<SemForm Model="_dateModel">
-  <SemFormField For="@(() => _dateModel.DateFrom)" Wide="GridUnit.Eight">
-    <SemInput Rows="3" @bind-Value="LongText" Clearable="true"></SemInput>
-  </SemFormField>
-  <SemFormField For="@(() => _dateModel.DateFrom)" Wide="GridUnit.Eight">
-    <InputTextArea rows="3" @bind-Value="LongText"></InputTextArea>
-  </SemFormField>
-  @LongText
-</SemForm>
 
 @*
 <SemButton Icon="Icon.Angle_Double_Left" OnClick="@(() => _date = _date.AddDays(-1))"></SemButton>
@@ -78,14 +64,25 @@
 }
 *@
 
-@*<div>
-  <SemDataDropdownMultiSelection @bind-Value="SelectedItems" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
-  @(SelectedItems?.Count ?? 0)
-  @if (SelectedItems != null)
-  {
-    string.Join(",", SelectedItems);
-  }
-</div>*@
+<SemForm Model="formModel" OnValidSubmit="FormSubmitted">
+  @*<SemFormField For="@(() => formModel.SelectedValues)">
+    <SemDataDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="@Data" Search="true" ValueSelector="@(v => v.StringText)" ItemText="@(v => v.StringText)" ItemKey="@(v => v.IntValue)"></SemDataDropdownMultiSelection>
+  </SemFormField>*@
+
+  <SemFormField For="@(() => formModel.SelectedValues)">
+    <SemDataDropdownMultiSelection @bind-Value="@formModel.SelectedValues" DataMethod="@(() => GetData())" Search="true" ValueSelector="@(v => v.StringText)"></SemDataDropdownMultiSelection>
+  </SemFormField>
+
+  @*<SemFormField For="@(() => formModel.SelectedValues)">
+    <SemDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="@(Data.Select(li => new ListItem() {Value = li.StringText}))" Search="true"></SemDropdownMultiSelection>
+  </SemFormField>*@
+
+  
+  @(formModel.SelectedValues?.Count ?? 0)<br/>
+  @string.Join(",", formModel.SelectedValues);<br/>
+  
+  <SemButton IsSubmitButton="true">Submit</SemButton>
+</SemForm>
 
 @code {
   SemModal modal1;
@@ -97,14 +94,15 @@
   List<DateTime> _events = new List<DateTime>();
 
   int SelectedItem { get; set; } = 0;
-  List<string> SelectedItems { get; set; }
-  FormModel formModel { get; set; } = new();
+  List<string> SelectedItems { get; set; } = new List<string>();
+  FormModel formModel { get; set; } = new() {SelectedValues = new List<string>() {"Prdel", "Nic"}};
 
   public string LongText { get; set; }
 
   private class FormModel
   {
-    public int SelectedValue { get; set; }
+    [MinLength(1, ErrorMessage = "You have to select at least one Flag"), Required, Display(Name = "Flags")]
+    public List<string> SelectedValues { get; set; }
   }
 
   //List<int> Data = new() {4,3,2,1,0};
@@ -118,15 +116,20 @@
 
   private SemTabs tabs;
 
-  private class TestModel
+  private record TestModel
   {
     public int IntValue { get; set; }
     public string StringText { get; set; }
+
+    public override string ToString()
+    {
+      return StringText;
+    }
   }
 
   private async Task<IEnumerable<TestModel>> GetData()
   {
-    await Task.Delay(1000);
+    await Task.Delay(5000);
     return Data;
   }
 
@@ -134,6 +137,11 @@
   {
     public DateTime DateFrom { get; set; }
     public DateTime DateTo { get; set; }
+  }
+
+  private void FormSubmitted()
+  {
+    StateHasChanged();
   }
 
 }

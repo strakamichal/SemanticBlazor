@@ -1,16 +1,16 @@
-﻿@typeparam ValueType
-@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<ValueType>
+﻿@typeparam TValue
+@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<TValue>
 
 @if (Visible)
 {
   <div class="ui calendar input" style="@Style">
     <div class="date">
-      <SemDateInput @ref="dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
-                    Value="Value" ValueChanged="@((ValueType value) => DateChanged(value))"></SemDateInput>
+      <SemDateInput @ref="_dateInput" Icon="DateIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
+                    Value="Value" ValueChanged="@((TValue value) => DateChanged(value))"></SemDateInput>
     </div>
     <div class="time">
-      <SemTimeInput @ref="timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
-                    MinutesEnabled="MinutesEnabled" Value="timeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
+      <SemTimeInput @ref="_timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
+                    MinutesEnabled="MinutesEnabled" Value="TimeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
     </div>
   </div>
 }
@@ -26,12 +26,11 @@
   [Parameter] public string Placeholder { get; set; }
   [Parameter] public string Culture { get; set; }
   [Parameter] public InputSize? Size { get; set; }
-  //[Parameter] public string DateFormat { get; set; } = "dd.MM.yyyy";
 
-  SemDateInput<ValueType> dateInput { get; set; }
-  SemTimeInput<TimeSpan?> timeInput { get; set; }
+  SemDateInput<TValue> _dateInput;
+  SemTimeInput<TimeSpan?> _timeInput;
 
-  TimeSpan? timeValue
+  TimeSpan? TimeValue
   {
     get
     {
@@ -39,10 +38,7 @@
       {
         return ((DateTime)(object)Value).TimeOfDay;
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
   }
 
@@ -50,14 +46,14 @@
   {
     if (value == null)
     {
-      Value = default(ValueType);
-      await timeInput.ClearValue();
+      Value = default;
+      await _timeInput.ClearValue();
     }
     else
     {
-      var dtValue = (DateTime)(object)value;
+      var dtValue = (DateTime)value;
       if (Value != null) dtValue = dtValue.Add(((DateTime)(object)Value).TimeOfDay);
-      Value = (ValueType)(object)dtValue;
+      Value = (TValue)(object)dtValue;
     }
     await NotifyChanged();
   }
@@ -67,22 +63,18 @@
     {
       if (Value != null)
       {
-        Value = (ValueType)(object)((DateTime)(object)Value).Date;
-      }
-      else
-      {
-        //await timeInput.ClearValue();
+        Value = (TValue)(object)((DateTime)(object)Value).Date;
       }
     }
     else
     {
       if (Value != null)
       {
-        Value = (ValueType)(object)((DateTime)(object)Value).Date.Add(((TimeSpan)value));
+        Value = (TValue)(object)((DateTime)(object)Value).Date.Add((TimeSpan)value);
       }
       else
       {
-        Value = (ValueType)(object)DateTime.Now.Date.Add(((TimeSpan)value));
+        Value = (TValue)(object)DateTime.Now.Date.Add((TimeSpan)value);
       }
     }
     await NotifyChanged();

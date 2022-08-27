@@ -7,17 +7,12 @@ using SemanticBlazor.Components.Base.ButtonSwitch;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataButtonSwitch<ItemType, ValueType> : SemButtonSwitchBase<ItemType, ValueType>
+  public class SemDataButtonSwitch<TItem, TValue> : SemButtonSwitchBase<TItem, TValue>
   {
-    [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
-    [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }
-    [Parameter] public override Func<ItemType, object> ItemKey { get; set; }
-    [Parameter] public override Func<ItemType, string> ItemText { get; set; }
-    [Parameter] public override Func<Task<IEnumerable<ItemType>>> DataMethod { get; set; }
-
-    protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
-    {
-      base.BuildRenderTree(__builder);
-    }
+    [Parameter] public override IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+    [Parameter] public override Func<TItem, TValue> ValueSelector { get; set; }
+    [Parameter] public override Func<TItem, object> ItemKey { get; set; }
+    [Parameter] public override Func<TItem, string> ItemText { get; set; }
+    [Parameter] public override Func<Task<IEnumerable<TItem>>> DataMethod { get; set; }
   }
 }

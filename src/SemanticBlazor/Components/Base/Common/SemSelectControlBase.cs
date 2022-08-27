@@ -8,33 +8,33 @@ using SemanticBlazor.Models;
 namespace SemanticBlazor.Components.Base.Common
 {
   // Used for data-binded Select controls
-  public class SemSelectControlBase<ItemType, ValueType> : SemInputControlBase<ValueType>
+  public class SemSelectControlBase<TItem, TValue> : SemInputControlBase<TValue>
   {
     [Parameter] public virtual RenderFragment<object> ItemTemplate { get; set; }
-    public virtual IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
-    IEnumerable<ItemType> latestItems { get; set; } = new List<ItemType>();
-    public virtual ItemType SelectedItem { get; set; }
-    public virtual List<ItemType> SelectedItems { get; set; }
-    public virtual Func<ItemType, object> ItemKey { get; set; }
-    public virtual Func<ItemType, string> ItemText { get; set; }
-    public virtual Func<Task<IEnumerable<ItemType>>> DataMethod { get; set; }
+    public virtual IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+    private IEnumerable<TItem> LatestItems { get; set; } = new List<TItem>();
+    public virtual TItem SelectedItem { get; set; }
+    public virtual List<TItem> SelectedItems { get; set; }
+    public virtual Func<TItem, object> ItemKey { get; set; }
+    public virtual Func<TItem, string> ItemText { get; set; }
+    public virtual Func<Task<IEnumerable<TItem>>> DataMethod { get; set; }
     public virtual RenderFragment ListItems { get; set; }
-    protected bool itemsSet { get; set; } = false;
-    protected bool loading { get; set; }
+    private bool _itemsSet;
+    protected bool Loading;
 
     protected override async Task OnInitializedAsync()
     {
       await RefreshItems();
-      itemsSet = Items != null && Items.Any();
-      latestItems = Items;
+      _itemsSet = Items != null && Items.Any();
+      LatestItems = Items;
       await base.OnInitializedAsync();
 
     }
     protected override async Task OnParametersSetAsync()
     {
-      if (latestItems != Items && (latestItems == null || (!latestItems.SequenceEqual(Items ?? new List<ItemType>()))))
+      if (LatestItems == null || !LatestItems.SequenceEqual(Items ?? new List<TItem>()))
       {
-        latestItems = Items;
+        LatestItems = Items;
         if (DataMethod == null)
         {
           await ItemsLoaded();
@@ -56,18 +56,18 @@ namespace SemanticBlazor.Components.Base.Common
     {
       if (control.GetType() == typeof(SemSelectListItem))
       {
-        if (itemsSet)
+        if (_itemsSet)
         {
           throw new Exception("ListItems cannot be set via SemSelectListItem. Items are already set via Items or DataMethod parameter.");
         }
-        if (Items == null) Items = new List<ItemType>();
+        if (Items == null) Items = new List<TItem>();
         ((List<ListItem>)Items).Add(new ListItem() { Text = ((SemSelectListItem)control).Text, Value = ((SemSelectListItem)control).Value });
         StateHasChanged();
       }
     }
     public void SetLoadingState(bool isLoading)
     {
-      this.loading = isLoading;
+      Loading = isLoading;
       StateHasChanged();
     }
     protected virtual async Task ItemsLoaded()
@@ -75,9 +75,9 @@ namespace SemanticBlazor.Components.Base.Common
       await Task.CompletedTask;
     }
 
-    protected virtual string GetItemText(ItemType item) => throw new NotImplementedException();
-    protected virtual string GetItemKey(ItemType item) => throw new NotImplementedException();
-    protected ItemType GetItem(object value)
+    protected virtual string GetItemText(TItem item) => throw new NotImplementedException();
+    protected virtual string GetItemKey(TItem item) => throw new NotImplementedException();
+    protected TItem GetItem(object value)
     {
       return Items.FirstOrDefault(i => GetItemKey(i) == value.ToString());
     }

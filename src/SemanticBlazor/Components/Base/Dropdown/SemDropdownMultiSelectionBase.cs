@@ -8,16 +8,33 @@ using SemanticBlazor.Mappers;
 
 namespace SemanticBlazor.Components.Base.Dropdown
 {
-  public class SemDropdownMultiSelectionBase<ItemType, ValueType> : SemDropdownSelectionBase<ItemType, List<ValueType>>
+  public class SemDropdownMultiSelectionBase<TItem, TValue> : SemDropdownSelectionBase<TItem, List<TValue>>
   {
-    public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+    public virtual Func<TItem, TValue> ValueSelector { get; set; }
     [Parameter] public int? MaxSelections { get; set; }
     [Parameter] public bool UseLabels { get; set; } = true;
 
-    protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
-    protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
-    protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
-
+    private TItem GetItemFromValue(TValue value) => SemDataSelectControlHelper<TItem, TValue>.GetItemFromValue(value, Items, ValueSelector);
+    protected override string GetItemText(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemText(item, ItemText);
+    protected override string GetItemKey(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemKey(item, Items, ItemKey);
+    protected override Dictionary<string, object> InitSettings
+    {
+      get
+      {
+        var retval = base.InitSettings;
+        retval.Add("useLabels", UseLabels && !IsButton);
+        if (MaxSelections != null) retval.Add("maxSelections", MaxSelections);
+        return retval;
+      }
+    }
+    protected override string StringValue
+    {
+      get
+      {
+        return Value != null ? string.Join(",", Value.Select(i => GetItemKey(GetItemFromValue(i)))) : "";
+      }
+    }
+    
     public SemDropdownMultiSelectionBase()
     {
       ClassMapper
@@ -25,77 +42,43 @@ namespace SemanticBlazor.Components.Base.Dropdown
     }
     protected override async Task OnParametersSetAsync()
     {
-      if (Value != null)
-      {
-        SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
-      }
-      else
-      {
-        SelectedItems = null;
-      }
+      SelectedItems = Value?.Select(GetItemFromValue).ToList();
       await base.OnParametersSetAsync();
     }
-
-    protected override Dictionary<string, object> initSettings
-    {
-      get
-      {
-        var retval = base.initSettings;
-        retval.Add("useLabels", !UseLabels || IsButton ? false : true);
-        if (MaxSelections != null) retval.Add("maxSelections", MaxSelections);
-        return retval;
-      }
-    }
-    protected override string stringValue
-    {
-      get
-      {
-        if (Value != null)
-        {
-          return String.Join(",", Value.Select(i => GetItemKey(GetItemFromValue(i))));
-        }
-        else
-        {
-          return "";
-        }
-      }
-    }
+    
     protected override object ConvertValue(object newValue)
     {
-      List<ItemType> selectedItems = new List<ItemType>();
       var vals = newValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-      selectedItems.AddRange(Items.Where(i => vals.Any(v => v == GetItemKey(i))));
-
-      return vals.ToList().Select(value => (ValueType)SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
+      return vals.ToList().Select(value => (TValue)SemDataSelectControlHelper<TItem, TValue>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
     }
     protected override async Task SetComboboxValue()
     {
+      await JsFunc.Logging.ConsoleLog(JsRuntime, $"SetComboboxValue - {StringValue}");
       if (Value != null)
       {
-        await SemanticBlazor.JsFunc.DropDown.SetExactlyValue(js, Id, stringValue);
+        await JsFunc.DropDown.SetExactlyValue(JsRuntime, Id, StringValue);
       }
       else
       {
-        await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+        await JsFunc.DropDown.Clear(JsRuntime, Id);
       }
     }
     protected override async Task ItemsLoaded()
     {
-      await SemanticBlazor.JsFunc.DropDown.Init(js, Id, initSettings);
+      await Init(InitSettings);
       if (Value != null)
       {
-        SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
+        SelectedItems = Value.Select(GetItemFromValue).ToList();
       }
       if (Items != null)
       {
         var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
         if (validKeys != null && validKeys.Count > 0)
         {
-          lastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
-          guiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
-          Value = (List<ValueType>)ConvertValue(string.Join(",", validKeys));
+          LastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
+          GuiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
+          Value = (List<TValue>)ConvertValue(string.Join(",", validKeys));
           await NotifyChanged();
-          //await SetComboboxValue(); Tohle volat nemusíme, zavolá se samo při OnParametersSetAsync
         }
         else if (Value != null)
         {
@@ -105,13 +88,8 @@ namespace SemanticBlazor.Components.Base.Dropdown
     }
     public override async Task ClearValue()
     {
-      await SemanticBlazor.JsFunc.DropDown.Clear(js, Id);
+      await JsFunc.DropDown.Clear(JsRuntime, Id);
       await base.ClearValue();
-    }
-
-    protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
-    {
-      base.BuildRenderTree(__builder);
     }
   }
 }

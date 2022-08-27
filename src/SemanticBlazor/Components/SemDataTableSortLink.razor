@@ -1,4 +1,4 @@
-﻿@typeparam ItemType
+﻿@typeparam TItem
 
 <a @onclick="@(() => Table?.Sort(SortExpression))" style="color: initial">
   @ChildContent
@@ -7,7 +7,7 @@
 </a>
 
 @code {
-  [Parameter] public SemDataTable<ItemType> Table { get; set; }
+  [Parameter] public SemDataTable<TItem> Table { get; set; }
   [Parameter] public string SortExpression { get; set; }
   [Parameter] public RenderFragment ChildContent { get; set; }
 }

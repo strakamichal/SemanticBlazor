@@ -5,8 +5,6 @@
                   ButtonIcon="Icon.Search" ButtonIconLabeled="false" Size="Size" OnClickLoading="true" Style="@Style" Class="@Class" @attributes="Attributes" Enabled="@Enabled"></SemActionInput>
 }
 
-
-
 @code {
   [Parameter] public string SearchActionText { get; set; } = "Search";
   [Parameter] public EventCallback<object> OnSearch { get; set; }

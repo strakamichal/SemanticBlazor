@@ -10,19 +10,19 @@
     }
     else
     {
-      @if (!String.IsNullOrEmpty(Header) && Icon != null)
+      @if (!string.IsNullOrEmpty(Header) && Icon != null)
       {
         <SemIcon Icon="Icon"></SemIcon>
       }
       <div class="content">
-        @if (!String.IsNullOrEmpty(Header))
+        @if (!string.IsNullOrEmpty(Header))
         {
           <div class="header">
             @Header
           </div>
         }
         <p>
-          @if (Icon != null && String.IsNullOrEmpty(Header))
+          @if (Icon != null && string.IsNullOrEmpty(Header))
           {
             <SemIcon Icon="Icon"></SemIcon>
           }
@@ -34,7 +34,7 @@
 }
 
 @code {
-  [Parameter] public RenderFragment ChildContent { get; set; } = null;
+  [Parameter] public RenderFragment ChildContent { get; set; }
   [Parameter] public string Header { get; set; }
   [Parameter] public string Message { get; set; }
   [Parameter] public Icon? Icon { get; set; }
@@ -46,7 +46,7 @@
   {
     ClassMapper
       .Add("ui")
-      .If("icon", () => !String.IsNullOrEmpty(Header) && Icon != null)
+      .If("icon", () => !string.IsNullOrEmpty(Header) && Icon != null)
       .Get(() => Enums.GetClasses(Classes))
       .Get(() => Color?.ToString().ToLower())
       .Get(() => Size?.ToString().ToLower())
@@ -54,7 +54,7 @@
   }
   protected override void OnInitialized()
   {
-    if (String.IsNullOrEmpty(Message) && ChildContent == null)
+    if (string.IsNullOrEmpty(Message) && ChildContent == null)
     {
       Visible = false;
     }
@@ -77,16 +77,7 @@
     Icon = icon;
     StateHasChanged();
   }
-  //[Obsolete]
-  //public void Show(string cssClass = "", string message = "", Icon? icon = null, string header = "")
-  //{
-  //  Visible = true;
-  //  Message = message;
-  //  Header = header;
-  //  Class = cssClass;
-  //  Icon = icon;
-  //  StateHasChanged();
-  //}
+
   public void Hide()
   {
     Visible = false;

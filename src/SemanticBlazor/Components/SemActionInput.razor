@@ -1,18 +1,18 @@
-﻿@typeparam ValueType
+﻿@typeparam TValue
 @using SemanticBlazor.Mappers
-@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<ValueType>
+@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<TValue>
 
 @if (Visible)
 {
   <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
     <SemInput Class="@InputClass" Style="@InputStyle" Value="@Value" ValueChanged="@ValueChanged" Icon="@InputIcon" IconPosition="@InputIconPosition" Clearable="@Clearable" EnterPressed="EnterPressed" Enabled="@Enabled"></SemInput>
-    <SemButton @ref="btn" Class="@ButtonClass" Color="ButtonColor" Icon="@ButtonIcon" IconPosition="@ButtonIconPosition" IconLabeled="@ButtonIconLabeled" ConfirmationHeader="@ConfirmationHeader" ConfirmationMessage="@ConfirmationMessage" NeedsConfirmation="@NeedsConfirmation" OnClickLoading="@OnClickLoading" OnClick="@OnClick" Enabled="@Enabled">
+    <SemButton @ref="_button" Class="@ButtonClass" Color="ButtonColor" Icon="@ButtonIcon" IconPosition="@ButtonIconPosition" IconLabeled="@ButtonIconLabeled" ConfirmationHeader="@ConfirmationHeader" ConfirmationMessage="@ConfirmationMessage" NeedsConfirmation="@NeedsConfirmation" OnClickLoading="@OnClickLoading" OnClick="@OnClick" Enabled="@Enabled">
       @ActionText
     </SemButton>
   </div>
 }
 @code {
-  public SemButton btn { get; set; }
+  private SemButton _button;
 
   [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
   [Parameter] public bool OnClickLoading { get; set; }
@@ -44,6 +44,6 @@
   async Task EnterPressed()
   {
     await Task.Delay(1);
-    await btn.ButtonClicked(null);
+    await _button.ButtonClicked(null);
   }
 }

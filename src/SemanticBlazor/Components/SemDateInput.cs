@@ -7,43 +7,32 @@ using SemanticBlazor.Components.Base.DateTimeInput;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDateInput<ValueType> : SemDateTimeInputBase<ValueType>
+  public class SemDateInput<TValue> : SemDateTimeInputBase<TValue>
   {
-    //[Parameter] public override string DateFormat { get; set; } = "dd.MM.yyyy";
     [Parameter] public string StartDateInputId { get; set; }
     [Parameter] public string EndDateInputId { get; set; }
 
-    protected override List<Type> restrictedClasses
-    {
-      get
+    protected override List<Type> RestrictedClasses =>
+      new List<Type>()
       {
-        return new List<Type>()
-        {
-          typeof(DateTime),
-          typeof(DateTime?)
-        };
-      }
-    }
+        typeof(DateTime),
+        typeof(DateTime?)
+      };
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
       if (firstRender)
       {
         if (StartDateInputId == null && EndDateInputId == null)
         {
-          await JsFunc.DateTimeInput.InitDateCalendar(js, Id);
+          await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id);
         }
         else
         {
-          await JsFunc.DateTimeInput.InitDateCalendar(js, Id, null, null, StartDateInputId, EndDateInputId);
+          await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id, null, null, StartDateInputId, EndDateInputId);
         }
       }
     }
-    protected override string stringValue
-    {
-      get
-      {
-        return lastValidValue != null ? ((DateTime)(object)lastValidValue).ToString(DateFormat) : "";
-      }
-    }
+    protected override string StringValue => LastValidValue != null ? ((DateTime)(object)LastValidValue).ToString(DateFormat) : "";
   }
 }
