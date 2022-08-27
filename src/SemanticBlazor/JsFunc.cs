@@ -1,9 +1,6 @@
 ﻿using Microsoft.JSInterop;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using SemanticBlazor.Components.Base.Dropdown;
 
 namespace SemanticBlazor
 {
