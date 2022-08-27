@@ -62,16 +62,18 @@
   protected async Task OnValueChanged(ChangeEventArgs e)
   {
     bool formatError = false;
-    Value = (ValueType)ConvertValue(e.Value, out formatError);
+    var newValue = ConvertValue(e.Value, out formatError); 
     if (formatError)
     {
       await ResetInputValue();
     }
     else
     {
+      if (lastValidValue.Equals(newValue)) return;
+      Value = newValue;
       lastValidValue = Value;
+      await NotifyChanged();
     }
-    await NotifyChanged();
   }
   protected virtual ValueType ConvertValue(object value, out bool formatError)
   {

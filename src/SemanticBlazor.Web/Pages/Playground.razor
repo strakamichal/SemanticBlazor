@@ -41,12 +41,20 @@
 @*   @(formModel.SelectedValue.ToString() ?? "n/a") *@
 @* </SemFormField> *@
 
+
+<SemButton Icon="Icon.Angle_Double_Left" OnClick="@(() => _date = _date.AddDays(-1))"></SemButton>
+<SemDateInput @bind-Value="_date" Icon="Icon.Calendar_Alternate_Outline" Style="width: 130px" Changed="@((DateTime _) => { _events.Add(DateTime.Now); StateHasChanged(); })"></SemDateInput>
+<SemButton Icon="Icon.Angle_Double_Right" OnClick="@(() => _date = _date.AddDays(1))"></SemButton>
+@_date.ToString("dd.MM.yyyy")
+
+
 <SemForm Model="_dateModel">
-  <SemDateInput Id="dateFrom" @bind-Value="@_dateModel.DateFrom" EndDateInputId="dateTo" Changed="@((DateTime _) => { _events.Add(DateTime.Now); StateHasChanged(); })"></SemDateInput>
+  <SemDateInput Id="dateFrom" @bind-Value="@_dateModel.DateFrom" EndDateInputId="dateTo" ></SemDateInput>
   <SemDateInput Id="dateTo" @bind-Value="@_dateModel.DateTo" StartDateInputId="dateFrom"></SemDateInput>
 </SemForm>
 @_dateModel.DateFrom.ToString("dd.MM.yyyy") - @_dateModel.DateTo.ToString("dd.MM.yyyy")
-
+<br/>
+<br/>
 @foreach (var date in _events)
 {
   @date.ToString("hh:mm:ss.fff")<br/>
@@ -65,7 +73,8 @@
   SemModal modal1;
   SemModal modal2;
 
-  DateModel _dateModel = new DateModel();
+  DateTime _date;
+  DateModel _dateModel = new DateModel() {DateFrom = DateTime.Now.Date.AddDays(-1), DateTo = DateTime.Now.Date.AddDays(14)};
 
   List<DateTime> _events = new List<DateTime>();
 
