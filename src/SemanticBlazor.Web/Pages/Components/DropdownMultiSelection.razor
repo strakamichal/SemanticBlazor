@@ -99,30 +99,6 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
     </ListItems>
   </SemDropdownMultiSelection>") />
 
-<h3>Allow additions</h3>
-<p>
-  <SemDropdownMultiSelection @bind-Value="SelectedValue3" DefaultText="Select..." Search="true" AllowAdditions="true">
-    <ListItems>
-      <SemSelectListItem Text="Option 1"></SemSelectListItem>
-      <SemSelectListItem Text="Option 2"></SemSelectListItem>
-      <SemSelectListItem Text="Option 3"></SemSelectListItem>
-      <SemSelectListItem Text="Option 4"></SemSelectListItem>
-    </ListItems>
-  </SemDropdownMultiSelection>
-</p>
-<p>
-  Selected value: @(SelectedValue3 != null ? String.Join(",", SelectedValue3) : "{null}")
-</p>
-<CodeHighlight Code=@(@"
-  <SemDropdownMultiSelection @bind-Value=""SelectedValue"" DefaultText=""Select..."" Search=""true"" AllowAdditions=""true"">
-    <ListItems>
-      <SemSelectListItem Text=""Option 1""></SemSelectListItem>
-      <SemSelectListItem Text=""Option 2""></SemSelectListItem>
-      <SemSelectListItem Text=""Option 3""></SemSelectListItem>
-      <SemSelectListItem Text=""Option 4""></SemSelectListItem>
-    </ListItems>
-  </SemDropdownMultiSelection>") />
-
 <h3>Use labels</h3>
 <p>
   <SemDropdownMultiSelection @bind-Value="SelectedValue2" DefaultText="Select..." Search="true" UseLabels="false">

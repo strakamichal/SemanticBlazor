@@ -17,5 +17,14 @@ namespace SemanticBlazor.Components
     [Parameter] public override Func<TItem, object> ItemKey { get; set; }
     [Parameter] public override Func<TItem, string> ItemText { get; set; }
     [Parameter] public override Func<Task<IEnumerable<TItem>>> DataMethod { get; set; }
+    [Parameter] public bool AllowAdditions
+    {
+      get => AllowAdditionsProtected;
+      set
+      {
+        if (typeof(TItem) != typeof(TValue) || typeof(TValue) != typeof(string)) throw new Exception("AllowAdditions is supported only if both TItem and TValue are of string type.");
+          AllowAdditionsProtected = value;
+      }
+    }
   }
 }

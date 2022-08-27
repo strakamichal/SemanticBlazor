@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.Dropdown;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDropdownMultiSelection<TValue> : SemDataDropdownMultiSelection<ListItem, TValue>
+  public class SemDropdownMultiSelection<TValue> : SemDropdownMultiSelectionBase<ListItem, TValue>
   {
     #region ListItems
     [Obsolete]

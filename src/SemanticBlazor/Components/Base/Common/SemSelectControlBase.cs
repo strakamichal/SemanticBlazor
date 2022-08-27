@@ -28,8 +28,8 @@ namespace SemanticBlazor.Components.Base.Common
       _itemsSet = Items != null && Items.Any();
       LatestItems = Items;
       await base.OnInitializedAsync();
-
     }
+
     protected override async Task OnParametersSetAsync()
     {
       if (LatestItems == null || !LatestItems.SequenceEqual(Items ?? new List<TItem>()))
@@ -42,6 +42,7 @@ namespace SemanticBlazor.Components.Base.Common
       }
       await base.OnParametersSetAsync();
     }
+
     public async Task RefreshItems()
     {
       if (DataMethod != null)
@@ -49,9 +50,10 @@ namespace SemanticBlazor.Components.Base.Common
         SetLoadingState(true);
         Items = await DataMethod.Invoke();
         SetLoadingState(false);
-        await ItemsLoaded();
       }
+      await ItemsLoaded();
     }
+
     internal override void RegisterChildControl(object control)
     {
       if (control.GetType() == typeof(SemSelectListItem))
@@ -61,15 +63,17 @@ namespace SemanticBlazor.Components.Base.Common
           throw new Exception("ListItems cannot be set via SemSelectListItem. Items are already set via Items or DataMethod parameter.");
         }
         if (Items == null) Items = new List<TItem>();
-        ((List<ListItem>)Items).Add(new ListItem() { Text = ((SemSelectListItem)control).Text, Value = ((SemSelectListItem)control).Value });
+        ((List<ListItem>) Items).Add(new ListItem() {Text = ((SemSelectListItem) control).Text, Value = ((SemSelectListItem) control).Value});
         StateHasChanged();
       }
     }
+
     public void SetLoadingState(bool isLoading)
     {
       Loading = isLoading;
       StateHasChanged();
     }
+
     protected virtual async Task ItemsLoaded()
     {
       await Task.CompletedTask;
@@ -77,6 +81,7 @@ namespace SemanticBlazor.Components.Base.Common
 
     protected virtual string GetItemText(TItem item) => throw new NotImplementedException();
     protected virtual string GetItemKey(TItem item) => throw new NotImplementedException();
+
     protected TItem GetItem(object value)
     {
       return Items.FirstOrDefault(i => GetItemKey(i) == value.ToString());

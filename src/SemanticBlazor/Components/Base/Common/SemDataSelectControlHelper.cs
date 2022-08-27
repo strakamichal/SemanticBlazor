@@ -63,6 +63,10 @@ namespace SemanticBlazor.Components.Base.Common
       {
         retval = item.ToString();
       }
+      else if (typeof(TItem) == typeof(string) || typeof(TItem) == typeof(int))
+      {
+        return item.ToString();
+      }
       retval ??= item.GetHashCode().ToString();
       return retval;
     }

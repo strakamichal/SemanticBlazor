@@ -34,16 +34,17 @@ namespace SemanticBlazor.Components.Base.Dropdown
         await JsFunc.DropDown.Clear(JsRuntime, Id);
       }
     }
+
     protected override async Task ItemsLoaded()
     {
       await Init(InitSettings);
-      /*await JsFunc.DropDown.Init(JsRuntime, Id, InitSettings);*/
       if (Value != null)
       {
         SelectedItem = GetItemFromValue(Value);
       }
       if (Items != null)
       {
+        if (AllowAdditionsProtected) TryAddMissingItems(StringValue);
         if (Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(Value))))
         {
           LastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
@@ -56,6 +57,23 @@ namespace SemanticBlazor.Components.Base.Dropdown
         }
       }
     }
+
+    protected override void TryAddMissingItems(string newValue)
+    {
+      var items = Items.ToList();
+      //Smazat dříve přidanou položku
+      items.RemoveAll(i => UserAddedItems.Any(ai => ai.Equals(i)));
+      UserAddedItems.Clear();
+      if (Items.All(i => i.ToString() != newValue))
+      {
+        var item = (TItem) Convert.ChangeType(newValue, typeof(TItem));
+        items.Add(item);
+        UserAddedItems.Add(item);
+      }
+      Items = items;
+      StateHasChanged();
+    }
+
     public override async Task ClearValue()
     {
       await JsFunc.DropDown.Clear(JsRuntime, Id);

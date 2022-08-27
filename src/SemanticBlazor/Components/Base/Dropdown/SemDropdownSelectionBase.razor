@@ -68,9 +68,7 @@
       }
     }
   }
-  [Parameter]
-  public bool AllowAdditions { get; set; }
-
+  
   // Button paremeters
   [Parameter]
   public bool IsButton { get; set; }
@@ -94,7 +92,7 @@
     - compact
     - fluid
   */
-
+  
   protected virtual string StringValue { get; set; }
   protected virtual Dictionary<string, object> InitSettings
   {
@@ -103,12 +101,14 @@
       var retval = new Dictionary<string, object>();
       retval.Add("fullTextSearch", FullTextSearch);
       retval.Add("clearable", Clearable);
-      retval.Add("allowAdditions", AllowAdditions);
+      retval.Add("allowAdditions", AllowAdditionsProtected);
       return retval;
     }
   }
   protected string LastStringValue { get; set; }
   protected bool GuiValueChangeInprogress { get; set; }
+  protected bool AllowAdditionsProtected;
+  protected readonly List<TItem> UserAddedItems = new List<TItem>();
   private bool _changeFromGui;
   private bool IsValueChanged => LastStringValue != StringValue;
   private bool _clearable;
@@ -117,7 +117,7 @@
   {
     ClassMapper
       .Add("ui")
-      .If("search", () => Search)
+      .If("search", () => Search || AllowAdditionsProtected)
       .If("scrolling", () => Scrolling)
       .If("selection", () => !IsButton)
       .If("floating", () => IsButton)
@@ -167,6 +167,7 @@
     if (!GuiValueChangeInprogress)
     {
       _changeFromGui = true;
+      if (AllowAdditionsProtected) TryAddMissingItems(e.Value.ToString());
       Value = (TValue) ConvertValue(e.Value);
       await NotifyChanged();
       _changeFromGui = false;
@@ -186,6 +187,8 @@
   }*/
 
   protected virtual object ConvertValue(object newValue) => throw new NotImplementedException();
+  
+  protected virtual void TryAddMissingItems(string newValue) => throw new NotImplementedException();
 
   protected virtual Task SetComboboxValue()
   {

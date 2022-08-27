@@ -29,28 +29,27 @@ namespace SemanticBlazor.Components.Base.Dropdown
     }
     protected override string StringValue
     {
-      get
-      {
-        return Value != null ? string.Join(",", Value.Select(i => GetItemKey(GetItemFromValue(i)))) : "";
-      }
+      get { return Value != null ? string.Join(",", Value.Select(i => GetItemKey(GetItemFromValue(i)))) : ""; }
     }
-    
+
     public SemDropdownMultiSelectionBase()
     {
       ClassMapper
         .Add("multiple");
     }
+
     protected override async Task OnParametersSetAsync()
     {
       SelectedItems = Value?.Select(GetItemFromValue).ToList();
       await base.OnParametersSetAsync();
     }
-    
+
     protected override object ConvertValue(object newValue)
     {
-      var vals = newValue.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-      return vals.ToList().Select(value => (TValue)SemDataSelectControlHelper<TItem, TValue>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
+      var vals = newValue.ToString().Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
+      return vals.ToList().Select(value => (TValue) SemDataSelectControlHelper<TItem, TValue>.ConvertValue(value, Items, ItemKey, ValueSelector)).ToList();
     }
+
     protected override async Task SetComboboxValue()
     {
       await JsFunc.Logging.ConsoleLog(JsRuntime, $"SetComboboxValue - {StringValue}");
@@ -63,6 +62,7 @@ namespace SemanticBlazor.Components.Base.Dropdown
         await JsFunc.DropDown.Clear(JsRuntime, Id);
       }
     }
+
     protected override async Task ItemsLoaded()
     {
       await Init(InitSettings);
@@ -72,12 +72,16 @@ namespace SemanticBlazor.Components.Base.Dropdown
       }
       if (Items != null)
       {
+        if (AllowAdditionsProtected)
+        {
+          TryAddMissingItems(StringValue);
+        }
         var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
         if (validKeys != null && validKeys.Count > 0)
         {
           LastStringValue = ""; // Pokud se položky změnili, tak se hodnota zřejmě nastavila špatně - vynutíme nastavení nové
           GuiValueChangeInprogress = false; // Pokud právě probíhá nastvení položek v GUI tak na to kašleme a stejně nastavíme znovu
-          Value = (List<TValue>)ConvertValue(string.Join(",", validKeys));
+          Value = (List<TValue>) ConvertValue(string.Join(",", validKeys));
           await NotifyChanged();
         }
         else if (Value != null)
@@ -86,6 +90,29 @@ namespace SemanticBlazor.Components.Base.Dropdown
         }
       }
     }
+
+    protected override void TryAddMissingItems(string newValue)
+    {
+      var newValues = newValue.Split(","); 
+      var items = Items.ToList();
+      //Smazat dříve přidané položku
+      items.RemoveAll(i => UserAddedItems.Any(ai => ai.Equals(i)));
+      UserAddedItems.Clear();
+      
+      foreach (var key in newValues)
+      {
+        var item = (TItem) Convert.ChangeType(key, typeof(TItem));
+        if (!items.Contains(item))
+        {
+          items.Add(item);
+          UserAddedItems.Add(item);
+        }
+      }
+      
+      Items = items;
+      StateHasChanged();
+    }
+
     public override async Task ClearValue()
     {
       await JsFunc.DropDown.Clear(JsRuntime, Id);

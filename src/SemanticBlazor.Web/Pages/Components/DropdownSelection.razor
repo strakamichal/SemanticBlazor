@@ -99,30 +99,6 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
       </ListItems>
     </SemDropdownSelection>") />
 
-<h3>Allow additions</h3>
-<p>
-  <SemDropdownSelection @bind-Value="SelectedValue3" DefaultText="Select..." Search="true" AllowAdditions="true">
-    <ListItems>
-      <SemSelectListItem Text="Option 1"></SemSelectListItem>
-      <SemSelectListItem Text="Option 2"></SemSelectListItem>
-      <SemSelectListItem Text="Option 3"></SemSelectListItem>
-      <SemSelectListItem Text="Option 4"></SemSelectListItem>
-    </ListItems>
-  </SemDropdownSelection>
-</p>
-<p>
-  Selected value: @(SelectedValue3)
-</p>
-<CodeHighlight Code=@(@"
-    <SemDropdownSelection @bind-Value=""SelectedValue"" DefaultText=""Select..."" Search=""true"" AllowAdditions=""true"">
-      <ListItems>
-        <SemSelectListItem Text=""Option 1""></SemSelectListItem>
-        <SemSelectListItem Text=""Option 2""></SemSelectListItem>
-        <SemSelectListItem Text=""Option 3""></SemSelectListItem>
-        <SemSelectListItem Text=""Option 4""></SemSelectListItem>
-      </ListItems>
-    </SemDropdownSelection>") />
-
 <h3>Button variant</h3>
 <p>
   <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true"></SemDropdownSelection>
