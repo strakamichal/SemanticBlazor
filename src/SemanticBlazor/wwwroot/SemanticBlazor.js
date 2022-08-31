@@ -129,7 +129,6 @@ window.SemanticDateTimeInput = {
     if (locale === "" || locale === null) {
       locale = getLanguage();
     }
-
     if ((todayText === "" || todayText === null) && locale.indexOf('cs') !== -1) todayText = "Dnes";
     else todayText = "Today";
     $("#" + id).closest('.calendar').calendar(

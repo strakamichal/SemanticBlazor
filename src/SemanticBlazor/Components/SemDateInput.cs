@@ -29,7 +29,8 @@ namespace SemanticBlazor.Components
         }
         else
         {
-          await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id, null, null, StartDateInputId, EndDateInputId);
+          await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id, Culture, null, StartDateInputId, EndDateInputId);
+          await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
         }
       }
     }
