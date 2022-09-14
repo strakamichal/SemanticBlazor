@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using System;
+using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -116,7 +117,7 @@ namespace SemanticBlazor
       {
         await jsRuntime.InvokeAsync<string>("SemanticDateTimeInput.GetValue", id);
       }
-      public static async Task SetDate(IJSRuntime jsRuntime, string id, string date)
+      public static async Task SetDate(IJSRuntime jsRuntime, string id, object date)
       {
         await jsRuntime.InvokeAsync<string>("SemanticDateTimeInput.SetDate", id, date);
       }

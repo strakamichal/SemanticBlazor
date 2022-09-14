@@ -25,12 +25,12 @@ namespace SemanticBlazor.Components
       {
         if (StartDateInputId == null && EndDateInputId == null)
         {
-          await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id);
+          await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id, Culture);
         }
         else
         {
           await JsFunc.DateTimeInput.InitDateCalendar(JsRuntime, Id, Culture, null, StartDateInputId, EndDateInputId);
-          await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
+          //await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
         }
       }
     }

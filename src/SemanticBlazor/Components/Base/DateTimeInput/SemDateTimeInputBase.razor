@@ -62,14 +62,14 @@
         LastValidValue = Value;
         await Task.Delay(10); // Aby se předešlo zobrazení minulé hodnoty
       }
-      await ResetInputValue();
+      if (Rendered) await ResetInputValue();
       await base.OnParametersSetAsync();
     }
   }
 
   public override async Task ClearValue()
   {
-    await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, "");
+    await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
     await base.ClearValue();
   }
 
@@ -130,11 +130,11 @@
   {
     if (StringValue != null)
     {
-      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
+      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
     }
     else
     {
-      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, "");
+      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
     }
   }
 }
