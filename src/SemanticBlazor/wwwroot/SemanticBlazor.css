@@ -95,3 +95,18 @@ a {
   right: 1rem;
   color:rgba(0, 0, 0, .87)
 }
+
+.ui.table thead th a
+{
+  color: rgba(0,0,0,.87);
+}
+
+.ui.table thead th a .icon
+{
+  color: rgba(0,0,0,0.55);
+}
+
+.ui.table thead th a .icon.active
+{
+  color: rgba(0,0,0,0.87);
+}
