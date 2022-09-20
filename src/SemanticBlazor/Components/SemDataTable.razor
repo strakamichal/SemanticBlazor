@@ -11,43 +11,132 @@
     {
       <div class="@SegmentClassMapper.ToString()" style="padding: 0">
         <table class="ui @Class table">
-          <thead>
+          @if (ShowHeader)
+          {
+            <thead>
             <tr>
-              <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-              <th style="width: 15%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-              <th style="width: 30%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-              <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-              <th style="width: 20%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-              <th style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
-              <th style="width: 5%"><div class="ui placeholder"><div class="paragraph"><div class="short line"></div></div></div></th>
+              <th style="width: 10%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 15%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 30%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 10%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 20%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 10%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 5%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="short line"></div>
+                  </div>
+                </div>
+              </th>
             </tr>
-          </thead>
+            </thead>
+          }
           <tbody>
-            @for (int i = 0; i < 5; i++)
-            {
-              <tr>
-                <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-                <td style="width: 15%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-                <td style="width: 30%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-                <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-                <td style="width: 20%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-                <td style="width: 10%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-                <td style="width: 5%"><div class="ui placeholder"><div class="paragraph"><div class="line"></div></div></div></td>
-              </tr>
-            }
+          @for (int i = 0; i < 5; i++)
+          {
+            <tr>
+              <td style="width: 10%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 15%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 30%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 10%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 20%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 10%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+              <td style="width: 5%">
+                <div class="ui placeholder">
+                  <div class="paragraph">
+                    <div class="line"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
           </tbody>
         </table>
       </div>
     }
     else if (!CurrentItems.Any())
     {
-      <div class="ui message">@EmptyDataMessage</div>
+      <div class="ui message no-data">@EmptyDataMessage</div>
     }
     else
     {
       <div id="@Id" class="@SegmentClassMapper.ToString()" style="padding: 0;">
         <table class="@ClassMapper.ToString()">
-          <thead>
+          @if (ShowHeader)
+          {
+            <thead>
             @if (Header != null)
             {
               @Header
@@ -79,33 +168,34 @@
                 }
               </tr>
             }
-          </thead>
+            </thead>
+          }
           <tbody>
-            @foreach (var item in CurrentItems)
+          @foreach (var item in CurrentItems)
+          {
+            @if (RowTemplate != null)
             {
-              @if (RowTemplate != null)
-              {
-                @RowTemplate(item)
-              }
-              else
-              {
-                <tr @attributes="GetRowAttributes(item)">
-                  @foreach (var column in _localColumns)
-                  {
-                    <td @attributes="GetBodyAttributes(column, item)">
-                      @if (column.ItemTemplate != null)
-                      {
-                        @(column.ItemTemplate(item))
-                      }
-                      else
-                      {
-                        @(column.ItemText.Invoke(item))
-                      }
-                    </td>
-                  }
-                </tr>
-              }
+              @RowTemplate(item)
             }
+            else
+            {
+              <tr @attributes="GetRowAttributes(item)">
+                @foreach (var column in _localColumns)
+                {
+                  <td @attributes="GetBodyAttributes(column, item)">
+                    @if (column.ItemTemplate != null)
+                    {
+                      @(column.ItemTemplate(item))
+                    }
+                    else
+                    {
+                      @(column.ItemText.Invoke(item))
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          }
           </tbody>
         </table>
       </div>
@@ -118,30 +208,40 @@
 }
 
 @code {
-  [Parameter] public string SegmentClass { get; set; } = "basic";
+  [Parameter]
+  public string SegmentClass { get; set; } = "basic";
 
-  [Parameter] public RenderFragment Columns { get; set; }
-  [Parameter] public bool AllowSorting { get; set; }
+  [Parameter]
+  public RenderFragment Columns { get; set; }
+  [Parameter]
+  public bool AllowSorting { get; set; }
   private List<SemDataTableColumn<TItem>> _localColumns = new List<SemDataTableColumn<TItem>>();
-  [Parameter] public Func<TItem, string> RowClassFunc { get; set; }
-  [Parameter] public string RowClass { get; set; }
+  [Parameter]
+  public Func<TItem, string> RowClassFunc { get; set; }
+  [Parameter]
+  public string RowClass { get; set; }
 
-  [Parameter] public RenderFragment Header { get; set; }
-  [Parameter] public RenderFragment<TItem> RowTemplate { get; set; }
-  [Parameter] public string EmptyDataMessage { get; set; } = "No records has been found...";
+  [Parameter]
+  public bool ShowHeader { get; set; } = true;
+  [Parameter]
+  public RenderFragment Header { get; set; }
+  [Parameter]
+  public RenderFragment<TItem> RowTemplate { get; set; }
+  [Parameter]
+  public string EmptyDataMessage { get; set; } = "No records has been found...";
   ClassMapper SegmentClassMapper { get; set; } = new ClassMapper();
 
   public SemDataTable()
   {
     SegmentClassMapper
-    .Add("ui basic")
-    .Get(() => SegmentClass)
-    .If("loading", () => Loading)
-    .Add("segment");
+      .Add("ui basic")
+      .Get(() => SegmentClass)
+      .If("loading", () => Loading)
+      .Add("segment");
 
     ClassMapper
-    .Add("ui")
-    .Add("table");
+      .Add("ui")
+      .Add("table");
   }
 
   internal override void RegisterChildControl(object control)
@@ -151,7 +251,7 @@
     {
       throw new Exception("Columns collection cannot be used together with RowTemplate or Header.");
     }
-    _localColumns.Add((SemDataTableColumn<TItem>)control);
+    _localColumns.Add((SemDataTableColumn<TItem>) control);
     if (CurrentItems != null) StateHasChanged();
   }
 
@@ -178,6 +278,7 @@
     }
     return retval;
   }
+
   public Dictionary<string, object> GetRowAttributes(TItem item)
   {
     var retval = new Dictionary<string, object>();
@@ -188,6 +289,7 @@
     }
     return retval;
   }
+
   public Dictionary<string, object> GetBodyAttributes(SemDataTableColumn<TItem> column, TItem item)
   {
     var retval = new Dictionary<string, object>();
@@ -198,4 +300,5 @@
     }
     return retval;
   }
+
 }
