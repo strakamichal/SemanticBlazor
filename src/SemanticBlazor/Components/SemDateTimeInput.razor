@@ -9,7 +9,7 @@
                     Value="Value" ValueChanged="@((TValue value) => DateChanged(value))"></SemDateInput>
     </div>
     <div class="time">
-      <SemTimeInput @ref="_timeInput" Icon="TimeIcon" IconPosition="IconPosition" Clearable="Clearable" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
+      <SemTimeInput @ref="_timeInput" Icon="TimeIcon" IconPosition="IconPosition" Placeholder="@Placeholder" Culture="@Culture" Size="Size" Enabled="Enabled" Class="@Class"
                     MinutesEnabled="MinutesEnabled" Value="TimeValue" ValueChanged="@((TimeSpan? value) => TimeChanged(value))"></SemTimeInput>
     </div>
   </div>

@@ -77,29 +77,20 @@
     <SemDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="@(Data.Select(li => new ListItem() {Value = li.StringText}))" Search="true"></SemDropdownMultiSelection>
   </SemFormField>*@
 
-@*<SemFormField For="@(() => formModel.SelectedValues)">*@
-@*<SemDataDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="StringData" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>*@
-<SemDataDropdownMultiSelection @bind-Value="@formModel.SelectedValues" DataMethod="@(() => GetStringData())" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
-@*</SemFormField>*@
-<br/>
-@*<SemFormField For="@(() => formModel.SelectedValues)">*@
-@*<SemDataDropdownSelection @ref="_combo" @bind-Value="@formModel.SelectedValue" DataMethod="@(() => GetStringData())" AllowAdditions="true" Search="true"></SemDataDropdownSelection>*@
-@*<SemDataDropdownSelection @ref="_combo" @bind-Value="@formModel.SelectedValue" Items="@(StringData)" AllowAdditions="true" Search="true"></SemDataDropdownSelection>*@
-@*</SemFormField>*@
+<SemDateTimeInput @bind-Value="_nullableDateTime" Clearable="true"></SemDateTimeInput>
+<br/><br/>
+<SemDateInput @bind-Value="_nullableDate" Clearable="true"></SemDateInput>
+<SemTimeInput @bind-Value="_nullableTimespan" Clearable="true"></SemTimeInput>
 
-@(formModel.SelectedValues?.Count ?? 0)<br/>
-@(formModel.SelectedValues != null ? string.Join(",", formModel.SelectedValues) : "")<br/><br/>
-@formModel.SelectedValue<br/><br/>
-
-<SemButton IsSubmitButton="true">Submit</SemButton>
-<SemButton OnClick="@(() => _combo.RefreshItems())">Refresh</SemButton>
-@*</SemForm>*@
 
 @code {
   SemModal modal1;
   SemModal modal2;
 
   DateTime _date;
+  DateTime? _nullableDate = DateTime.Now;
+  DateTime? _nullableDateTime = DateTime.Now;
+  TimeSpan?_nullableTimespan = new TimeSpan(12, 20, 00);
   DateModel _dateModel = new DateModel() {DateFrom = DateTime.Now.Date.AddDays(-1), DateTo = DateTime.Now.Date.AddDays(14)};
 
   List<DateTime> _events = new List<DateTime>();

@@ -57,7 +57,7 @@
   {
     if (!LastValidValue.Equals(Value))
     {
-      if (Value != null)
+      if (Value != null || typeof(TValue) == typeof(DateTime?) || typeof(TValue) == typeof(TimeSpan?))
       {
         LastValidValue = Value;
         await Task.Delay(10); // Aby se předešlo zobrazení minulé hodnoty
@@ -130,7 +130,14 @@
   {
     if (StringValue != null)
     {
-      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
+      if (typeof(TValue) == typeof(TimeSpan) || typeof(TValue) == typeof(TimeSpan?))
+      {
+        await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
+      }
+      else
+      {
+        await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
+      }
     }
     else
     {
