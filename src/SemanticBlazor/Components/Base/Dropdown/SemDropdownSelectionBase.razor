@@ -71,7 +71,7 @@
       }
     }
   }
-  
+
   // Button paremeters
   [Parameter]
   public bool IsButton { get; set; }
@@ -95,16 +95,14 @@
     - compact
     - fluid
   */
-  
+
   protected virtual string StringValue { get; set; }
   protected virtual Dictionary<string, object> InitSettings
   {
     get
     {
       var retval = new Dictionary<string, object>();
-      {
-        retval.Add("fullTextSearch", FulltextSearchMode.ToString().ToLower());  
-      }
+      retval.Add("fullTextSearch", FulltextSearchMode.ToString().ToLower());
       retval.Add("clearable", Clearable);
       retval.Add("allowAdditions", AllowAdditionsProtected);
       return retval;
@@ -121,7 +119,7 @@
   public SemDropdownSelectionBase()
   {
     if (FullTextSearch && FulltextSearchMode == DropdownFulltextSearch.False) FulltextSearchMode = DropdownFulltextSearch.Exact;
-    
+
     ClassMapper
       .Add("ui")
       .If("search", () => Search || AllowAdditionsProtected)
@@ -194,7 +192,7 @@
   }*/
 
   protected virtual object ConvertValue(object newValue) => throw new NotImplementedException();
-  
+
   protected virtual void TryAddMissingItems(string newValue) => throw new NotImplementedException();
 
   protected virtual Task SetComboboxValue()
@@ -204,7 +202,7 @@
 
   protected async Task Init(Dictionary<string, object> initSetting = null)
   {
-    /*DotNetObjectReference<SemDropdownSelectionBase<TItem, TValue>> objRef = DotNetObjectReference.Create((SemDropdownSelectionBase<TItem, TValue>) this);
+  /*DotNetObjectReference<SemDropdownSelectionBase<TItem, TValue>> objRef = DotNetObjectReference.Create((SemDropdownSelectionBase<TItem, TValue>) this);
     await JsFunc.DropDown.Init(JsRuntime, Id, objRef, initSetting ?? InitSettings);*/
     await JsFunc.DropDown.Init(JsRuntime, Id, initSetting ?? InitSettings);
   }
