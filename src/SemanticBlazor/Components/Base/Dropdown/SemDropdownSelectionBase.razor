@@ -54,7 +54,10 @@
   [Parameter]
   public bool Scrolling { get; set; }
   [Parameter]
+  [Obsolete]
   public bool FullTextSearch { get; set; } = true;
+  [Parameter]
+  public DropdownFulltextSearch FulltextSearchMode { get; set; } = DropdownFulltextSearch.False;
   [Parameter]
   public bool Clearable
   {
@@ -99,7 +102,9 @@
     get
     {
       var retval = new Dictionary<string, object>();
-      retval.Add("fullTextSearch", FullTextSearch);
+      {
+        retval.Add("fullTextSearch", FulltextSearchMode.ToString().ToLower());  
+      }
       retval.Add("clearable", Clearable);
       retval.Add("allowAdditions", AllowAdditionsProtected);
       return retval;
@@ -115,6 +120,8 @@
 
   public SemDropdownSelectionBase()
   {
+    if (FullTextSearch && FulltextSearchMode == DropdownFulltextSearch.False) FulltextSearchMode = DropdownFulltextSearch.Exact;
+    
     ClassMapper
       .Add("ui")
       .If("search", () => Search || AllowAdditionsProtected)

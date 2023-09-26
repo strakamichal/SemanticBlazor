@@ -77,10 +77,14 @@
     <SemDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="@(Data.Select(li => new ListItem() {Value = li.StringText}))" Search="true"></SemDropdownMultiSelection>
   </SemFormField>*@
 
-<SemDateTimeInput @bind-Value="_nullableDateTime" Clearable="true"></SemDateTimeInput>
-<br/><br/>
-<SemDateInput @bind-Value="_nullableDate" Clearable="true"></SemDateInput>
-<SemTimeInput @bind-Value="_nullableTimespan" Clearable="true"></SemTimeInput>
+@* <SemDateTimeInput @bind-Value="_nullableDateTime" Clearable="true"></SemDateTimeInput> *@
+@* <br/><br/> *@
+@* <SemDateInput @bind-Value="_nullableDate" Clearable="true"></SemDateInput> *@
+@* <SemTimeInput @bind-Value="_nullableTimespan" Clearable="true"></SemTimeInput> *@
+
+<SemFormField For="@(() => formModel.SelectedValue)">
+  <SemDataDropdownSelection @bind-Value="@formModel.SelectedValue" Items="@(Data)" ValueSelector="@(a => a.StringText)" ItemKey="@(a => a.IntValue)" ItemText="@(a => a.StringText)" Search="true" FulltextSearchMode="DropdownFulltextSearch.Exact"></SemDataDropdownSelection>
+</SemFormField>
 
 
 @code {
@@ -90,7 +94,7 @@
   DateTime _date;
   DateTime? _nullableDate = DateTime.Now;
   DateTime? _nullableDateTime = DateTime.Now;
-  TimeSpan?_nullableTimespan = new TimeSpan(12, 20, 00);
+  TimeSpan? _nullableTimespan = new TimeSpan(12, 20, 00);
   DateModel _dateModel = new DateModel() {DateFrom = DateTime.Now.Date.AddDays(-1), DateTo = DateTime.Now.Date.AddDays(14)};
 
   List<DateTime> _events = new List<DateTime>();
@@ -118,10 +122,13 @@
   List<string> StringData = new() {"ABC", "DEF", "GHI", "JKL"};
   List<TestModel> Data = new()
   {
-    new TestModel {IntValue = -1, StringText = "Nic"},
+    new TestModel {IntValue = 1, StringText = "Nic"},
     new TestModel {IntValue = 2, StringText = "[2] Dva"},
-    new TestModel {IntValue = 1, StringText = "[1] Jedna"},
-    new TestModel {IntValue = 0, StringText = "[0] Nula"}
+    new TestModel {IntValue = 3, StringText = "[1] Jedna"},
+    new TestModel {IntValue = 4, StringText = "[0] Nula"},
+    new TestModel {IntValue = 5, StringText = "DHL Express"},
+    new TestModel {IntValue = 6, StringText = "DHL Global Forwarding"},
+    new TestModel {IntValue = 7, StringText = "HDL Supply Chain"},
   };
 
   private SemTabs tabs;
