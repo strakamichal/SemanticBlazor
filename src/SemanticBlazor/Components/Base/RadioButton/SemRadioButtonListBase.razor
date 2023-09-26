@@ -1,0 +1,87 @@
+﻿@typeparam TItem
+@typeparam TValue
+@using SemanticBlazor.Mappers
+@inherits SemSelectControlBase<TItem, TValue>
+
+@if (Visible)
+{
+  <CascadingValue Value="@(this)">
+    @ListItems
+  </CascadingValue>
+  @if (!Loading)
+  {
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="field">
+            <div class="ui radio checkbox">
+              @if (Value != null && GetItemKey(GetItemFromValue(Value)) == GetItemKey(item))
+              {
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="@DisabledAttribute">
+              }
+              else
+              {
+                <input type="radio" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => ButtonClicked(GetItemKey(item)))" @attributes="@DisabledAttribute">
+              }
+              <label for="@($"{Id}-{GetItemKey(item)}")">
+                @if (ItemTemplate == null)
+                {
+                  @GetItemText(item)
+                }
+                else
+                {
+                  @ItemTemplate(item)
+                }
+              </label>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
+  else
+  {
+    <SemIcon Icon="Icon.Spinner_Loading" />
+  }
+}
+
+@code {
+  public virtual Func<TItem, TValue> ValueSelector { get; set; }
+
+  private TItem GetItemFromValue(TValue value) => SemDataSelectControlHelper<TItem, TValue>.GetItemFromValue(value, Items, ValueSelector);
+  private object ConvertValue(string newValue) => SemDataSelectControlHelper<TItem, TValue>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemText(item, ItemText);
+  protected override string GetItemKey(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemKey(item, Items, ItemKey);
+
+  protected SemRadioButtonListBase()
+  {
+    ClassMapper
+      .Add("grouped fields");
+  }
+  protected override async Task OnParametersSetAsync()
+  {
+    SelectedItem = Value != null ? GetItemFromValue(Value) : default(TItem);
+    await base.OnParametersSetAsync();
+  }
+  protected override async Task ItemsLoaded()
+  {
+    if (Value != null)
+    {
+      SelectedItem = GetItemFromValue(Value);
+    }
+    if (Items != null)
+    {
+      if (Items.All(i => GetItemKey(i) != GetItemKey(SelectedItem)))
+      {
+        await ClearValue();
+      }
+    }
+  }
+  async Task ButtonClicked(string value)
+  {
+    Value = (TValue)ConvertValue(value);
+    await NotifyChanged();
+  }
+}

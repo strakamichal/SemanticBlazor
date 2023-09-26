@@ -1,4 +1,5 @@
-﻿@inherits SemControlBase
+﻿@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
 
 @if (Visible)
 {
@@ -15,24 +16,18 @@
   {
     ClassMapper
       .Add("ui")
-      .Get(() => GetItemClass());
+      .Get(GetItemClass);
   }
   private string GetItemClass()
   {
-    switch (ViewType)
+    return ViewType switch
     {
-      case ListViewType.List:
-        return "item";
-      case ListViewType.Items:
-        return "item";
-      case ListViewType.Comments:
-        return "comment";
-      case ListViewType.Feed:
-        return "event";
-      case ListViewType.Cards:
-        return "card";
-      default:
-        return "";
-    }
+      ListViewType.List => "item",
+      ListViewType.Items => "item",
+      ListViewType.Comments => "comment",
+      ListViewType.Feed => "event",
+      ListViewType.Cards => "card",
+      _ => ""
+      };
   }
 }

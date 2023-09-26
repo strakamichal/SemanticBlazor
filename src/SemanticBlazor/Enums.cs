@@ -10,7 +10,7 @@ namespace SemanticBlazor
   {
     public static string GetClass<T>(T enumValue)
     {
-      return (enumValue ?? (object)"").ToString().ToLower().Replace("_", " ");
+      return (enumValue ?? (object) "").ToString().ToLower().Replace("_", " ");
     }
 
     public static string GetClasses<T>(T[] values)
@@ -27,6 +27,7 @@ namespace SemanticBlazor
   }
 
   #region Colors
+
   public enum Color
   {
     Red,
@@ -81,9 +82,11 @@ namespace SemanticBlazor
     Grey,
     Black
   }
+
   #endregion
 
   #region Sizes
+
   public enum Size
   {
     Mini,
@@ -112,6 +115,7 @@ namespace SemanticBlazor
     Large,
     Fullscreen
   }
+
   #endregion
 
   public enum State
@@ -128,6 +132,7 @@ namespace SemanticBlazor
   }
 
   #region Additional classes
+
   public enum SegmentClass
   {
     Basic,
@@ -295,6 +300,7 @@ namespace SemanticBlazor
   {
     Inline
   }
+
   #endregion
 
   public enum IconPosition
@@ -343,6 +349,13 @@ namespace SemanticBlazor
     Hover
   }
 
+  public enum DropdownFulltextSearch
+  {
+    True,
+    False,
+    Exact
+  }
+
   public enum TimePrecision
   {
     Hour,
@@ -363,6 +376,7 @@ namespace SemanticBlazor
     {
       return icon.HasValue ? icon.ToString().ToLower().Replace("_", " ") : "";
     }
+
     public static string GetClass(Icon icon)
     {
       return icon.ToString().ToLower().Replace("_", " ");

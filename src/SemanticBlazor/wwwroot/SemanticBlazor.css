@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.ui.form .ui.input
+{
+  width: 100%;
+}
+
 
 a {
   cursor: pointer;
@@ -30,13 +35,22 @@ a {
   position: fixed;
   top: 60px;
   right: 20px;
-  width: 250px;
+  width: 350px;
   z-index: 999;
 }
 
   .notifications .segment .close.icon {
     float: right;
     color: black;
+  }
+  
+  .notifications .progress
+  {
+    margin-top: -20px;
+  }
+  .notifications .progress .bar
+  {
+    height: 5px;
   }
 
 
@@ -80,4 +94,19 @@ a {
   top: 1.0535rem;
   right: 1rem;
   color:rgba(0, 0, 0, .87)
+}
+
+.ui.table thead th a
+{
+  color: rgba(0,0,0,.87);
+}
+
+.ui.table thead th a .icon
+{
+  color: rgba(0,0,0,0.55);
+}
+
+.ui.table thead th a .icon.active
+{
+  color: rgba(0,0,0,0.87);
 }

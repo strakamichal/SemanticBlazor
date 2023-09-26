@@ -1,26 +1,30 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SemanticBlazor.Components.Base;
-using SemanticBlazor.Components.SelectControlsBase;
 using SemanticBlazor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.Dropdown;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDataDropdownSelection<ItemType, ValueType> : SemDropdownSingleSelectionBase<ItemType, ValueType>
+  public class SemDataDropdownSelection<TItem, TValue> : SemDropdownSingleSelectionBase<TItem, TValue>
   {
-    [Parameter] public override IEnumerable<ItemType> Items { get; set; } = new List<ItemType>();
-    [Parameter] public override Func<ItemType, ValueType> ValueSelector { get; set; }
-    [Parameter] public override Func<ItemType, object> ItemKey { get; set; }
-    [Parameter] public override Func<ItemType, string> ItemText { get; set; }
-    [Parameter] public override Func<Task<IEnumerable<ItemType>>> DataMethod { get; set; }
-
-    protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
+    [Parameter] public override IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+    [Parameter] public override Func<TItem, TValue> ValueSelector { get; set; }
+    [Parameter] public override Func<TItem, object> ItemKey { get; set; }
+    [Parameter] public override Func<TItem, string> ItemText { get; set; }
+    [Parameter] public override Func<Task<IEnumerable<TItem>>> DataMethod { get; set; }
+    [Parameter] public bool AllowAdditions
     {
-      base.BuildRenderTree(__builder);
+      get => AllowAdditionsProtected;
+      set
+      {
+        if (typeof(TItem) != typeof(TValue) || typeof(TValue) != typeof(string)) throw new Exception("AllowAdditions is supported only if both TItem and TValue are of string type.");
+        AllowAdditionsProtected = value;
+      }
     }
   }
 }

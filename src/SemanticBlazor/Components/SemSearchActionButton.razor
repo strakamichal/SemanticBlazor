@@ -1,11 +1,9 @@
-﻿@inherits SemInputControlBase<string>
+﻿@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<string>
 @if (Visible)
 {
   <SemActionInput Value="Value" ValueChanged="ValueChanged" OnClick="SearchClicked" ActionText="@SearchActionText" Clearable="true"
                   ButtonIcon="Icon.Search" ButtonIconLabeled="false" Size="Size" OnClickLoading="true" Style="@Style" Class="@Class" @attributes="Attributes" Enabled="@Enabled"></SemActionInput>
 }
-
-
 
 @code {
   [Parameter] public string SearchActionText { get; set; } = "Search";

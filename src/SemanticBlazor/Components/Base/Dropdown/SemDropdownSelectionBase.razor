@@ -1,0 +1,210 @@
+﻿@typeparam TItem
+@typeparam TValue
+@using SemanticBlazor.Mappers
+@inherits SemSelectControlBase<TItem, TValue>
+
+@if (Visible)
+{
+  <CascadingValue Value="@(this)">
+    @ListItems
+  </CascadingValue>
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+    <input type="hidden" value="@StringValue" @onchange="OnValueChanged"/>
+    @if (Icon != null)
+    {
+      <SemIcon Icon="@Icon"></SemIcon>
+    }
+    @if (!IsButton)
+    {
+      <i class="dropdown icon"></i>
+    }
+    @if (IsButton && ButtonIcon != null)
+    {
+      <SemIcon Icon="ButtonIcon"></SemIcon>
+    }
+    <div class="default text">@DefaultText</div>
+    <div class="menu">
+      @if (Items != null)
+      {
+        @foreach (var item in Items)
+        {
+          <div class="item" data-value="@(GetItemKey(item))">
+            @if (ItemTemplate != null)
+            {
+              @ItemTemplate(item)
+            }
+            else
+            {
+              @(GetItemText(item))
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+}
+
+@code {
+  [Parameter]
+  public string DefaultText { get; set; } = "Select...";
+  [Parameter]
+  public Icon? Icon { get; set; }
+  [Parameter]
+  public bool Search { get; set; }
+  [Parameter]
+  public bool Scrolling { get; set; }
+  [Parameter]
+  [Obsolete]
+  public bool FullTextSearch { get; set; } = true;
+  [Parameter]
+  public DropdownFulltextSearch FulltextSearchMode { get; set; } = DropdownFulltextSearch.False;
+  [Parameter]
+  public bool Clearable
+  {
+    get => _clearable;
+    set
+    {
+      _clearable = value;
+      if ((typeof(TValue) == typeof(short) || typeof(TValue) == typeof(int) || typeof(TValue) == typeof(long)) && _clearable)
+      {
+        throw new Exception("Dropdown cannot be Clearable - TValue is not nullable.");
+      }
+    }
+  }
+
+  // Button paremeters
+  [Parameter]
+  public bool IsButton { get; set; }
+  [Parameter]
+  public Icon? ButtonIcon { get; set; }
+  [Parameter]
+  public IconPosition? ButtonIconPosition { get; set; }
+  [Parameter]
+  public bool ButtonIconLabeled { get; set; } = true;
+  [Parameter]
+  public ButtonColor? ButtonColor { get; set; }
+  [Parameter]
+  public Emphasis? ButtonEmphasis { get; set; }
+  [Parameter]
+  public Size? ButtonSize { get; set; }
+  [Parameter]
+  public ButtonClass[] ButtonClasses { get; set; }
+
+  /*
+    Not implemented parameters:
+    - compact
+    - fluid
+  */
+
+  protected virtual string StringValue { get; set; }
+  protected virtual Dictionary<string, object> InitSettings
+  {
+    get
+    {
+      var retval = new Dictionary<string, object>();
+      retval.Add("fullTextSearch", FulltextSearchMode.ToString().ToLower());
+      retval.Add("clearable", Clearable);
+      retval.Add("allowAdditions", AllowAdditionsProtected);
+      return retval;
+    }
+  }
+  protected string LastStringValue { get; set; }
+  protected bool GuiValueChangeInprogress { get; set; }
+  protected bool AllowAdditionsProtected;
+  protected readonly List<TItem> UserAddedItems = new List<TItem>();
+  private bool _changeFromGui;
+  private bool IsValueChanged => LastStringValue != StringValue;
+  private bool _clearable;
+
+  public SemDropdownSelectionBase()
+  {
+    if (FullTextSearch && FulltextSearchMode == DropdownFulltextSearch.False) FulltextSearchMode = DropdownFulltextSearch.Exact;
+
+    ClassMapper
+      .Add("ui")
+      .If("search", () => Search || AllowAdditionsProtected)
+      .If("scrolling", () => Scrolling)
+      .If("selection", () => !IsButton)
+      .If("floating", () => IsButton)
+      .GetIf(() => Enums.GetClass(ButtonIconPosition), () => ButtonIcon != null)
+      .If("labeled", () => ButtonIcon != null && (ButtonClasses == null || !ButtonClasses.Contains(ButtonClass.Basic)) && ButtonIconLabeled)
+      .If("icon", () => ButtonIcon != null && (ButtonClasses == null || !ButtonClasses.Contains(ButtonClass.Basic)) && ButtonIconLabeled)
+      .Get(() => Enums.GetClasses(ButtonClasses))
+      .Get(() => ButtonEmphasis?.ToString().ToLower())
+      .Get(() => ButtonColor?.ToString().ToLower())
+      .Get(() => ButtonSize?.ToString().ToLower())
+      .If("button", () => IsButton)
+      .If("loading", () => Loading)
+      .If("disabled", () => Loading)
+      .Add("dropdown");
+  }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await Init();
+    }
+    await base.OnAfterRenderAsync(firstRender);
+  }
+
+  protected override async Task OnParametersSetAsync()
+  {
+    if (!Rendered)
+    {
+      LastStringValue = StringValue;
+      return;
+    }
+    if (Rendered && !GuiValueChangeInprogress && IsValueChanged && !_changeFromGui)
+    {
+      GuiValueChangeInprogress = true;
+      LastStringValue = StringValue;
+      await Task.Delay(10);
+      await SetComboboxValue();
+      GuiValueChangeInprogress = false;
+    }
+
+    await base.OnParametersSetAsync();
+  }
+
+  private async Task OnValueChanged(ChangeEventArgs e)
+  {
+    if (!GuiValueChangeInprogress)
+    {
+      _changeFromGui = true;
+      if (AllowAdditionsProtected) TryAddMissingItems(e.Value.ToString());
+      Value = (TValue) ConvertValue(e.Value);
+      await NotifyChanged();
+      _changeFromGui = false;
+    }
+  }
+
+  /*[JSInvokable]
+  public async Task OnValueChanged(string newValue)
+  {
+    if (!GuiValueChangeInprogress)
+    {
+      _changeFromGui = true;
+      Value = (TValue) ConvertValue(newValue);
+      await NotifyChanged();
+      _changeFromGui = false;
+    }
+  }*/
+
+  protected virtual object ConvertValue(object newValue) => throw new NotImplementedException();
+
+  protected virtual void TryAddMissingItems(string newValue) => throw new NotImplementedException();
+
+  protected virtual Task SetComboboxValue()
+  {
+    throw new NotImplementedException();
+  }
+
+  protected async Task Init(Dictionary<string, object> initSetting = null)
+  {
+  /*DotNetObjectReference<SemDropdownSelectionBase<TItem, TValue>> objRef = DotNetObjectReference.Create((SemDropdownSelectionBase<TItem, TValue>) this);
+    await JsFunc.DropDown.Init(JsRuntime, Id, objRef, initSetting ?? InitSettings);*/
+    await JsFunc.DropDown.Init(JsRuntime, Id, initSetting ?? InitSettings);
+  }
+
+}

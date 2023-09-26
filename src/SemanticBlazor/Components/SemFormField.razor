@@ -1,5 +1,6 @@
-﻿@typeparam ValueType
-@inherits SemControlBase
+﻿@typeparam TValue
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
+@using SemanticBlazor.Mappers
 @implements IDisposable
 
 @if (Visible)
@@ -8,11 +9,11 @@
     <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
       @if (FieldValidationPosition == ValidationPosition.Top)
       {
-        <SemValidationMessage For="@For" style="float: right; padding: 0px;"></SemValidationMessage>
+        <SemValidationMessage For="@For" style="float: right; padding: 0;"></SemValidationMessage>
       }
       @if (LabelVisible)
       {
-        <label>@(Label != null ? Label : Annotations.GetNameFor(For))</label>
+        <label>@(Label ?? Annotations.GetNameFor(For))</label>
       }
       <CascadingValue Value="For">
         @ChildContent
@@ -26,9 +27,9 @@
 }
 
 @code {
-  [CascadingParameter] Microsoft.AspNetCore.Components.Forms.EditContext EditContext { get; set; }
+  [CascadingParameter] EditContext EditContext { get; set; }
   [CascadingParameter] public ValidationPosition FieldValidationPosition { get; set; }
-  [Parameter] public System.Linq.Expressions.Expression<Func<ValueType>> For { get; set; }
+  [Parameter] public System.Linq.Expressions.Expression<Func<TValue>> For { get; set; }
   [Parameter] public RenderFragment ChildContent { get; set; }
   [Parameter] public string Label { get; set; }
   [Parameter] public bool LabelVisible { get; set; } = true;
@@ -36,7 +37,7 @@
   [Parameter] public bool Required { get; set; }
   [Parameter] public GridUnit? Wide { get; set; }
   [Parameter] public FieldClass[] Classes { get; set; }
-  private bool validationError = false;
+  private bool _validationError = false;
 
   public SemFormField()
   {
@@ -45,28 +46,26 @@
       .Get(() => Enums.GetClasses(Classes))
       .Get(() => Wide?.ToString().ToLower())
       .If("wide", () => Wide != null)
-      .If("error", () => validationError)
+      .If("error", () => _validationError)
       .Add("field");
   }
   protected override void OnInitialized()
   {
-    if (EditContext != null && For != null)
+    if (EditContext == null || For == null) return;
+    if (Editable && Annotations.GetRequiredFor(For))
     {
-      if (Editable && Annotations.GetRequiredFor(For))
-      {
-        Required = true;
-      }
-      if (EditContext != null)
-      {
-        EditContext.OnValidationStateChanged += HandleValidationStateChanged;
-      }
+      Required = true;
+    }
+    if (EditContext != null)
+    {
+      EditContext.OnValidationStateChanged += HandleValidationStateChanged;
     }
   }
   private void HandleValidationStateChanged(object o, ValidationStateChangedEventArgs args)
   {
     if (For != null && EditContext != null)
     {
-      validationError = EditContext.GetValidationMessages(FieldIdentifier.Create(For)).Any();
+      _validationError = EditContext.GetValidationMessages(FieldIdentifier.Create(For)).Any();
     }
   }
   public void Dispose()

@@ -15,18 +15,18 @@
 </SemGrid>
 <SemDataTable @ref="table" DataMethod="GetData" CountMethod="GetCount" AllowPaging="true" AllowSorting="true" DefaultPageSize="5" EmptyDataMessage="No dummy data found...">
   <Columns>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Name" SortExpression="Name">
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Name" SortExpression="Name">
       <ItemTemplate>
         <a @onclick="@(() => ShowEditModal(context.DummyId))">[@context.DummyId] @context.Name</a>
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Description" SortExpression="Description" ItemText="@(a => a.Description)"></SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Type" SortExpression="Type">
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Description" SortExpression="Description" ItemText="@(a => a.Description)"></SemDataTableColumn>
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Type" SortExpression="Type">
       <ItemTemplate>
         <SemLabel Visible="context.Type != null" Size="Size.Small">@context.Type</SemLabel>
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Flags">
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Flags">
       <ItemTemplate>
         @if (context.Flags != null)
         {
@@ -37,8 +37,8 @@
         }
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Created" SortExpression="Created" ItemText="@(a => a.Created.ToString("dd.MM.yyyy HH:mm:ss"))"></SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="" HeaderClass="menucol">
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Created" SortExpression="Created" ItemText="@(a => a.Created.ToString("dd.MM.yyyy HH:mm:ss"))"></SemDataTableColumn>
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="" HeaderClass="menucol">
       <ItemTemplate>
         <SemDropdownMenu>
           <SemIcon Class="ellipsis horizontal"></SemIcon>
@@ -60,20 +60,20 @@
     <SemSearchActionButton OnSearch=""(async () => await table.RefreshData())"" @bind-Value=""searchExpr""></SemSearchActionButton>
   </SemGridColumn>
 </SemGrid>
-<SemDataTable @ref=""table"" ItemType=""Data.DummyData"" DataMethod=""GetData"" CountMethod=""GetCount"" AllowPaging=""true"" DefaultPageSize=""5"" EmptyDataMessage=""No dummy data found..."">
+<SemDataTable @ref=""table"" TItem=""Data.DummyData"" DataMethod=""GetData"" CountMethod=""GetCount"" AllowPaging=""true"" DefaultPageSize=""5"" EmptyDataMessage=""No dummy data found..."">
   <Columns>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Name"" SortExpression=""Name"">
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Name"" SortExpression=""Name"">
       <ItemTemplate>
         <a @onclick=""@(() => ShowEditModal(context.DummyId))"">[@context.DummyId] @context.Name</a>
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Description"" SortExpression=""Description"" ItemText=""@(a => a.Description)""></SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Type"" SortExpression=""Type"">
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Description"" SortExpression=""Description"" ItemText=""@(a => a.Description)""></SemDataTableColumn>
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Type"" SortExpression=""Type"">
       <ItemTemplate>
         <SemLabel Visible=""context.Type != null"" Size=""Size.Small"">@context.Type</SemLabel>
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Flags"">
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Flags"">
       <ItemTemplate>
         @if (context.Flags != null)
         {
@@ -84,7 +84,7 @@
         }
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText="""" HeaderClass=""menucol"">
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText="""" HeaderClass=""menucol"">
       <ItemTemplate>
         <SemDropdownMenu>
           <SemIcon Class=""ellipsis horizontal""></SemIcon>
@@ -96,7 +96,7 @@
         </SemDropdownMenu>
       </ItemTemplate>
     </SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Created"" SortExpression=""Created"" ItemText=""@(a => a.Created.ToString(""dd.MM.yyyy HH:mm:ss""))""></SemDataTableColumn>
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Created"" SortExpression=""Created"" ItemText=""@(a => a.Created.ToString(""dd.MM.yyyy HH:mm:ss""))""></SemDataTableColumn>
   </Columns>
 </SemDataTable>") />
 

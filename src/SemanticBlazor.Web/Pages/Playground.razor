@@ -1,4 +1,5 @@
 ﻿@page "/playground"
+@using System.ComponentModel.DataAnnotations
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
@@ -35,57 +36,136 @@
   </Content>
 </SemModal>*@
 
-<SemForm Model="formModel"></SemForm>
+@* <SemForm Model="formModel"></SemForm> *@
+@* <SemFormField For="@(() => formModel.SelectedValue)"> *@
+@* <SemDataDropdownSelection @bind-Value="formModel.SelectedValue" DataMethod="@(() => GetData())" ItemKey="@(e => e.IntValue)" ItemText="@(e => e.StringText)" ValueSelector="@(e => e.IntValue)"></SemDataDropdownSelection> *@
+@*   @(formModel.SelectedValue.ToString() ?? "n/a") *@
+@* </SemFormField> *@
+
+
+
+@*
+<SemButton Icon="Icon.Angle_Double_Left" OnClick="@(() => _date = _date.AddDays(-1))"></SemButton>
+<SemDateInput @bind-Value="_date" Icon="Icon.Calendar_Alternate_Outline" Style="width: 130px" Changed="@((DateTime _) => { _events.Add(DateTime.Now); StateHasChanged(); })"></SemDateInput>
+<SemButton Icon="Icon.Angle_Double_Right" OnClick="@(() => _date = _date.AddDays(1))"></SemButton>
+@_date.ToString("dd.MM.yyyy")
+
+
+<SemForm Model="_dateModel">
+  <SemDateInput Id="dateFrom" @bind-Value="@_dateModel.DateFrom" EndDateInputId="dateTo" ></SemDateInput>
+  <SemDateInput Id="dateTo" @bind-Value="@_dateModel.DateTo" StartDateInputId="dateFrom"></SemDateInput>
+</SemForm>
+@_dateModel.DateFrom.ToString("dd.MM.yyyy") - @_dateModel.DateTo.ToString("dd.MM.yyyy")
+<br/>
+<br/>
+@foreach (var date in _events)
+{
+  @date.ToString("hh:mm:ss.fff")<br/>
+}
+*@
+
+@*<SemForm Model="formModel" OnValidSubmit="FormSubmitted">*@
+@*<SemFormField For="@(() => formModel.SelectedValues)">
+    <SemDataDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="@Data" Search="true" ValueSelector="@(v => v.StringText)" ItemText="@(v => v.StringText)" ItemKey="@(v => v.IntValue)"></SemDataDropdownMultiSelection>
+  </SemFormField>*@
+
+@*<SemFormField  For="@(() => formModel.SelectedValues)">
+    <SemDataDropdownMultiSelection @ref="_combo" @bind-Value="@formModel.SelectedValues" DataMethod="@(() => GetData())" Search="true" ValueSelector="@(v => v.StringText)"></SemDataDropdownMultiSelection>
+  </SemFormField>*@
+
+@*<SemFormField For="@(() => formModel.SelectedValues)">
+    <SemDropdownMultiSelection @bind-Value="@formModel.SelectedValues" Items="@(Data.Select(li => new ListItem() {Value = li.StringText}))" Search="true"></SemDropdownMultiSelection>
+  </SemFormField>*@
+
+@* <SemDateTimeInput @bind-Value="_nullableDateTime" Clearable="true"></SemDateTimeInput> *@
+@* <br/><br/> *@
+@* <SemDateInput @bind-Value="_nullableDate" Clearable="true"></SemDateInput> *@
+@* <SemTimeInput @bind-Value="_nullableTimespan" Clearable="true"></SemTimeInput> *@
+
 <SemFormField For="@(() => formModel.SelectedValue)">
-<SemDataDropdownSelection @bind-Value="formModel.SelectedValue" DataMethod="@(() => GetData())" ItemKey="@(e => e.IntValue)" ItemText="@(e => e.StringText)" ValueSelector="@(e => e.IntValue)"></SemDataDropdownSelection>
-  @(formModel.SelectedValue.ToString() ?? "n/a")
+  <SemDataDropdownSelection @bind-Value="@formModel.SelectedValue" Items="@(Data)" ValueSelector="@(a => a.StringText)" ItemKey="@(a => a.IntValue)" ItemText="@(a => a.StringText)" Search="true" FulltextSearchMode="DropdownFulltextSearch.Exact"></SemDataDropdownSelection>
 </SemFormField>
 
-
-
-@*<div>
-  <SemDataDropdownMultiSelection @bind-Value="SelectedItems" Items="@Data" AllowAdditions="true" Search="true"></SemDataDropdownMultiSelection>
-  @(SelectedItems?.Count ?? 0)
-  @if (SelectedItems != null)
-  {
-    string.Join(",", SelectedItems);
-  }
-</div>*@
 
 @code {
   SemModal modal1;
   SemModal modal2;
 
+  DateTime _date;
+  DateTime? _nullableDate = DateTime.Now;
+  DateTime? _nullableDateTime = DateTime.Now;
+  TimeSpan? _nullableTimespan = new TimeSpan(12, 20, 00);
+  DateModel _dateModel = new DateModel() {DateFrom = DateTime.Now.Date.AddDays(-1), DateTo = DateTime.Now.Date.AddDays(14)};
+
+  List<DateTime> _events = new List<DateTime>();
+  private SemDataDropdownSelection<string, string> _combo;
+
   int SelectedItem { get; set; } = 0;
-  List<string> SelectedItems { get; set; }
-  FormModel formModel { get; set; } = new();
+  List<string> SelectedItems { get; set; } = new List<string>();
+  FormModel formModel { get; set; } = new()
+  {
+    SelectedValues = new List<string>() {"Nic", "ABC"},
+    SelectedValue = "Test"
+  };
+
+  public string LongText { get; set; }
 
   private class FormModel
   {
-    public int SelectedValue { get; set; }
+    [MinLength(1, ErrorMessage = "You have to select at least one Flag"), Required, Display(Name = "Values")]
+    public List<string> SelectedValues { get; set; }
+
+    [Required, Display(Name = "Value")]
+    public string SelectedValue { get; set; }
   }
 
-  //List<int> Data = new() {4,3,2,1,0};
+  List<string> StringData = new() {"ABC", "DEF", "GHI", "JKL"};
   List<TestModel> Data = new()
   {
-    new TestModel { IntValue = -1, StringText = "Nic"},
+    new TestModel {IntValue = 1, StringText = "Nic"},
     new TestModel {IntValue = 2, StringText = "[2] Dva"},
-    new TestModel {IntValue = 1, StringText = "[1] Jedna"},
-    new TestModel { IntValue = 0, StringText = "[0] Nula"}
+    new TestModel {IntValue = 3, StringText = "[1] Jedna"},
+    new TestModel {IntValue = 4, StringText = "[0] Nula"},
+    new TestModel {IntValue = 5, StringText = "DHL Express"},
+    new TestModel {IntValue = 6, StringText = "DHL Global Forwarding"},
+    new TestModel {IntValue = 7, StringText = "HDL Supply Chain"},
   };
 
   private SemTabs tabs;
 
-  private class TestModel
+  private record TestModel
   {
     public int IntValue { get; set; }
     public string StringText { get; set; }
+
+    public override string ToString()
+    {
+      return StringText;
+    }
   }
 
   private async Task<IEnumerable<TestModel>> GetData()
   {
-    await Task.Delay(1000);
+    await Task.Delay(5000);
     return Data;
   }
+
+  private async Task<IEnumerable<string>> GetStringData()
+  {
+    await Task.Delay(5000);
+    return StringData;
+  }
+
+  private class DateModel
+  {
+    public DateTime DateFrom { get; set; }
+    public DateTime DateTo { get; set; }
+  }
+
+  private void FormSubmitted()
+  {
+    StateHasChanged();
+  }
+
 
 }

@@ -1,67 +1,96 @@
-﻿@inject Services.NotificationService notificationService
-@inject IJSRuntime jsRuntime
+﻿@inject NotificationService NotificationService
 @using System.Threading
 @using System.Linq
-@inherits SemControlBase
+@using System.Runtime.InteropServices.ComTypes
+@using SemanticBlazor.Services
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
+@implements IDisposable;
 
 @if (Visible)
 {
   <div class="notifications @Class" style="@Style" @attributes="Attributes">
-    @foreach (var item in notifications)
+    @foreach (var item in Notifications)
     {
       <div class="ui raised @item.Color segment" id="@item.Id">
-        <a @onclick="@(() => HideNotification(item.Id))"><SemIcon Class="close"></SemIcon></a>
-        <p><b>@item.Title</b></p>
-        @((MarkupString)item.Message)
+        <a @onclick="@(() => HideNotification(item.Id))">
+          <SemIcon Class="close"></SemIcon>
+        </a>
+        <div class="header">
+          @if (item.Icon != null)
+          {
+            <SemIcon Icon="item.Icon" class="@item.Color"></SemIcon>
+          }
+          <b>@item.Title</b>
+        </div>
+        <p>
+          @((MarkupString) item.Message)
+        </p>
       </div>
     }
-    @if (notifications.Count > 1)
+    @if (Notifications.Count > 1)
     {
-      <SemButton Class="icon labeled" OnClick="ClearAll"><SemIcon Class="delete" />Clear all</SemButton>
+      <SemButton Class="icon labeled" OnClick="ClearAll"><SemIcon Class="delete"/>@ClearAllText</SemButton>
     }
   </div>
 }
 
 @code {
-  public List<Services.NotificationModel>
-  notifications
-  { get; set; } = new List<Services.NotificationModel>
-    ();
+  [Parameter]
+  public string ClearAllText { get; set; } = "Clear all";
+  private List<NotificationModel> Notifications { get; set; } = new List<NotificationModel>();
+  private Timer _timer;
 
   protected override void OnInitialized()
   {
-    notificationService.OnShow += ShowNotification;
+    NotificationService.OnShow += ShowNotification;
   }
 
-  void ShowNotification(string message, string title = "", string color = "")
+  void ShowNotification(NotificationModel notification)
   {
-    var notification = new Services.NotificationModel() { Message = message, Color = color, Title = title };
-    notifications.Insert(0, notification);
+    Notifications.Insert(0, notification);
     StateHasChanged();
-
-    Timer t = new Timer(new TimerCallback(_ =>
+    
+    if (_timer == null)
     {
-      if (notifications.Contains(notification))
-      {
-        notifications.Remove(notification);
-        InvokeAsync(StateHasChanged);
-      }
-    }), null, 5000, Timeout.Infinite);
+      _timer = new Timer(_ => HideExpiredNotifications(), null, 1000, 1000);
+    }
+  }
+
+  void HideExpiredNotifications()
+  {
+    var toBeRemoved = Notifications.Where(n => n.Expiration < DateTime.Now).ToList();
+    if (toBeRemoved.Count > 0)
+    {
+      Notifications.RemoveAll(n => n.Expiration < DateTime.Now);
+    }
+    if (Notifications.Count == 0)
+    {
+      _timer.Dispose();
+      _timer = null;
+      Notifications.Clear();
+    }
+    InvokeAsync(StateHasChanged);
   }
 
   void HideNotification(string id)
   {
-    var notification = notifications.FirstOrDefault(n => n.Id == id);
+    var notification = Notifications.FirstOrDefault(n => n.Id == id);
     if (notification != null)
     {
-      notifications.Remove(notification);
+      Notifications.Remove(notification);
     }
     StateHasChanged();
   }
 
   void ClearAll()
   {
-    notifications.Clear();
+    Notifications.Clear();
     StateHasChanged();
   }
+
+  public void Dispose()
+  {
+    _timer?.Dispose();
+  }
+
 }

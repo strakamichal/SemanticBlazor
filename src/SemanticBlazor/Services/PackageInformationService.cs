@@ -10,7 +10,7 @@ namespace SemanticBlazor.Services
     public string GetVersion()
     {
       Assembly a = Assembly.GetExecutingAssembly();
-      Assembly b = typeof(SemanticBlazor.Services.PackageInformationService).Assembly;
+      Assembly b = typeof(PackageInformationService).Assembly;
 
       return null;
     }

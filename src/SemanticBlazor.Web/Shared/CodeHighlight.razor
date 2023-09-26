@@ -21,7 +21,7 @@
   {
     if (firstRender)
     {
-      await SemanticBlazor.JsFunc.Accordion.Init(jsRuntime, Id);
+      await JsFunc.Accordion.Init(jsRuntime, Id);
       await jsRuntime.InvokeVoidAsync("Prism.highlightAll");
     }
   }

@@ -7,9 +7,9 @@
 
 <SemDataTable @ref="table" Items="@Items" AllowPaging="true" DefaultPageSize="5" PageIndexChanged="PageIndexChanged">
   <Columns>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="ID" ItemText="@(a => a.DummyId.ToString())"></SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Name" ItemText="@(a => a.Name)"></SemDataTableColumn>
-    <SemDataTableColumn ItemType="Data.DummyData" HeaderText="Type" ItemText="@(a => a.Type)"></SemDataTableColumn>
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="ID" ItemText="@(a => a.DummyId.ToString())"></SemDataTableColumn>
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Name" ItemText="@(a => a.Name)"></SemDataTableColumn>
+    <SemDataTableColumn TItem="Data.DummyData" HeaderText="Type" ItemText="@(a => a.Type)"></SemDataTableColumn>
   </Columns>
 </SemDataTable>
 <br />
@@ -20,9 +20,9 @@
 <CodeHighlight Code=@(@"
 <SemDataTable @ref=""table"" Items=""@Items"" AllowPaging=""true"" DefaultPageSize=""5"" PageIndexChanged=""PageIndexChanged"">
   <Columns>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""ID"" ItemText=""@(a => a.DummyId.ToString())""></SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Name"" ItemText=""@(a => a.Name)""></SemDataTableColumn>
-    <SemDataTableColumn ItemType=""Data.DummyData"" HeaderText=""Type"" ItemText=""@(a => a.Type)""></SemDataTableColumn>
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""ID"" ItemText=""@(a => a.DummyId.ToString())""></SemDataTableColumn>
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Name"" ItemText=""@(a => a.Name)""></SemDataTableColumn>
+    <SemDataTableColumn TItem=""Data.DummyData"" HeaderText=""Type"" ItemText=""@(a => a.Type)""></SemDataTableColumn>
   </Columns>
 </SemDataTable>
 <p>

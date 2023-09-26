@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SemanticBlazor.Components.Base.DateTimeInput;
 
 namespace SemanticBlazor.Components
 {
-  public class SemTimeInput<ValueType> : Base.SemDateTimeInputBase<ValueType>
+  public class SemTimeInput<TValue> : SemDateTimeInputBase<TValue>
   {
     public bool AmPm { get; set; } = false;
     [Parameter] public bool MinutesEnabled { get; set; } = true;
 
-    protected override List<Type> restrictedClasses
+    protected override List<Type> RestrictedClasses
     {
       get
       {
@@ -22,27 +23,14 @@ namespace SemanticBlazor.Components
         };
       }
     }
-    //protected override void OnInitialized()
-    //{
-    //  if (typeof(ValueType) != typeof(TimeSpan) && typeof(ValueType) != typeof(TimeSpan?))
-    //  {
-    //    throw new ArgumentException("Only TimeSpan and TimeSpan? are supported as ValueType");
-    //  }
-    //  base.OnInitialized();
-    //}
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
       if (firstRender)
       {
-        await JsFunc.DateTimeInput.InitTimeCalendar(js, Id, MinutesEnabled, AmPm);
+        await JsFunc.DateTimeInput.InitTimeCalendar(JsRuntime, Id, MinutesEnabled, AmPm);
       }
     }
-    protected override string stringValue
-    {
-      get
-      {
-        return lastValidValue != null ? ((TimeSpan)(object)lastValidValue).ToString(@"h\:mm") : "";
-      }
-    }
+    protected override string StringValue => LastValidValue != null ? ((TimeSpan)(object)LastValidValue).ToString(@"h\:mm") : "";
   }
 }

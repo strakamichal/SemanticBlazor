@@ -1,13 +1,14 @@
-﻿@typeparam ItemType
-@typeparam ValueType
-@inherits SelectControlsBase.SemSelectControlBase<ItemType, ValueType>
+﻿@typeparam TItem
+@typeparam TValue
+@using SemanticBlazor.Mappers
+@inherits SemSelectControlBase<TItem, TValue>
 
 @if (Visible)
 {
-  <CascadingValue Value="@this">
+  <CascadingValue Value="@(this)">
     @ListItems
   </CascadingValue>
-  @if (!loading)
+  @if (!Loading)
   {
     <div class="@ClassMapper.ToString()" style="@Style">
       @if (Items != null)
@@ -41,12 +42,12 @@
   [Parameter] public Size? Size { get; set; }
   [Parameter] public ButtonClass[] Classes { get; set; }
 
-  public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
+  public virtual Func<TItem, TValue> ValueSelector { get; set; }
 
-  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
-  protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
-  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
-  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
+  private TItem GetItemFromValue(TValue value) => SemDataSelectControlHelper<TItem, TValue>.GetItemFromValue(value, Items, ValueSelector);
+  private object ConvertValue(object newValue) => SemDataSelectControlHelper<TItem, TValue>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemText(item, ItemText);
+  protected override string GetItemKey(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemKey(item, Items, ItemKey);
 
   public SemButtonSwitchBase()
   {
@@ -58,14 +59,7 @@
   }
   protected override async Task OnParametersSetAsync()
   {
-    if (Value != null)
-    {
-      SelectedItem = GetItemFromValue(Value);
-    }
-    else
-    {
-      SelectedItem = default(ItemType);
-    }
+    SelectedItem = Value != null ? GetItemFromValue(Value) : default;
     await base.OnParametersSetAsync();
   }
   protected override async Task ItemsLoaded()
@@ -76,7 +70,7 @@
     }
     if (Items != null)
     {
-      if (!Items.Any(i => GetItemKey(i) == GetItemKey(SelectedItem)))
+      if (Items.All(i => GetItemKey(i) != GetItemKey(SelectedItem)))
       {
         await ClearValue();
       }
@@ -84,7 +78,7 @@
   }
   async Task ButtonClicked(string value)
   {
-    Value = (ValueType)ConvertValue(value);
+    Value = (TValue)ConvertValue(value);
     await NotifyChanged();
   }
 }

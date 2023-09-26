@@ -11,25 +11,25 @@ namespace SemanticBlazor.Components
 {
   public class RecursiveDataAnnotationsValidator : ComponentBase
   {
-    private static readonly object validationContextValidatorKey = new object();
-    private ValidationMessageStore messages;
-    [Parameter] public IJSRuntime jSRuntime { get; set; }
-    [CascadingParameter] EditContext EditContext { get; set; }
+    private static readonly object ValidationContextValidatorKey = new object();
+    private ValidationMessageStore _messages;
+    [Parameter] public IJSRuntime JsRuntime { get; set; }
+    [CascadingParameter] public EditContext EditContext { get; set; }
 
     protected override void OnInitialized()
     {
-      messages = new ValidationMessageStore(EditContext);
+      _messages = new ValidationMessageStore(EditContext);
 
       // Perform object-level validation (starting from the root model) on request
       EditContext.OnValidationRequested += (sender, eventArgs) =>
       {
-        messages.Clear();
+        _messages.Clear();
         ValidateObject(EditContext.Model);
         EditContext.NotifyValidationStateChanged();
       };
 
       // Perform per-field validation on each field edit
-      EditContext.OnFieldChanged += (sender, eventArgs) => ValidateField(EditContext, messages, eventArgs.FieldIdentifier);
+      EditContext.OnFieldChanged += (sender, eventArgs) => ValidateField(EditContext, _messages, eventArgs.FieldIdentifier);
       //EditContext.OnValidationStateChanged += async (sender, eventArgs) => await ValidationStateChanged();
     }
     //protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -65,19 +65,19 @@ namespace SemanticBlazor.Components
         {
           var fieldIdentifier = new FieldIdentifier(value, memberName);
           //var errorMessage = Translate(validationResult.ErrorMessage);
-          messages.Add(fieldIdentifier, validationResult.ErrorMessage);
+          _messages.Add(fieldIdentifier, validationResult.ErrorMessage);
         }
       }
     }
     private void ValidateObject(object value, List<ValidationResult> validationResults)
     {
       var validationContext = new ValidationContext(value);
-      validationContext.Items.Add(validationContextValidatorKey, this);
+      validationContext.Items.Add(ValidationContextValidatorKey, this);
       Validator.TryValidateObject(value, validationContext, validationResults, validateAllProperties: true);
     }
     internal static void TryValidateRecursive(object value, ValidationContext validationContext)
     {
-      if (validationContext.Items.TryGetValue(validationContextValidatorKey, out var validator))
+      if (validationContext.Items.TryGetValue(ValidationContextValidatorKey, out var validator))
       {
         ((RecursiveDataAnnotationsValidator)validator).ValidateObject(value);
       }

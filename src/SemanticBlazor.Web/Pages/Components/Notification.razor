@@ -18,6 +18,15 @@
   <SemButton OnClick="ShowLongNotification">Show </SemButton>
 </p>
 
+<h3>
+  Icon
+</h3>
+<p>
+  <SemButton OnClick="ShowIconNotification">Show info</SemButton>
+  <SemButton OnClick="ShowIconSuccessNotification">Show success</SemButton>
+  <SemButton OnClick="ShowIconErrorNotification">Show error</SemButton>
+</p>
+
 @code {
   void ShowBasicNotification()
   {
@@ -26,6 +35,21 @@
 
   void ShowLongNotification()
   {
-    notificationService.ShowNotification("Your password will expire in <b>10 days</b>. Please change your password or the security department will go crazy.<br /><br />Thanks!", "Password expiration", "orange");
+    notificationService.ShowNotification("Your password will expire in <b>10 days</b>. Please change your password or the security department will go crazy.<br /><br />Thanks!", "Password expiration", 10, Color.Orange);
+  }
+  
+  void ShowIconNotification()
+  {
+    notificationService.ShowNotification("Notification #123 has been updated.", "Icon notification", 10, icon: Icon.Info_Circle);
+  }
+  
+  void ShowIconSuccessNotification()
+  {
+    notificationService.ShowNotification("Notification #123 has error.", "Error notification", 15, Color.Green, Icon.Check_Circle);
+  }
+  
+  void ShowIconErrorNotification()
+  {
+    notificationService.ShowNotification("Notification #123 has error.", "Error notification", 20, Color.Red, Icon.Exclamation_Circle);
   }
 }

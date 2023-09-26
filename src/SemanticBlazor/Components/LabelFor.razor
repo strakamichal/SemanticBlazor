@@ -1,5 +1,6 @@
-﻿@typeparam ValueType
-@inherits SemControlBase
+﻿@typeparam TValue
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
+@* ReSharper disable once CSharpWarnings::CS0612 *@
 @if (Visible)
 {
   <label class="@Class" style="@Style" @attributes="Attributes">@Annotations.GetNameFor(For ?? ForCasc)</label>
@@ -7,6 +8,6 @@
 
 @code {
   [Obsolete]
-  [Parameter] public System.Linq.Expressions.Expression<Func<ValueType>> For { get; set; }
-  [CascadingParameter] public System.Linq.Expressions.Expression<Func<ValueType>> ForCasc { get; set; }
+  [Parameter] public System.Linq.Expressions.Expression<Func<TValue>> For { get; set; }
+  [CascadingParameter] public System.Linq.Expressions.Expression<Func<TValue>> ForCasc { get; set; }
 }

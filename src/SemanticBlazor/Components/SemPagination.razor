@@ -1,4 +1,5 @@
-﻿@inherits SemControlBase
+﻿@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
 
 @if (Visible)
 {
@@ -13,8 +14,8 @@
       {
         if (i >= 0)
         {
-          var _i = i;
-          <a class="item @(PageIndex == _i ? "active" : "")" @onclick="@(() => SetPageIndex(_i))">@(i + 1)</a>
+          var j = i;
+          <a class="item @(PageIndex == j ? "active" : "")" @onclick="@(() => SetPageIndex(j))">@(i + 1)</a>
         }
       }
       @if (TotalPages > PageIndex + 3 && TotalPages > 5)

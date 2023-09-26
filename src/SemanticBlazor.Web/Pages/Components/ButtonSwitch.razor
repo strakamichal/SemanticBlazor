@@ -1,6 +1,6 @@
 ﻿@page "/Components/ButtonSwitch"
 @layout ComponentsLayout
-@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+@inject Data.DummyDataService dummyData
 
 <h1>ButtonSwitch & DAtaButtonSwitch</h1>
 @*See the full documentation at <NavLink href="https://semantic-ui.com/modules/checkbox.html" target="_blank">Semantic UI</NavLink>.*@
@@ -191,8 +191,8 @@
   public string SelectedValue2 { get; set; }
   public int SelectedDummyId { get; set; } = 1;
   public string SelectedDummyName { get; set; } = "Lorem";
-  SemanticBlazor.Web.Data.DummyData SelectedDummy { get; set; }
-  IEnumerable<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  Data.DummyData SelectedDummy { get; set; }
+  IEnumerable<Data.DummyData> dummies = new List<Data.DummyData>();
   List<ListItem> options { get; set; } = new List<ListItem>()
 {
     new ListItem() { Text="Option 1" },

@@ -1,4 +1,6 @@
-﻿@inherits SemControlBase
+﻿@using SemanticBlazor.Components.Base.Common
+@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
 
 @if (Visible && Enabled)
 {
@@ -22,7 +24,7 @@
   {
     ClassMapper
       .Add("ui")
-      .Get(() => GetLocationClass())
+      .Get(GetLocationClass)
       .Add("attached tab")
       .If("active", () => Active)
       .Add("segment");
@@ -40,10 +42,7 @@
   }
   protected override void OnInitialized()
   {
-    if (Parent != null)
-    {
-      Parent.RegisterChildControl(this);
-    }
+    Parent?.RegisterChildControl(this);
   }
   protected override async Task OnParametersSetAsync()
   {

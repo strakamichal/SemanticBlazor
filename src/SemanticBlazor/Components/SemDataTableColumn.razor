@@ -1,25 +1,23 @@
-﻿@typeparam ItemType
+﻿@using SemanticBlazor.Components.Base.Common
+@typeparam TItem
 
 @code {
   [CascadingParameter] public SemControlBase Parent { get; set; }
-  [Parameter] public SemDataTable<ItemType> Table { get; set; } //Another way ho to set ItemType (instead of ItemType="TypeName")
+  [Parameter] public SemDataTable<TItem> Table { get; set; } //Another way ho to set TItem (instead of TItem="TypeName")
   
   [Parameter] public string HeaderText { get; set; }
   [Parameter] public RenderFragment HeaderTemplate { get; set; }
   [Parameter] public string HeaderClass { get; set; }
 
-  [Parameter] public Func<ItemType, string> ItemText { get; set; }
-  [Parameter] public RenderFragment<ItemType> ItemTemplate { get; set; }
+  [Parameter] public Func<TItem, string> ItemText { get; set; }
+  [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
   [Parameter] public string ItemClass { get; set; }
-  [Parameter] public Func<ItemType, string> ItemClassFunc { get; set; }
+  [Parameter] public Func<TItem, string> ItemClassFunc { get; set; }
 
   [Parameter] public string SortExpression { get; set; }
 
   protected override void OnInitialized()
   {
-    if (Parent != null)
-    {
-      Parent.RegisterChildControl(this);
-    }
+    Parent?.RegisterChildControl(this);
   }
 }

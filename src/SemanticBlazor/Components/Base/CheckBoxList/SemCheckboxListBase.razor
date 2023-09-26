@@ -1,13 +1,14 @@
-﻿@typeparam ItemType
-@typeparam ValueType
-@inherits SelectControlsBase.SemSelectControlBase<ItemType, List<ValueType>>
+﻿@typeparam TItem
+@typeparam TValue
+@using SemanticBlazor.Mappers
+@inherits SemSelectControlBase<TItem, List<TValue>>
 
 @if (Visible)
 {
-  <CascadingValue Value="@this">
+  <CascadingValue Value="@(this)">
     @ListItems
   </CascadingValue>
-  @if (!loading)
+  @if (!Loading)
   {
     <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
       @if (Items != null)
@@ -17,11 +18,11 @@
           <div class="@InputClassMapper.ToString()">
             @if (Value != null && Value.Any(v => GetItemKey(GetItemFromValue(v)) == GetItemKey(item)))
             {
-              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" checked="checked" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="@DisabledAttribute">
             }
             else
             {
-              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="disabledAttribute">
+              <input type="checkbox" id="@($"{Id}-{GetItemKey(item)}")" @onchange="(() => CheckedChanged(GetItemKey(item)))" @attributes="@DisabledAttribute">
             }
             <label for="@($"{Id}-{GetItemKey(item)}")">
               @if (ItemTemplate == null)
@@ -50,11 +51,11 @@
   [Parameter] public CheckboxType Type { get; set; } = CheckboxType.Checkbox;
   ClassMapper InputClassMapper { get; set; } = new ClassMapper();
 
-  public virtual Func<ItemType, ValueType> ValueSelector { get; set; }
-  protected ItemType GetItemFromValue(ValueType value) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemFromValue(value, Items, ValueSelector);
-  protected object ConvertValue(object newValue) => SemDataSelectControlHelper<ItemType, ValueType>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
-  protected override string GetItemText(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemText(item, ItemText);
-  protected override string GetItemKey(ItemType item) => SemDataSelectControlHelper<ItemType, ValueType>.GetItemKey(item, Items, ItemKey);
+  public virtual Func<TItem, TValue> ValueSelector { get; set; }
+  private TItem GetItemFromValue(TValue value) => SemDataSelectControlHelper<TItem, TValue>.GetItemFromValue(value, Items, ValueSelector);
+  private object ConvertValue(object newValue) => SemDataSelectControlHelper<TItem, TValue>.ConvertValue(newValue, Items, ItemKey, ValueSelector);
+  protected override string GetItemText(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemText(item, ItemText);
+  protected override string GetItemKey(TItem item) => SemDataSelectControlHelper<TItem, TValue>.GetItemKey(item, Items, ItemKey);
 
   public SemCheckboxListBase()
   {
@@ -64,34 +65,27 @@
 
     InputClassMapper
       .Add("ui")
-      .If("disabled", () => !this.Enabled)
+      .If("disabled", () => !Enabled)
       .Get(() => Type.ToString().ToLower())
       .Add("checkbox");
   }
   protected override async Task OnParametersSetAsync()
   {
-    if (Value != null)
-    {
-      SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
-    }
-    else
-    {
-      SelectedItems = null;
-    }
+    SelectedItems = Value?.Select(GetItemFromValue).ToList();
     await base.OnParametersSetAsync();
   }
   protected override async Task ItemsLoaded()
   {
     if (Value != null)
     {
-      SelectedItems = Value.Select(v => GetItemFromValue(v)).ToList();
+      SelectedItems = Value.Select(GetItemFromValue).ToList();
     }
     if (Items != null)
     {
       var validKeys = Value?.Where(v => Items.Any(i => GetItemKey(i) == GetItemKey(GetItemFromValue(v)))).Select(v => GetItemKey(GetItemFromValue(v))).ToList();
       if (validKeys != null && validKeys.Count > 0)
       {
-        Value = validKeys.Select(k => (ValueType)ConvertValue(k)).ToList();
+        Value = validKeys.Select(k => (TValue)ConvertValue(k)).ToList();
         await NotifyChanged();
       }
       else
@@ -102,23 +96,23 @@
   }
   async Task CheckedChanged(object value)
   {
-    if (Value == null) Value = new List<ValueType>();
-    var _value = default(ValueType);
+    if (Value == null) Value = new List<TValue>();
+    TValue convertedValue;
     if (ValueSelector != null)
     {
-      _value = ValueSelector.Invoke(GetItem(value));
+      convertedValue = ValueSelector.Invoke(GetItem(value));
     }
     else
     {
-      _value = (ValueType)ConvertValue(value);
+      convertedValue = (TValue)ConvertValue(value);
     }
-    if (Value.Contains(_value))
+    if (Value.Contains(convertedValue))
     {
-      Value.Remove(_value);
+      Value.Remove(convertedValue);
     }
     else
     {
-      Value.Add(_value);
+      Value.Add(convertedValue);
     }
     await NotifyChanged();
   }

@@ -1,0 +1,147 @@
+﻿@typeparam TValue
+@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemInputControlBase<TValue>
+
+@if (Visible)
+{
+  <div id="div_@Id" class="ui calendar input">
+    <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+      @if (Clearable && Enabled && !String.IsNullOrEmpty(Value?.ToString()))
+      {
+        <SemIcon Icon="SemanticBlazor.Icon.X_Icon" @onclick="ClearValue"/>
+      }
+      else if (Icon != null)
+      {
+        <SemIcon Icon="@Icon"/>
+      }
+      <input id="inpt_@Id" type="text" value="@StringValue" @onchange="OnValueChanged" placeholder="@Placeholder" @attributes="@DisabledAttribute"/>
+    </div>
+  </div>
+}
+
+@code {
+  [Parameter]
+  public Icon? Icon { get; set; }
+  [Parameter]
+  public IconPosition? IconPosition { get; set; } = SemanticBlazor.IconPosition.Left;
+  [Parameter]
+  public bool Clearable { get; set; }
+  [Parameter]
+  public string Placeholder { get; set; }
+  [Parameter]
+  public string Culture { get; set; }
+  [Parameter]
+  public InputSize? Size { get; set; }
+  public virtual string DateFormat { get; set; } = "dd.MM.yyyy";
+
+  protected virtual string StringValue => throw new NotImplementedException();
+  protected TValue LastValidValue { get; set; }
+  
+  public SemDateTimeInputBase()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Class)
+      .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
+      .If("icon", () => Icon != null || Clearable)
+      .Get(() => Size?.ToString().ToLower())
+      .Add("input");
+  }
+
+  protected override void OnInitialized()
+  {
+    if (typeof(TValue) == typeof(TimeSpan) || typeof(TValue) == typeof(DateTime)) Clearable = false;
+  }
+
+  protected override async Task OnParametersSetAsync()
+  {
+    if (!LastValidValue.Equals(Value))
+    {
+      if (Value != null || typeof(TValue) == typeof(DateTime?) || typeof(TValue) == typeof(TimeSpan?))
+      {
+        LastValidValue = Value;
+        await Task.Delay(10); // Aby se předešlo zobrazení minulé hodnoty
+      }
+      if (Rendered) await ResetInputValue();
+      await base.OnParametersSetAsync();
+    }
+  }
+
+  public override async Task ClearValue()
+  {
+    await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
+    await base.ClearValue();
+  }
+
+  private async Task OnValueChanged(ChangeEventArgs e)
+  {
+    var newValue = ConvertValue(e.Value, out var formatError);
+    if (formatError)
+    {
+      await ResetInputValue();
+    }
+    else
+    {
+      if (LastValidValue.Equals(newValue)) return;
+      LastValidValue = Value = newValue;
+      await NotifyChanged();
+    }
+  }
+
+  protected TValue ConvertValue(object value, out bool formatError)
+  {
+    formatError = false;
+    var isValid = TryParse(value.ToString(), out var typeValue);
+    if (isValid)
+    {
+      return typeValue;
+    }
+    if (string.IsNullOrEmpty(value.ToString()) && (typeof(TValue) == typeof(TimeSpan?) || typeof(TValue) == typeof(DateTime?)))
+    {
+      return default;
+    }
+    formatError = true;
+    return LastValidValue;
+  }
+
+  protected bool TryParse(string value, out TValue outValue)
+  {
+    var retval = false;
+    if (typeof(TValue) == typeof(DateTime) || typeof(TValue) == typeof(DateTime?))
+    {
+      DateTime dtValue;
+      retval = DateTime.TryParseExact(value, DateFormat, null, System.Globalization.DateTimeStyles.None, out dtValue);
+      outValue = (TValue) (object) dtValue;
+    }
+    else if (typeof(TValue) == typeof(TimeSpan) || typeof(TValue) == typeof(TimeSpan?))
+    {
+      TimeSpan tsValue;
+      retval = TimeSpan.TryParse(value, out tsValue);
+      outValue = (TValue) (object) tsValue;
+    }
+    else
+    {
+      outValue = default;
+    }
+    return retval;
+  }
+
+  private async Task ResetInputValue()
+  {
+    if (StringValue != null)
+    {
+      if (typeof(TValue) == typeof(TimeSpan) || typeof(TValue) == typeof(TimeSpan?))
+      {
+        await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
+      }
+      else
+      {
+        await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
+      }
+    }
+    else
+    {
+      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
+    }
+  }
+}

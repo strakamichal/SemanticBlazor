@@ -1,4 +1,5 @@
-﻿@code {
+﻿@using SemanticBlazor.Components.Base.Common
+@code {
   [CascadingParameter] public SemControlBase Parent { get; set; }
   [Parameter] public string Value { get; set; }
   [Parameter] public string Text { get; set; }
@@ -6,9 +7,6 @@
 
   protected override void OnInitialized()
   {
-    if (Parent != null)
-    {
-      Parent.RegisterChildControl(this);
-    }
+    Parent?.RegisterChildControl(this);
   }
 }

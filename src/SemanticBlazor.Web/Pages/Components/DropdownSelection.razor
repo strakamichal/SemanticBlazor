@@ -1,6 +1,6 @@
 ﻿@page "/Components/DropdownSelection"
 @layout ComponentsLayout
-@inject SemanticBlazor.Web.Data.DummyDataService dummyData
+@inject Data.DummyDataService dummyData
 
 <h1>DropdownSelection & DataDropdownSelection</h1>
 See the full documentation at <NavLink href="https://semantic-ui.com/modules/dropdown.html" target="_blank">Semantic UI</NavLink>.
@@ -99,30 +99,6 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
       </ListItems>
     </SemDropdownSelection>") />
 
-<h3>Allow additions</h3>
-<p>
-  <SemDropdownSelection @bind-Value="SelectedValue3" DefaultText="Select..." Search="true" AllowAdditions="true">
-    <ListItems>
-      <SemSelectListItem Text="Option 1"></SemSelectListItem>
-      <SemSelectListItem Text="Option 2"></SemSelectListItem>
-      <SemSelectListItem Text="Option 3"></SemSelectListItem>
-      <SemSelectListItem Text="Option 4"></SemSelectListItem>
-    </ListItems>
-  </SemDropdownSelection>
-</p>
-<p>
-  Selected value: @(SelectedValue3)
-</p>
-<CodeHighlight Code=@(@"
-    <SemDropdownSelection @bind-Value=""SelectedValue"" DefaultText=""Select..."" Search=""true"" AllowAdditions=""true"">
-      <ListItems>
-        <SemSelectListItem Text=""Option 1""></SemSelectListItem>
-        <SemSelectListItem Text=""Option 2""></SemSelectListItem>
-        <SemSelectListItem Text=""Option 3""></SemSelectListItem>
-        <SemSelectListItem Text=""Option 4""></SemSelectListItem>
-      </ListItems>
-    </SemDropdownSelection>") />
-
 <h3>Button variant</h3>
 <p>
   <SemDropdownSelection @bind-Value="SelectedValue" Items="options" DefaultText="Select..." IsButton="true"></SemDropdownSelection>
@@ -173,8 +149,8 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
     </ListItems>
     <ItemTemplate>
       <SemLabel Color="Color.Red" Classes="@(new[] { LabelClass.Empty, LabelClass.Circular })"></SemLabel>
-      <span class="text">@(((SemanticBlazor.Models.ListItem)context).Text)</span>
-      <span class="description">@(((SemanticBlazor.Models.ListItem)context).Value)</span>
+      <span class="text">@(((ListItem)context).Text)</span>
+      <span class="description">@(((ListItem)context).Value)</span>
     </ItemTemplate>
   </SemDropdownSelection>
 </p>
@@ -290,8 +266,8 @@ See the full documentation at <NavLink href="https://semantic-ui.com/modules/dro
   public int SelectedDummyId { get; set; } = 4;
   public string SelectedDummyName { get; set; } = "Lorem";
   public int? SelectedNullDummyId { get; set; } = 3;
-  SemanticBlazor.Web.Data.DummyData SelectedDummy { get; set; }
-  IEnumerable<SemanticBlazor.Web.Data.DummyData> dummies = new List<Data.DummyData>();
+  Data.DummyData SelectedDummy { get; set; }
+  IEnumerable<Data.DummyData> dummies = new List<Data.DummyData>();
   List<ListItem> options { get; set; } = new List<ListItem>()
 {
     new ListItem() { Text="Option 1" },

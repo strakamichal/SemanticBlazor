@@ -1,13 +1,13 @@
-﻿@typeparam ItemType
+﻿@typeparam TItem
 
-<a @onclick="@(() => Table?.Sort(SortExpression))" style="color: initial">
+<a @onclick="@(() => Table?.Sort(SortExpression))">
   @ChildContent
-  <SemIcon Icon="@(Table?.SortDirection == "ASC" ? Icon.Sort_Alphabet_Down : Icon.Sort_Alphabet_Up)" Visible="@(Table?.SortExpression == SortExpression)"></SemIcon>
-  <SemIcon Icon="Icon.Sort_Alphabet_Down" Visible="@(Table?.SortExpression != SortExpression)" Style="color: #CCCCCC"></SemIcon>
+  <SemIcon Class="active" Icon="@(Table?.SortDirection == "ASC" ? Icon.Sort_Alphabet_Down : Icon.Sort_Alphabet_Up)" Visible="@(Table?.SortExpression == SortExpression)"></SemIcon>
+  <SemIcon Icon="Icon.Sort_Alphabet_Down" Visible="@(Table?.SortExpression != SortExpression)"></SemIcon>
 </a>
 
 @code {
-  [Parameter] public SemDataTable<ItemType> Table { get; set; }
+  [Parameter] public SemDataTable<TItem> Table { get; set; }
   [Parameter] public string SortExpression { get; set; }
   [Parameter] public RenderFragment ChildContent { get; set; }
 }

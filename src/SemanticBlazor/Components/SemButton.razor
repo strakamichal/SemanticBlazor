@@ -1,10 +1,9 @@
-﻿@inherits SemControlBase
+﻿@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
 
 @if (Visible)
 {
-
-
-  @if (IsSubmitButton)
+  if (IsSubmitButton)
   {
     <button id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" @onclick="ButtonClicked" type="@(IsSubmitButton ? " submit" : "button" )" title="@Tooltip">
       @if (Icon != null && IconPosition != SemanticBlazor.IconPosition.Right)
@@ -49,7 +48,7 @@
 
   @if (NeedsConfirmation)
   {
-    <SemModalConfirmation @ref="confirmationModal" @onclick="ClickEvent" Header="@ConfirmationHeader" CancelButtonText="@CancelButtonText" ConfirmButtonText="@ConfirmButtonText" ConfirmButtonIconClass="@ConfirmButtonIconClass">
+    <SemModalConfirmation @ref="_confirmationModal" @onclick="ClickEvent" Header="@ConfirmationHeader" CancelButtonText="@CancelButtonText" ConfirmButtonText="@ConfirmButtonText" ConfirmButtonIconClass="@ConfirmButtonIconClass">
       <Content>
         @ConfirmationMessage
       </Content>
@@ -61,7 +60,7 @@
   [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
   [Parameter] public RenderFragment ChildContent { get; set; }
   [Parameter] public string Href { get; set; }
-  [Parameter] public bool IsSubmitButton { get; set; } = false;
+  [Parameter] public bool IsSubmitButton { get; set; }
   [Parameter] public bool IsButton { get; set; } = true;
   [Parameter] public bool OnClickLoading { get; set; }
   [Parameter] public string Tooltip { get; set; }
@@ -79,34 +78,33 @@
   [Parameter] public string CancelButtonText { get; set; } = "No";
   [Parameter] public string ConfirmButtonText { get; set; } = "Yes";
   [Parameter] public string ConfirmButtonIconClass { get; set; } = "checkmark";
-  SemModalConfirmation confirmationModal;
-
-  bool loading;
-  bool disabled;
+  SemModalConfirmation _confirmationModal;
+  bool _loading;
+  bool _disabledAfterClick;
 
   public SemButton()
   {
     ClassMapper
       .Add("ui")
-      .If("loading", () => this.loading)
-      .If("disabled", () => this.disabled)
+      .If("loading", () => _loading)
+      .If("disabled", () => _disabledAfterClick)
       .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
-      .If("labeled", () => this.Icon != null && ChildContent != null && (Classes == null || !Classes.Contains(ButtonClass.Basic)) && IconLabeled)
-      .If("icon", () => this.Icon != null && (Classes == null || !Classes.Contains(ButtonClass.Basic)) && IconLabeled)
+      .If("labeled", () => Icon != null && ChildContent != null && (Classes == null || !Classes.Contains(ButtonClass.Basic)) && IconLabeled)
+      .If("icon", () => Icon != null && (Classes == null || !Classes.Contains(ButtonClass.Basic)) && IconLabeled)
       .Get(() => Enums.GetClasses(Classes))
       .Get(() => Emphasis?.ToString().ToLower())
       .Get(() => Color?.ToString().ToLower())
       .Get(() => Size?.ToString().ToLower())
-      .If("button", () => this.IsButton);
+      .If("button", () => IsButton);
   }
   async Task ClickEvent(MouseEventArgs e)
   {
-    if (OnClickLoading) loading = true;
-    disabled = true;
+    if (OnClickLoading) _loading = true;
+    _disabledAfterClick = true;
     await Task.Delay(1);
     await OnClick.InvokeAsync(e);
-    loading = false;
-    disabled = false;
+    _loading = false;
+    _disabledAfterClick = false;
   }
 
   public async Task ButtonClicked(MouseEventArgs e)
@@ -123,6 +121,6 @@
 
   async Task ShowConfirmation()
   {
-    await confirmationModal.Show();
+    await _confirmationModal.Show();
   }
 }

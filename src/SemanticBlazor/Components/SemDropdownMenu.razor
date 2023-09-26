@@ -1,4 +1,5 @@
-﻿@inherits SemControlBase
+﻿@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
 
 @if (Visible)
 {
@@ -8,11 +9,15 @@
 }
 
 @code {
-  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter]
+  public RenderFragment ChildContent { get; set; }
   [Obsolete]
-  [Parameter] public bool ShowOnHover { get; set; } = false;
-  [Parameter] public DropdownOn DropdownOn { get; set; } = DropdownOn.Click;
-  [Parameter] public DropdownAction DropdownAction { get; set; } = DropdownAction.Hide;
+  [Parameter]
+  public bool ShowOnHover { get; set; }
+  [Parameter]
+  public DropdownOn DropdownOn { get; set; } = DropdownOn.Click;
+  [Parameter]
+  public DropdownAction DropdownAction { get; set; } = DropdownAction.Hide;
 
   public SemDropdownMenu()
   {
@@ -24,8 +29,11 @@
   {
     if (firstRender)
     {
+#pragma warning disable CS0612
       if (ShowOnHover) DropdownOn = DropdownOn.Hover;
-      await JsFunc.DropDownMenu.Init(js, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
+#pragma warning restore CS0612
+      await JsFunc.DropDownMenu.Init(JsRuntime, Id, DropdownOn.ToString().ToLower(), DropdownAction.ToString().ToLower());
     }
   }
+
 }

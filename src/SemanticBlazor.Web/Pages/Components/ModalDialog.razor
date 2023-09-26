@@ -91,7 +91,7 @@
   </Actions>
 </SemModal>
 <p>
-  <SemButtonSwitch @bind-Value="dialogClass" Items="@(dialogSizes.Select(li => new Models.ListItem() { Value = li }))" Class="basic"></SemButtonSwitch>
+  <SemButtonSwitch @bind-Value="dialogClass" Items="@(dialogSizes.Select(li => new ListItem() { Value = li }))" Class="basic"></SemButtonSwitch>
   <SemButton Class="teal basic" OnClick="() => sizeModal.Show()">Show modal</SemButton>
 </p>
 <p>@modalResult</p>

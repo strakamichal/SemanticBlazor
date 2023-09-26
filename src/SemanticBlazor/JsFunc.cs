@@ -1,14 +1,13 @@
-﻿using Microsoft.JSInterop;
-using System;
+﻿using System;
+using Microsoft.JSInterop;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SemanticBlazor
 {
-  public class JsFunc
+  public static class JsFunc
   {
-    public class Lists
+    public static class Lists
     {
       public static async Task ScrollTop(IJSRuntime jsRuntime, string id)
       {
@@ -16,11 +15,15 @@ namespace SemanticBlazor
       }
     }
 
-    public class DropDown
+    public static class DropDown
     {
       public static async Task Init(IJSRuntime jsRuntime, string id, Dictionary<string, object> settings)
       {
         await jsRuntime.InvokeAsync<object>("SemanticDropdown.Init", id, settings);
+      }
+      public static async Task Init(IJSRuntime jsRuntime, string id, object objRef, Dictionary<string, object> settings)
+      {
+        await jsRuntime.InvokeAsync<object>("SemanticDropdown.InitRef", id, objRef, settings);
       }
       public static async ValueTask<object> GetValue(IJSRuntime jsRuntime, string id)
       {
@@ -40,7 +43,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class DropDownMenu
+    public static class DropDownMenu
     {
       public static async Task Init(IJSRuntime jsRuntime, string id, string on = "click", string action = "hide")
       {
@@ -48,7 +51,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class Accordion
+    public static class Accordion
     {
       public static async Task Init(IJSRuntime jsRuntime, string id)
       {
@@ -56,7 +59,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class TabularMenu
+    public static class TabularMenu
     {
       public static async Task Init(IJSRuntime jsRuntime, string id)
       {
@@ -64,7 +67,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class Modal
+    public static class Modal
     {
       public static async Task Show(IJSRuntime jsRuntime, string id, bool allowMultiple = false, bool closable = true)
       {
@@ -80,7 +83,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class Form
+    public static class Form
     {
       public static async Task Submit(IJSRuntime jsRuntime, string id)
       {
@@ -88,7 +91,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class NotifcationPanel
+    public static class NotifcationPanel
     {
       public static async Task HideNotificaion(IJSRuntime jsRuntime, string id)
       {
@@ -100,7 +103,7 @@ namespace SemanticBlazor
       }
     }
 
-    public class DateTimeInput
+    public static class DateTimeInput
     {
       public static async Task InitDateCalendar(IJSRuntime jsRuntime, string id, string locale = null, string todayText = null, string startCalId = null, string endCalId = null)
       {
@@ -114,17 +117,27 @@ namespace SemanticBlazor
       {
         await jsRuntime.InvokeAsync<string>("SemanticDateTimeInput.GetValue", id);
       }
-      public static async Task SetDate(IJSRuntime jsRuntime, string id, string date)
+      public static async Task SetDate(IJSRuntime jsRuntime, string id, object date)
       {
         await jsRuntime.InvokeAsync<string>("SemanticDateTimeInput.SetDate", id, date);
       }
     }
 
-    public class Validation
+    public static class Validation
     {
       public static async Task RefreshFieldsValidity(IJSRuntime jsRuntime)
       {
         await jsRuntime.InvokeAsync<object>("Validation.RefreshFieldsValidity");
+      }
+    }
+    
+    public static class Logging
+    {
+      public static async Task ConsoleLog(IJSRuntime jsRuntime, string message)
+      {
+        #if DEBUG
+        await jsRuntime.InvokeAsync<object>("console.log", message);
+        #endif
       }
     }
   }
