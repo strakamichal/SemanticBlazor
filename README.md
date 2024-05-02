@@ -1,5 +1,5 @@
 # ![SemanticBlazor](/src/SemanticBlazor/Files/semblazor-logo.jpg)
-SemanticBlazor is implementation of Semantic UI components for Blazor.
+SemanticBlazor is implementation of Semantic UI (or Fomantic UI) components for Blazor.
 
 [![GitHub Stars](https://img.shields.io/github/stars/strakamichal/SemanticBlazor.svg?style=for-the-badge)](https://github.com/strakamichal/SemanticBlazor/stargazers)
 [![GitHub Issues](https://img.shields.io/github/issues/Strakamichal/SemanticBlazor.svg?style=for-the-badge)](https://github.com/strakamichal/SemanticBlazor/issues)
@@ -19,6 +19,11 @@ SemanticBlazor is implementation of Semantic UI components for Blazor.
 User Interface is the language of the web.
 
 [More about Semantic UI](https://semantic-ui.com)
+
+
+Fomantic UI is the official community fork of Semantic UI.
+
+[More about Fomantic UI](https://fomantic-ui.com)
 
 ### What si Blazor ###
   Blazor lets you build interactive web UIs using C# instead of JavaScript. Blazor apps are composed of reusable web UI components implemented using C#, HTML, and CSS. Both client and server code is written in C#, allowing you to share code and libraries.
@@ -50,12 +55,22 @@ dotnet add package SemanticBlazor
 
 **Link static CSS and JS files (_Host.cshtml)**
 
+*Original Semantic UI*
 ```
 <script src="~/_content/SemanticBlazor/modules/jquery/jquery.min.js"></script>
 <script src="~/_content/SemanticBlazor/modules/semantic/semantic.min.js"></script>
 <link href="~/_content/SemanticBlazor/modules/semantic/semantic.min.css" rel="stylesheet" />
 <script src="~/_content/SemanticBlazor/modules/semantic/calendar.min.js"></script>
 <link href="~/_content/SemanticBlazor/modules/semantic/calendar.min.css" rel="stylesheet" />
+<link href="~/_content/SemanticBlazor/SemanticBlazor.css" rel="stylesheet" />
+<script src="~/_content/SemanticBlazor/SemanticBlazor.js"></script>
+```
+
+*or Fomantic UI*
+```
+<script src="~/_content/SemanticBlazor/modules/jquery/jquery.min.js"></script>
+<script src="~/_content/SemanticBlazor/modules/fomantic/semantic.min.js"></script>
+<link href="~/_content/SemanticBlazor/modules/fomantic/semantic.min.css" rel="stylesheet" />
 <link href="~/_content/SemanticBlazor/SemanticBlazor.css" rel="stylesheet" />
 <script src="~/_content/SemanticBlazor/SemanticBlazor.js"></script>
 ```
