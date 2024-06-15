@@ -83,6 +83,22 @@ namespace SemanticBlazor
     Black
   }
 
+  public enum HeaderColor
+  {
+    Red,
+    Orange,
+    Yellow,
+    Olive,
+    Green,
+    Teal,
+    Blue,
+    Violet,
+    Purple,
+    Pink,
+    Brown,
+    Grey,
+    Black
+  }
   #endregion
 
   #region Sizes
@@ -114,6 +130,15 @@ namespace SemanticBlazor
     Small,
     Large,
     Fullscreen
+  }
+
+  public enum HeaderSize
+  {
+    Tiny,
+    Small,
+    Medium,
+    Large,
+    Huge
   }
 
   #endregion
@@ -299,6 +324,21 @@ namespace SemanticBlazor
   public enum FieldClass
   {
     Inline
+  }
+
+  public enum HeaderClass
+  {
+    Dividing,
+    Block,
+    Top,
+    Attached,
+    Bottom,
+    Left,
+    Right,
+    Floated,
+    Aligned,
+    Justified,
+    Inverted
   }
 
   #endregion

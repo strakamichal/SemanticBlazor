@@ -1,0 +1,87 @@
+﻿@page "/Components/Header"
+@inherits PageBase
+@layout ComponentsLayout
+
+<h1>Header</h1>
+See the full documentation at <NavLink href="https://semantic-ui.com/collections/header.html" target="_blank">Semantic UI</NavLink>.
+
+<SemSegment>
+    <h4 class="ui header">Page headers</h4>
+    <p class="header">Headers may be oriented to give the hierarchy of a section in the context of the page</p>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H1">First Header</SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H2">Second Header</SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H3">Third Header</SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H4">Fourth Header</SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H5">Fifth Header</SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H6">Sixth Header</SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+</SemSegment>
+
+
+<h4>Content Headers</h4>
+<p>Headers may be oriented to give the importance of a section in the context of the content that surrounds it</p>
+<SemSegment>
+    <SemHeader Size="HeaderSize.Huge">
+        Huge Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Large">
+        Large Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Medium">
+        Medium Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Small">
+        Small Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Tiny">
+        Tiny Header
+        <p></p>
+    </SemHeader>
+</SemSegment>
+
+<h4>Icon headers</h4>
+<p>A header can be formatted to emphasize an icon</p>
+<SemSegment>
+    <SemHeader Icon="Icon.User">User</SemHeader>
+    a
+</SemSegment>
+
+<h4>Sub Headers</h4>
+<p>A header can be formatted to appear inside a content block</p>
+<SemSegment>
+    <SemHeader SubHeader="true">Price</SemHeader>
+    <span>$10.99</span>
+    <p></p>
+</SemSegment>
+
+<p>Headers may contain sub headers</p>
+<SemSegment>
+    <SemHeader Numbered="SemHeader.NumberedHeader.H2">
+        Account settings
+        <SemHeader Color=HeaderColor.Red SubHeader="true">Manage your account settings and email</SemHeader>
+    </SemHeader>
+</SemSegment>
+
+<h4>Inverted</h4>
+<p>A header can have its colors inverted for contrast</p>
+<SemSegment Inverted="true">
+    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Classes="new[] { HeaderClass.Inverted }">Inverted Header</SemHeader>
+    <p></p>
+</SemSegment>
+
+@code {
+
+}

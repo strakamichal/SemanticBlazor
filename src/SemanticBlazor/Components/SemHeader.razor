@@ -1,0 +1,107 @@
+﻿@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
+@if (Visible)
+{
+    @if (Numbered != null)
+    {
+        @NumberedHeaderBuilder()
+    }
+    else
+    {
+        <div class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+            @if (Icon != null)
+            {
+                <SemIcon Icon="@Icon"></SemIcon>
+            }
+
+            <div class="content">
+                @ChildContent
+            </div>
+        </div>
+    }
+}
+
+@code {
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public HeaderSize? Size { get; set; }
+    [Parameter] public HeaderColor? Color { get; set; }
+    [Parameter] public NumberedHeader? Numbered { get; set; }
+    [Parameter] public Icon? Icon { get; set; }
+    [Parameter] public IconPosition? IconPosition { get; set; }
+    [Parameter] public bool SubHeader { get; set; }
+    [Parameter] public HeaderClass[] Classes { get; set; }
+
+    public SemHeader()
+    {
+        ClassMapper
+            .If("ui", () => !SubHeader)
+            .Get(() => Enums.GetClasses(Classes))
+            .If("sub", () => SubHeader)
+
+            .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
+            .If("icon", () => Icon != null)
+            .Get(() => Icons.GetClass(Icon))
+            .Get(() => Color?.ToString())
+            .Get(() => Size?.ToString().ToLower())
+            .Add("header");
+    }
+
+    public RenderFragment NumberedHeaderBuilder()
+    {
+        RenderFragment content = @<div class="content">
+
+            @ChildContent
+        </div>;
+
+
+        return Numbered switch
+        {
+            NumberedHeader.H1 => @<h1 class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+                                     @content
+                                 </h1>,
+            NumberedHeader.H2 => @<h2 class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+                                     @content
+                                 </h2>,
+            NumberedHeader.H3 => @<h3 class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+                                     @content
+                                 </h3>,
+            NumberedHeader.H4 => @<h4 class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+                                     @content
+                                 </h4>,
+            NumberedHeader.H5 => @<h5 class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+                                     @content
+                                 </h5>,
+            NumberedHeader.H6 => @<h6 class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+                                     @content
+                                 </h6>,
+
+            _ => null
+        };
+    }
+
+    public RenderFragment CreateHeader() =>
+        builder =>
+        {
+            builder.OpenElement(0, Numbered?.ToString() ?? "div");
+            builder.AddAttribute(1, "class", ClassMapper.ToString());
+            builder.AddAttribute(2, "style", Style);
+            builder.AddAttribute(3, "attributes", Attributes);
+            builder.OpenElement(4, "div");
+            builder.AddAttribute(5, "class", "content");
+            builder.AddContent(6, ChildContent);
+            builder.CloseComponent();
+            builder.CloseElement();
+        };
+
+    public enum NumberedHeader
+    {
+        H1,
+        H2,
+        H3,
+        H4,
+        H5,
+        H6
+    }
+
+}
