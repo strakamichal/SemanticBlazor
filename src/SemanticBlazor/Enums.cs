@@ -179,7 +179,8 @@ namespace SemanticBlazor
     Left_Floated,
     Right_Aligned,
     Left_Aligned,
-    Center_Aligned
+    Center_Aligned,
+    Attached
   }
   public enum ButtonClass
   {
@@ -330,15 +331,16 @@ namespace SemanticBlazor
   {
     Dividing,
     Block,
-    Top,
+    Top_Attached,
     Attached,
-    Bottom,
+    Bottom_Attached,
     Left,
     Right,
     Floated,
     Aligned,
     Justified,
-    Inverted
+    Inverted,
+    Center,
   }
 
   #endregion
