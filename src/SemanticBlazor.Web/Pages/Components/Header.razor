@@ -32,6 +32,35 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
 
 <h4>Content Headers</h4>
 <p>Headers may be oriented to give the importance of a section in the context of the content that surrounds it</p>
+
+<SemButton OnClick="() => fontSize++">+</SemButton><SemButton OnClick="() => fontSize--">-</SemButton>
+<SemSegment Classes="new[] { SegmentClass.Vertical }" Style="@fontStyles">
+    <SemHeader Size="HeaderSize.Huge">
+        Huge Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Large">
+        Large Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Medium">
+        Medium Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Small">
+        Small Header
+        <p></p>
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemHeader Size="HeaderSize.Tiny">
+        Tiny Header
+        <p></p>
+    </SemHeader>
+</SemSegment>
+
 <SemSegment>
     <SemHeader Size="HeaderSize.Huge">
         Huge Header
@@ -309,5 +338,27 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
 
 
 @code {
+    private int _fontSize = 10;
+    private string fontStyles => $"font-size: {fontSize}px;";
+
+    private int fontSize
+    {
+        get => _fontSize;
+        set
+        {
+            if(value < 1)
+            {
+                _fontSize = 1;
+            }
+            else if(value > 100)
+            {
+                _fontSize = 100;
+            }
+            else
+            {
+                _fontSize = value;
+            }
+        }
+    }
 
 }
