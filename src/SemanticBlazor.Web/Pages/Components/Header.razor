@@ -7,19 +7,27 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
 <SemSegment>
     <h4 class="ui header">Page headers</h4>
     <p class="header">Headers may be oriented to give the hierarchy of a section in the context of the page</p>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H1">First Header</SemHeader>
+    <SemHeader1 >First Header</SemHeader1>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H2">Second Header</SemHeader>
+    <SemHeader2>Second Header</SemHeader2>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3">Third Header</SemHeader>
+    <SemHeader3>Third Header</SemHeader3>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4">Fourth Header</SemHeader>
+    <SemHeader4 >Fourth Header</SemHeader4>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H5">Fifth Header</SemHeader>
+    <SemHeader5>Fifth Header</SemHeader5>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H6">Sixth Header</SemHeader>
+    <SemHeader6>Sixth Header</SemHeader6>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
+<CodeHighlight Code="@(@"
+  <SemHeader1>First Header</SemHeader1>
+  <SemHeader2>Second Header</SemHeader2>
+  <SemHeader3>Third Header</SemHeader3>
+  <SemHeader4>Fourth Header</SemHeader4>
+  <SemHeader5>Fifth Header</SemHeader5>
+  <SemHeader6>Sixth Header</SemHeader6>
+")"/>
 
 
 <h4>Content Headers</h4>
@@ -51,11 +59,21 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader>
 </SemSegment>
 
+<CodeHighlight Code=@(@"
+    <SemHeader Size=""HeaderSize.Huge"">Huge Header</SemHeader>
+    <SemHeader Size=""HeaderSize.Large"">Large Header</SemHeader>
+    <SemHeader Size=""HeaderSize.Medium"">Medium Header</SemHeader>
+    <SemHeader Size=""HeaderSize.Small"">Small Header</SemHeader>
+    <SemHeader Size=""HeaderSize.Tiny"">Tiny Header</SemHeader>") />
+
+
 <h4>Icon headers</h4>
 <p>A header can be formatted to emphasize an icon</p>
 <SemSegment>
     <SemHeader Icon="Icon.User">User</SemHeader>
-    a
+</SemSegment>
+<SemSegment>
+    <SemHeader Icon="Icon.Bus" IconClasses="new [] { IconClass.Circular }" Text="Bus"></SemHeader>
 </SemSegment>
 
 <h4>Sub Headers</h4>
@@ -68,10 +86,10 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
 
 <p>Headers may contain sub headers</p>
 <SemSegment>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H2">
+    <SemHeader2>
         Account settings
-        <SemHeader Color=HeaderColor.Red SubHeader="true">Manage your account settings and email</SemHeader>
-    </SemHeader>
+        <SemHeader SubHeader="true">Manage your account settings and email</SemHeader>
+    </SemHeader2>
 </SemSegment>
 
 <h3>Variations</h3>
@@ -79,7 +97,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
 <p>A header can be formatted to divide itself from the content below it</p>
 <SemSegment Classes="new[] { SegmentClass.Top_Attached }">
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Classes="new []{HeaderClass.Dividing}" Text="Dividing header"/>
+    <SemHeader Classes="new[] { HeaderClass.Dividing }" Text="Dividing header"/>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
 <h4>Block</h4>

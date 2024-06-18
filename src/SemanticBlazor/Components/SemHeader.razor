@@ -7,27 +7,17 @@
 
 @code {
 
+    protected virtual string Tag => "div";
     [Parameter] public string Text { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public HeaderSize? Size { get; set; }
     [Parameter] public HeaderColor? Color { get; set; }
-    [Parameter] public NumberedHeader? Numbered { get; set; }
     [Parameter] public Icon? Icon { get; set; }
+    [Parameter] public IconClass[] IconClasses { get; set; }
     [Parameter] public IconPosition? IconPosition { get; set; }
     [Parameter] public bool SubHeader { get; set; }
     [Parameter] public HeaderClass[] Classes { get; set; }
     
-    private string GetHeaderTag() =>
-        Numbered switch
-        {
-            NumberedHeader.H1 => "h1",
-            NumberedHeader.H2 => "h2",
-            NumberedHeader.H3 => "h3",
-            NumberedHeader.H4 => "h4",
-            NumberedHeader.H5 => "h5",
-            NumberedHeader.H6 => "h6",
-            _ => "div"
-        };
     
 
     public SemHeader()
@@ -36,8 +26,8 @@
             .If("ui", () => !SubHeader)
             .Get(() => Enums.GetClasses(Classes))
             .If("sub", () => SubHeader)
-            .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
             .If("icon", () => Icon != null)
+            .GetIf(() => Enums.GetClass(IconPosition), () => Icon != null)
             .Get(() => Icons.GetClass(Icon))
             .Get(() => Color?.ToString().ToLower())
             .Get(() => Size?.ToString().ToLower())
@@ -45,27 +35,24 @@
     }
 
 
-    public RenderFragment BuildHeader()
+    protected RenderFragment BuildHeader()
     {
         return builder =>
         {
-            builder.OpenElement(0, GetHeaderTag());
+            builder.OpenElement(0, Tag);
             builder.AddAttribute(1, "class", ClassMapper.ToString());
             builder.AddAttribute(2, "style", Style);
             builder.AddMultipleAttributes(3, Attributes);
-            builder.AddContent(4, Text);
-            builder.AddContent(5, ChildContent);
+            if (Icon is not null)
+            {
+                builder.OpenElement(4, "i");
+                builder.AddAttribute(5, "class", $"{Icons.GetClass(Icon)} {Enums.GetClasses(IconClasses)} icon");
+                builder.CloseElement();
+            }
+
+            builder.AddContent(6, Text);
+            builder.AddContent(7, ChildContent);
             builder.CloseElement();
         };
     }
-    public enum NumberedHeader
-    {
-        H1,
-        H2,
-        H3,
-        H4,
-        H5,
-        H6
-    }
-
 }
