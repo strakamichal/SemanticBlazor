@@ -64,7 +64,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     <SemHeader Size=""HeaderSize.Large"">Large Header</SemHeader>
     <SemHeader Size=""HeaderSize.Medium"">Medium Header</SemHeader>
     <SemHeader Size=""HeaderSize.Small"">Small Header</SemHeader>
-    <SemHeader Size=""HeaderSize.Tiny"">Tiny Header</SemHeader>") />
+    <SemHeader Size=""HeaderSize.Tiny"">Tiny Header</SemHeader>")/>
 
 
 <h4>Icon headers</h4>
@@ -73,7 +73,7 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     <SemHeader Icon="Icon.User">User</SemHeader>
 </SemSegment>
 <SemSegment>
-    <SemHeader Icon="Icon.Bus" IconClasses="new [] { IconClass.Circular }" Text="Bus"></SemHeader>
+    <SemHeader Icon="Icon.Bus" IconClasses="new[] { IconClass.Circular }">Bus</SemHeader>
 </SemSegment>
 
 <h4>Sub Headers</h4>
@@ -84,6 +84,63 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     <p></p>
 </SemSegment>
 
+<h3>Content</h3>
+<h4>Image</h4>
+<p>A header can contain an image</p>
+<SemSegment Classes="new[] { SegmentClass.Top_Attached }">
+    <SemHeader2>
+        <img class="ui avatar image" src="/img/school.png" alt="school"/>
+        <div class="content">
+            Learn more
+        </div>
+        <SemDivider/>
+        <div class="ui content">
+            <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+        </div>
+
+    </SemHeader2>
+    <SemHeader2>
+        <img class="ui avatar image" src="/img/patrick.png" alt="Patrick"/>
+        Patrick
+        <SemDivider/>
+        <div class="ui content">
+            <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+        </div>
+    </SemHeader2>
+</SemSegment>
+<SemSegment>
+    <SemHeader1>
+        H1
+        <SemHeader Classes="new[] { HeaderClass.Sub }">
+            Sub Header
+        </SemHeader>
+    </SemHeader1>
+    <SemHeader2 >
+        H2
+        <SemHeader Classes="new[] { HeaderClass.Sub }">
+            Sub Header
+        </SemHeader>
+    </SemHeader2>
+    <SemHeader3 >
+        H3
+        <SemHeader Classes="new[] { HeaderClass.Sub }">
+            Sub Header
+        </SemHeader>
+    </SemHeader3>
+    <SemHeader4 >
+        H4
+        <SemHeader Classes="new[] { HeaderClass.Sub }">
+            Sub Header
+        </SemHeader>
+    </SemHeader4>
+    <SemHeader5 >
+        H5
+        <SemHeader Classes="new[] { HeaderClass.Sub }">
+            Sub Header
+        </SemHeader>
+    </SemHeader5>
+</SemSegment>
+
 <p>Headers may contain sub headers</p>
 <SemSegment>
     <SemHeader2>
@@ -92,61 +149,121 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader2>
 </SemSegment>
 
+<h3>States</h3>
+<h4>Disabled</h4>
+<p>A header can show that it is inactive</p>
+<SemSegment>
+    <SemHeader Disabled="true">Disabled Header</SemHeader>
+</SemSegment>
+
+
 <h3>Variations</h3>
 <h4>Dividing</h4>
 <p>A header can be formatted to divide itself from the content below it</p>
 <SemSegment Classes="new[] { SegmentClass.Top_Attached }">
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    <SemHeader Classes="new[] { HeaderClass.Dividing }" Text="Dividing header"/>
+    <SemHeader Classes="new[] { HeaderClass.Dividing }">
+        Dividing Header
+    </SemHeader>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
+
+
 <h4>Block</h4>
-<p>A header can be formatted to fit inside a content block</p>
+<p>A header can be formatted to appear inside a content block</p>
 <SemSegment Classes="new[] { SegmentClass.Top_Attached }">
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Block }" Text="Block"/>
+    <SemHeader3 Classes="new[] { HeaderClass.Block }">
+        Block Header
+    </SemHeader3>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
 
 <h4>Attached</h4>
 <p>A header can be attached to other content, like a segment</p>
 <SemSegment>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Top_Attached }" Text="Top Attached"/>
-    <SemSegment Classes="new[] { SegmentClass.Attached }">
-        <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    </SemSegment>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Attached }" Text="Attached"/>
-    <SemSegment Classes="new[] { SegmentClass.Attached }">
-        <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
-    </SemSegment>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Bottom_Attached }" Text="Bottom Attached Header">
-
+    <SemHeader Classes="new[] { HeaderClass.Top_Attached }">
+        Top Attached
     </SemHeader>
-    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    <SemSegment Classes="new[] { SegmentClass.Attached }">
+        <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    </SemSegment>
+    <SemHeader Classes="new[] { HeaderClass.Attached }">
+        Attached
+    </SemHeader>
+    <SemSegment Classes="new[] { SegmentClass.Attached }">
+        <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
+    </SemSegment>
+    <SemHeader Classes="new[] { HeaderClass.Bottom_Attached }">
+        Bottom Attached Header
+    </SemHeader>
+</SemSegment>
+
+<h4>Floating</h4>
+<p>A header can sit to the left or right of other content</p>
+<SemSegment Classes="new[] { SegmentClass.Clearing }">
+    <SemHeader3 Classes="new[] { HeaderClass.Right_Floated }">
+        Go Forward
+    </SemHeader3>
+    <SemHeader3 Classes="new[] { HeaderClass.Left_Floated }">
+        Go Back
+    </SemHeader3>
 </SemSegment>
 
 <h4>Text alignment</h4>
 <p>A header can have its text aligned to a side</p>
 <SemSegment>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Right, HeaderClass.Aligned }" Text="Right"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Left, HeaderClass.Aligned }" Text="Left"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Justified }" Text="This should take up the full width even if only one line"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H3" Classes="new[] { HeaderClass.Center, HeaderClass.Aligned }" Text="Center"/>
+    <SemHeader Classes="new[] { HeaderClass.Right_Aligned }">
+        Right
+    </SemHeader>
+    <SemHeader Classes="new[] { HeaderClass.Left_Aligned }">
+        Left
+    </SemHeader>
+    <SemHeader Classes="new[] { HeaderClass.Justified }">
+        This should take up the full width even if only one line
+    </SemHeader>
+    <SemHeader Classes="new[] { HeaderClass.Center_Aligned }">
+        Center
+    </SemHeader>
 </SemSegment>
+
 
 <h4>Coloured</h4>
 <p>A header can be formatted with different colors</p>
 <SemSegment>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Red" Text="Red"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Orange" Text="Orange"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Yellow" Text="Yellow"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Olive" Text="Olive"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Green" Text="Green"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Teal" Text="Teal"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Blue" Text="Blue"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Violet" Text="Violet"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Purple" Text="Purple"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Pink" Text="Pink"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Brown" Text="Brown"/>
+
+    <SemHeader4 Color="HeaderColor.Red">
+        Red
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Orange">
+        Orange
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Yellow">
+        Yellow
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Olive">
+        Olive
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Green">
+        Green
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Teal">
+        Teal
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Blue">
+        Blue
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Violet">
+        Violet
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Purple">
+        Purple
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Pink">
+        Pink
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Brown">
+        Brown
+    </SemHeader4>
 </SemSegment>
 
 <h4>Inverted</h4>
@@ -155,18 +272,41 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     Inverted headers use modified light versions of your site's color scheme that are adapted to have more contrast on dark background
 </div>
 <SemSegment Classes="new[] { SegmentClass.Inverted }">
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Red" Classes="new[] { HeaderClass.Inverted }" Text="Red"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Orange" Classes="new[] { HeaderClass.Inverted }" Text="Orange"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Yellow" Classes="new[] { HeaderClass.Inverted }" Text="Yellow"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Olive" Classes="new[] { HeaderClass.Inverted }" Text="Olive"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Green" Classes="new[] { HeaderClass.Inverted }" Text="Green"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Teal" Classes="new[] { HeaderClass.Inverted }" Text="Teal"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Blue" Classes="new[] { HeaderClass.Inverted }" Text="Blue"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Violet" Classes="new[] { HeaderClass.Inverted }" Text="Violet"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Purple" Classes="new[] { HeaderClass.Inverted }" Text="Purple"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Pink" Classes="new[] { HeaderClass.Inverted }" Text="Pink"/>
-    <SemHeader Numbered="SemHeader.NumberedHeader.H4" Color="HeaderColor.Brown" Classes="new[] { HeaderClass.Inverted }" Text="Brown"/>
+    <SemHeader4 Color="HeaderColor.Red" Classes="new[] { HeaderClass.Inverted }">
+        Red
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Orange" Classes="new[] { HeaderClass.Inverted }">
+        Orange
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Yellow" Classes="new[] { HeaderClass.Inverted }">
+        Yellow
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Olive" Classes="new[] { HeaderClass.Inverted }">
+        Olive
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Green" Classes="new[] { HeaderClass.Inverted }">
+        Green
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Teal" Classes="new[] { HeaderClass.Inverted }">
+        Teal
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Blue" Classes="new[] { HeaderClass.Inverted }">
+        Blue
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Violet" Classes="new[] { HeaderClass.Inverted }">
+        Violet
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Purple" Classes="new[] { HeaderClass.Inverted }">
+        Purple
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Pink" Classes="new[] { HeaderClass.Inverted }">
+        Pink
+    </SemHeader4>
+    <SemHeader4 Color="HeaderColor.Brown" Classes="new[] { HeaderClass.Inverted }">
+        Brown
+    </SemHeader4>
 </SemSegment>
+
 
 @code {
 

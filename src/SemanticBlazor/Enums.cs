@@ -336,11 +336,15 @@ namespace SemanticBlazor
     Bottom_Attached,
     Left,
     Right,
-    Floated,
-    Aligned,
+    Right_Floated,
+    Left_Floated,
     Justified,
     Inverted,
     Center,
+    Sub,
+    Right_Aligned,
+    Left_Aligned,
+    Center_Aligned
   }
 
   #endregion

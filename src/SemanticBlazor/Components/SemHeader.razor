@@ -8,7 +8,6 @@
 @code {
 
     protected virtual string Tag => "div";
-    [Parameter] public string Text { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public HeaderSize? Size { get; set; }
     [Parameter] public HeaderColor? Color { get; set; }
@@ -49,9 +48,7 @@
                 builder.AddAttribute(5, "class", $"{Icons.GetClass(Icon)} {Enums.GetClasses(IconClasses)} icon");
                 builder.CloseElement();
             }
-
-            builder.AddContent(6, Text);
-            builder.AddContent(7, ChildContent);
+            builder.AddContent(6, ChildContent);
             builder.CloseElement();
         };
     }
