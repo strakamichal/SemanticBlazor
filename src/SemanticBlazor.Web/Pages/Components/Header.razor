@@ -1,12 +1,20 @@
 ﻿@page "/Components/Header"
 @inherits PageBase
 @layout ComponentsLayout
-<h1>Header</h1>
+<SemHeader1>Header</SemHeader1>
 See the full documentation at <NavLink href="https://semantic-ui.com/collections/header.html" target="_blank">Semantic UI</NavLink>.
+<SemDivider/>
+<SemHeader1>
+    Types
+</SemHeader1>
+<SemDivider/>
 
 <SemSegment>
-    <h4 class="ui header">Page headers</h4>
+    <SemHeader4>Page headers</SemHeader4>
     <p class="header">Headers may be oriented to give the hierarchy of a section in the context of the page</p>
+    <SemMessage Classes="new[] { MessageClass.Floating }" Color="MessageColor.Info">
+        Page headings are sized using rem and are not affected by surrounding content size.
+    </SemMessage>
     <SemHeader1 >First Header</SemHeader1>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
     <SemHeader2>Second Header</SemHeader2>
@@ -30,13 +38,13 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
 ")"/>
 
 
-<h4>Content Headers</h4>
+<SemHeader4>Content Headers</SemHeader4>
 <p>Headers may be oriented to give the importance of a section in the context of the content that surrounds it</p>
-<div class="ui ignored info message">
+<SemMessage Color="MessageColor.Info">
     Content headings are sized with em and are based on the font-size of their container.
-</div>
-<SemButton OnClick="() => fontSize++" Icon="Icon.Plus"/><SemButton OnClick="() => fontSize--" Icon="Icon.Minus"/>
-<SemSegment Classes="new[] { SegmentClass.Vertical }" Style="@fontStyles">
+</SemMessage>
+<SemButton OnClick="() => FontSize++" Icon="Icon.Plus"/><SemButton OnClick="() => FontSize--" Icon="Icon.Minus"/>
+<SemSegment Classes="new[] { SegmentClass.Vertical }" Style="@FontStyles">
     <SemHeader Size="HeaderSize.Huge">
         Huge Header
         <p></p>
@@ -70,16 +78,25 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     <SemHeader Size=""HeaderSize.Tiny"">Tiny Header</SemHeader>")/>
 
 
-<h4>Icon headers</h4>
+<SemHeader4>Icon headers</SemHeader4>
 <p>A header can be formatted to emphasize an icon</p>
 <SemSegment>
-    <SemHeader Icon="Icon.User">User</SemHeader>
+    <SemHeader Icon="Icon.User">
+        User
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
 <SemSegment>
-    <SemHeader Icon="Icon.Bus" IconClasses="new[] { IconClass.Circular }">Bus</SemHeader>
+    <SemHeader Icon="Icon.Bus" IconClasses="new[] { IconClass.Circular }">
+        Bus
+    </SemHeader>
+    <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
+<CodeHighlight Code=@(@"
+    <SemHeader Icon=""Icon.User"">User</SemHeader>
+    <SemHeader Icon=""Icon.Bus"" IconClasses=""new[] { IconClass.Circular }"">Bus</SemHeader>")/>
 
-<h4>Sub Headers</h4>
+<SemHeader4>Sub Headers</SemHeader4>
 <p>A header can be formatted to appear inside a content block</p>
 <SemSegment>
     <SemHeader SubHeader="true">Price</SemHeader>
@@ -87,8 +104,8 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     <p></p>
 </SemSegment>
 
-<h3>Content</h3>
-<h4>Image</h4>
+<SemHeader3>Content</SemHeader3>
+<SemHeader4>Image</SemHeader4>
 <p>A header can contain an image</p>
 <SemSegment Classes="new[] { SegmentClass.Top_Attached }">
     <SemHeader2>
@@ -143,6 +160,39 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
         </SemHeader>
     </SemHeader5>
 </SemSegment>
+<CodeHighlight Code=@(@"
+    <SemHeader1>
+        H1
+        <SemHeader Classes=""new[] { HeaderClass.Sub }"">
+            Sub Header
+        </SemHeader>
+    </SemHeader1>
+    <SemHeader2 >
+        H2
+        <SemHeader Classes=""new[] { HeaderClass.Sub }"">
+            Sub Header
+        </SemHeader>
+    </SemHeader2>
+    <SemHeader3 >
+        H3
+        <SemHeader Classes=""new[] { HeaderClass.Sub }"">
+            Sub Header
+        </SemHeader>
+    </SemHeader3>
+    <SemHeader4 >
+        H4
+        <SemHeader Classes=""new[] { HeaderClass.Sub }"">
+            Sub Header
+        </SemHeader>
+    </SemHeader4>
+    <SemHeader5 >
+        H5
+        <SemHeader Classes=""new[] { HeaderClass.Sub }"">
+            Sub Header
+        </SemHeader>
+    </SemHeader5>
+")>
+</CodeHighlight>
 
 <p>Headers may contain sub headers</p>
 <SemSegment>
@@ -152,16 +202,9 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader2>
 </SemSegment>
 
-<h3>States</h3>
-<h4>Disabled</h4>
-<p>A header can show that it is inactive</p>
-<SemSegment>
-    <SemHeader Disabled="true">Disabled Header</SemHeader>
-</SemSegment>
 
-
-<h3>Variations</h3>
-<h4>Dividing</h4>
+<SemHeader3>Variations</SemHeader3>
+<SemHeader4>Dividing</SemHeader4>
 <p>A header can be formatted to divide itself from the content below it</p>
 <SemSegment Classes="new[] { SegmentClass.Top_Attached }">
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
@@ -170,9 +213,17 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
+<CodeHighlight Code=@(@"
+    <SemSegment Classes=""new[] { SegmentClass.Top_Attached }"">
+        <SemHeader Classes=""new[] { HeaderClass.Dividing }"">
+            Dividing Header
+        </SemHeader>
+    </SemSegment>
+")>
+</CodeHighlight>
 
 
-<h4>Block</h4>
+<SemHeader4>Block</SemHeader4>
 <p>A header can be formatted to appear inside a content block</p>
 <SemSegment Classes="new[] { SegmentClass.Top_Attached }">
     <SemHeader3 Classes="new[] { HeaderClass.Block }">
@@ -180,8 +231,15 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader3>
     <img class="ui wireframe image" src="/img/short-paragraph.png" alt="paragraph wireframe"/>
 </SemSegment>
+<CodeHighlight Code=@(@"
+    <SemSegment Classes=""new[] { SegmentClass.Top_Attached }"">
+        <SemHeader3 Classes=""new[] { HeaderClass.Block }"">
+            Block Header
+        </SemHeader3>
+    </SemSegment>
+")/>
 
-<h4>Attached</h4>
+<SemHeader4>Attached</SemHeader4>
 <p>A header can be attached to other content, like a segment</p>
 <SemSegment>
     <SemHeader Classes="new[] { HeaderClass.Top_Attached }">
@@ -200,8 +258,26 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
         Bottom Attached Header
     </SemHeader>
 </SemSegment>
+<CodeHighlight
+    Code=@(@"
+    <SemHeader Classes=""new[] { HeaderClass.Top_Attached }"">
+        Top Attached
+    </SemHeader>
+    <SemSegment Classes=""new[] { SegmentClass.Attached }"">
+     
+    </SemSegment>
+    <SemHeader Classes=""new[] { HeaderClass.Attached }"">
+        Attached
+    </SemHeader>
+    <SemSegment Classes=""new[] { SegmentClass.Attached }"">
+     
+    </SemSegment>
+    <SemHeader Classes=""new[] { HeaderClass.Bottom_Attached }"">
+        Bottom Attached Header
+    </SemHeader>")>
+</CodeHighlight>
 
-<h4>Floating</h4>
+<SemHeader4>Floating</SemHeader4>
 <p>A header can sit to the left or right of other content</p>
 <SemSegment Classes="new[] { SegmentClass.Clearing }">
     <SemHeader3 Classes="new[] { HeaderClass.Right_Floated }">
@@ -212,7 +288,16 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader3>
 </SemSegment>
 
-<h4>Text alignment</h4>
+<CodeHighlight Code=@(@"
+    <SemHeader3 Classes=""new[] { HeaderClass.Right_Floated }"">
+        Go Forward
+    </SemHeader3>
+    <SemHeader3 Classes=""new[] { HeaderClass.Left_Floated }"">
+        Go Back
+    </SemHeader3>
+")/>
+
+<SemHeader4>Text alignment</SemHeader4>
 <p>A header can have its text aligned to a side</p>
 <SemSegment>
     <SemHeader Classes="new[] { HeaderClass.Right_Aligned }">
@@ -229,11 +314,27 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader>
 </SemSegment>
 
+<CodeHighlight
+    Code=@(@"
+ <SemHeader Classes=""new[] { HeaderClass.Right_Aligned }"">
+     Right
+ </SemHeader>
+ <SemHeader Classes=""new[] { HeaderClass.Left_Aligned }"">
+     Left
+ </SemHeader>
+ <SemHeader Classes=""new[] { HeaderClass.Justified }"">
+     This should take up the full width even if only one line
+ </SemHeader>
+ <SemHeader Classes=""new[] { HeaderClass.Center_Aligned }"">
+     Center
+ </SemHeade
+")>
+</CodeHighlight>
 
-<h4>Coloured</h4>
+
+<SemHeader4>Coloured</SemHeader4>
 <p>A header can be formatted with different colors</p>
 <SemSegment>
-
     <SemHeader4 Color="HeaderColor.Red">
         Red
     </SemHeader4>
@@ -269,7 +370,43 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
     </SemHeader4>
 </SemSegment>
 
-<h4>Inverted</h4>
+<CodeHighlight Code=@(@"
+<SemHeader4 Color=""HeaderColor.Red"">
+    Red
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Orange"">
+    Orange
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Yellow"">
+    Yellow
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Olive"">
+    Olive
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Green"">
+    Green
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Teal"">
+    Teal
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Blue"">
+    Blue
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Violet"">
+    Violet
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Purple"">
+    Purple
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Pink"">
+    Pink
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Brown"">
+    Brown
+</SemHeader4>
+")></CodeHighlight>
+
+<SemHeader4>Inverted</SemHeader4>
 <p>A header can have its colors inverted for contrast</p>
 <div class="ui ignored info message">
     Inverted headers use modified light versions of your site's color scheme that are adapted to have more contrast on dark background
@@ -309,22 +446,57 @@ See the full documentation at <NavLink href="https://semantic-ui.com/collections
         Brown
     </SemHeader4>
 </SemSegment>
+<CodeHighlight Code=@(@"
+<SemHeader4 Color=""HeaderColor.Red"" Classes=""new[] { HeaderClass.Inverted }"">
+    Red
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Orange"" Classes=""new[] { HeaderClass.Inverted }"">
+    Orange
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Yellow"" Classes=""new[] { HeaderClass.Inverted }"">
+    Yellow
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Olive"" Classes=""new[] { HeaderClass.Inverted }"">
+    Olive
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Green"" Classes=""new[] { HeaderClass.Inverted }"">
+    Green
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Teal"" Classes=""new[] { HeaderClass.Inverted }"">
+    Teal
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Blue"" Classes=""new[] { HeaderClass.Inverted }"">
+    Blue
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Violet"" Classes=""new[] { HeaderClass.Inverted }"">
+    Violet
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Purple"" Classes=""new[] { HeaderClass.Inverted }"">
+    Purple
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Pink"" Classes=""new[] { HeaderClass.Inverted }"">
+    Pink
+</SemHeader4>
+<SemHeader4 Color=""HeaderColor.Brown"" Classes=""new[] { HeaderClass.Inverted }"">
+    Brown
+</SemHeader4>
+")></CodeHighlight>
 
 
 @code {
     private int _fontSize = 10;
-    private string fontStyles => $"font-size: {fontSize}px;";
+    private string FontStyles => $"font-size: {FontSize}px;";
 
-    private int fontSize
+    private int FontSize
     {
         get => _fontSize;
         set
         {
-            if(value < 1)
+            if (value < 1)
             {
                 _fontSize = 1;
             }
-            else if(value > 100)
+            else if (value > 100)
             {
                 _fontSize = 100;
             }
