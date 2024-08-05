@@ -83,6 +83,22 @@ namespace SemanticBlazor
     Black
   }
 
+  public enum HeaderColor
+  {
+    Red,
+    Orange,
+    Yellow,
+    Olive,
+    Green,
+    Teal,
+    Blue,
+    Violet,
+    Purple,
+    Pink,
+    Brown,
+    Grey,
+    Black
+  }
   #endregion
 
   #region Sizes
@@ -114,6 +130,15 @@ namespace SemanticBlazor
     Small,
     Large,
     Fullscreen
+  }
+
+  public enum HeaderSize
+  {
+    Tiny,
+    Small,
+    Medium,
+    Large,
+    Huge
   }
 
   #endregion
@@ -154,7 +179,8 @@ namespace SemanticBlazor
     Left_Floated,
     Right_Aligned,
     Left_Aligned,
-    Center_Aligned
+    Center_Aligned,
+    Attached
   }
   public enum ButtonClass
   {
@@ -299,6 +325,26 @@ namespace SemanticBlazor
   public enum FieldClass
   {
     Inline
+  }
+
+  public enum HeaderClass
+  {
+    Dividing,
+    Block,
+    Top_Attached,
+    Attached,
+    Bottom_Attached,
+    Left,
+    Right,
+    Right_Floated,
+    Left_Floated,
+    Justified,
+    Inverted,
+    Center,
+    Sub,
+    Right_Aligned,
+    Left_Aligned,
+    Center_Aligned
   }
 
   #endregion
