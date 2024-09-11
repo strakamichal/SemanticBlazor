@@ -11,7 +11,7 @@ namespace SemanticBlazor.Components.Base.List
   public class SemListBase<TItem> : SemControlBase
   {
     private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
-    protected IEnumerable<TItem> CurrentItems { get; private set; }
+    public IEnumerable<TItem> CurrentItems { get; private set; }
     [Parameter]
     public IEnumerable<TItem> Items
     {
