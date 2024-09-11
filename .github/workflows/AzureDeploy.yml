@@ -16,7 +16,7 @@ jobs:
       run: dotnet restore ./src/*.sln
     - name: Build
       run: dotnet publish ./src/SemanticBlazor.Web/SemanticBlazor.Web.csproj --configuration Release --no-restore -o out
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: SemanticBlazor.Web_${{github.event.release.tag_name}}
         path: ./out
