@@ -18,7 +18,7 @@ jobs:
       run: dotnet build ./src/SemanticBlazor.sln --configuration Release --no-restore
     - name: Pack
       run: dotnet pack ./src/SemanticBlazor/SemanticBlazor.csproj -p:PackageVersion=${{github.event.release.tag_name}} --configuration Release --no-restore -o out
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: SemanticBlazor_${{github.event.release.tag_name}}
         path: ./out
