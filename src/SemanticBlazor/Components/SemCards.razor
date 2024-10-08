@@ -74,6 +74,6 @@
   public override async Task SetPageIndex(int pageIndex)
   {
     await base.SetPageIndex(pageIndex);
-    if (ScrollOnTopOnPageChanged) await JsFunc.Lists.ScrollTop(JsRuntime, Id);
+    if (ScrollOnTopOnPageChanged && Rendered) await JsFunc.Lists.ScrollTop(JsRuntime, Id);
   }
 }

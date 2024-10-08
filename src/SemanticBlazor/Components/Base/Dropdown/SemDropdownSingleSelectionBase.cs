@@ -25,13 +25,16 @@ namespace SemanticBlazor.Components.Base.Dropdown
 
     protected override async Task SetComboboxValue()
     {
-      if (Value != null)
+      if (Rendered)
       {
-        await JsFunc.DropDown.SetValue(JsRuntime, Id, GetItemKey(GetItemFromValue(Value)));
-      }
-      else
-      {
-        await JsFunc.DropDown.Clear(JsRuntime, Id);
+        if (Value != null)
+        {
+          await JsFunc.DropDown.SetValue(JsRuntime, Id, GetItemKey(GetItemFromValue(Value)));
+        }
+        else
+        {
+          await JsFunc.DropDown.Clear(JsRuntime, Id);
+        }
       }
     }
 
@@ -76,7 +79,10 @@ namespace SemanticBlazor.Components.Base.Dropdown
 
     public override async Task ClearValue()
     {
-      await JsFunc.DropDown.Clear(JsRuntime, Id);
+      if (Rendered)
+      {
+        await JsFunc.DropDown.Clear(JsRuntime, Id);
+      }
       await base.ClearValue();
     }
   }

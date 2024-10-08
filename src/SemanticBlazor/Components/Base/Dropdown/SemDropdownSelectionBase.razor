@@ -202,9 +202,11 @@
 
   protected async Task Init(Dictionary<string, object> initSetting = null)
   {
-  /*DotNetObjectReference<SemDropdownSelectionBase<TItem, TValue>> objRef = DotNetObjectReference.Create((SemDropdownSelectionBase<TItem, TValue>) this);
-    await JsFunc.DropDown.Init(JsRuntime, Id, objRef, initSetting ?? InitSettings);*/
-    await JsFunc.DropDown.Init(JsRuntime, Id, initSetting ?? InitSettings);
+    /*DotNetObjectReference<SemDropdownSelectionBase<TItem, TValue>> objRef = DotNetObjectReference.Create((SemDropdownSelectionBase<TItem, TValue>) this);
+      await JsFunc.DropDown.Init(JsRuntime, Id, objRef, initSetting ?? InitSettings);*/
+    if (Rendered)
+    {
+      await JsFunc.DropDown.Init(JsRuntime, Id, initSetting ?? InitSettings);
+    }
   }
-
 }
