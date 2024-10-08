@@ -36,7 +36,7 @@
 
   protected virtual string StringValue => throw new NotImplementedException();
   protected TValue LastValidValue { get; set; }
-  
+
   public SemDateTimeInputBase()
   {
     ClassMapper
@@ -69,7 +69,7 @@
 
   public override async Task ClearValue()
   {
-    await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
+    if (Rendered) await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
     await base.ClearValue();
   }
 
@@ -132,16 +132,16 @@
     {
       if (typeof(TValue) == typeof(TimeSpan) || typeof(TValue) == typeof(TimeSpan?))
       {
-        await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
+        if (Rendered) await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, StringValue);
       }
       else
       {
-        await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
+        if (Rendered) await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, LastValidValue);
       }
     }
     else
     {
-      await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
+      if (Rendered) await JsFunc.DateTimeInput.SetDate(JsRuntime, Id, null);
     }
   }
 }

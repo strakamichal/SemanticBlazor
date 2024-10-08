@@ -48,7 +48,7 @@
   }
   public async Task Submit()
   {
-    await JsFunc.Form.Submit(JsRuntime, Id);
+    if (Rendered) await JsFunc.Form.Submit(JsRuntime, Id);
   }
   private async Task HandleSubmit(EditContext editContext, EventCallback<EditContext> callback)
   {

@@ -52,14 +52,17 @@ namespace SemanticBlazor.Components.Base.Dropdown
 
     protected override async Task SetComboboxValue()
     {
-      await JsFunc.Logging.ConsoleLog(JsRuntime, $"SetComboboxValue - {StringValue}");
-      if (Value != null)
+      //await JsFunc.Logging.ConsoleLog(JsRuntime, $"SetComboboxValue - {StringValue}");
+      if (Rendered)
       {
-        await JsFunc.DropDown.SetExactlyValue(JsRuntime, Id, StringValue);
-      }
-      else
-      {
-        await JsFunc.DropDown.Clear(JsRuntime, Id);
+        if (Value != null)
+        {
+          await JsFunc.DropDown.SetExactlyValue(JsRuntime, Id, StringValue);
+        }
+        else
+        {
+          await JsFunc.DropDown.Clear(JsRuntime, Id);
+        }
       }
     }
 
@@ -93,12 +96,12 @@ namespace SemanticBlazor.Components.Base.Dropdown
 
     protected override void TryAddMissingItems(string newValue)
     {
-      var newValues = newValue.Split(","); 
+      var newValues = newValue.Split(",");
       var items = Items.ToList();
       //Smazat dříve přidané položku
       items.RemoveAll(i => UserAddedItems.Any(ai => ai.Equals(i)));
       UserAddedItems.Clear();
-      
+
       foreach (var key in newValues)
       {
         var item = (TItem) Convert.ChangeType(key, typeof(TItem));
@@ -108,14 +111,17 @@ namespace SemanticBlazor.Components.Base.Dropdown
           UserAddedItems.Add(item);
         }
       }
-      
+
       Items = items;
       StateHasChanged();
     }
 
     public override async Task ClearValue()
     {
-      await JsFunc.DropDown.Clear(JsRuntime, Id);
+      if (Rendered)
+      {
+        await JsFunc.DropDown.Clear(JsRuntime, Id);
+      }
       await base.ClearValue();
     }
   }
