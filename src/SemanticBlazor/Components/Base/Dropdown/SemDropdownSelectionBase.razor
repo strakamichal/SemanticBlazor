@@ -163,7 +163,10 @@
       await SetComboboxValue();
       GuiValueChangeInprogress = false;
     }
-
+    else
+    {
+      LastStringValue = StringValue;
+    }
     await base.OnParametersSetAsync();
   }
 
