@@ -28,6 +28,7 @@ namespace SemanticBlazor.Components.Base.List
     [Parameter] public Func<DataMethodParams, Task<IEnumerable<TItem>>> DataMethod { get; set; }
     [Parameter] public Func<Task<int>> CountMethod { get; set; }
     [Parameter] public EventCallback<int> PageIndexChanged { get; set; }
+    [Parameter] public EventCallback DataLoaded { get; set; }
 
     [Parameter] public bool AllowPaging { get; set; }
     [Parameter] public int DefaultPageSize { get; set; } = 5;
@@ -103,6 +104,7 @@ namespace SemanticBlazor.Components.Base.List
         CurrentItems = AllItems;
       }
       Loading = false;
+      await DataLoaded.InvokeAsync(null);
       StateHasChanged();
     }
 
