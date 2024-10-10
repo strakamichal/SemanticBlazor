@@ -35,6 +35,8 @@ namespace SemanticBlazor.Components.Base.List
     [Parameter] public string SortExpression { get; set; }
     [Parameter] public string SortDirection { get; set; }
 
+    [Parameter] public bool KeepDataOnRefresh { get; set; } = true;
+
     private int _pageSize;
     public int PageIndex { get; private set; }
     public int TotalPages { get; private set; }
@@ -72,8 +74,9 @@ namespace SemanticBlazor.Components.Base.List
     private async Task GetData()
     {
       Loading = true;
+      if (!KeepDataOnRefresh) CurrentItems = null;
       StateHasChanged();
-
+      
       if (AllowPaging)
       {
         if (CountMethod != null)
