@@ -38,15 +38,15 @@ window.SemanticDropdown = {
   },
   InitRef: function (id, reference, settings) {
     $('#' + id).dropdown({
-          fullTextSearch: settings.fullTextSearch,
-          clearable: settings.clearable,
-          allowAdditions: settings.allowAdditions,
-          useLabels: settings.useLabels,
-          maxSelections: settings.maxSelections,
-          onChange: function (value) {
-            reference.invokeMethodAsync('OnValueChanged', value);
-          }
+        fullTextSearch: settings.fullTextSearch,
+        clearable: settings.clearable,
+        allowAdditions: settings.allowAdditions,
+        useLabels: settings.useLabels,
+        maxSelections: settings.maxSelections,
+        onChange: function (value) {
+          reference.invokeMethodAsync('OnValueChanged', value);
         }
+      }
     )
   },
   GetValue: function (id) {
@@ -89,12 +89,12 @@ window.SemanticTabularMenu = {
 window.SemanticModal = {
   Show: function (id, multiple, closable) {
     $('#' + id)
-        .modal(
-            {
-              allowMultiple: multiple,
-              closable: closable
-            })
-        .modal('show');
+      .modal(
+        {
+          allowMultiple: multiple,
+          closable: closable
+        })
+      .modal('show');
   },
   Hide: function (id) {
     $('#' + id).modal('hide');
@@ -105,11 +105,11 @@ window.SemanticModal = {
 };
 
 window.SemanticForm =
-    {
-      Submit: function (id) {
-        $('#' + id).find("input[type='submit']").click();
-      }
-    };
+  {
+    Submit: function (id) {
+      $('#' + id).find("input[type='submit']").click();
+    }
+  };
 
 window.NotifcationPanel = {
   HideNotificaion: function (id) {
@@ -132,25 +132,49 @@ window.SemanticDateTimeInput = {
     if ((todayText === "" || todayText === null) && locale.indexOf('cs') !== -1) todayText = "Dnes";
     else todayText = "Today";
     $("#" + id).closest('.calendar').calendar(
-        {
-          type: "date",
-          firstDayOfWeek: 1,
-          ampm: false,
-          monthFirst: false,
-          today: true,
-          endCalendar: endCal !== null ? $("#" + endCal).parent() : "",
-          startCalendar: startCal !== null ? $("#" + startCal).parent() : "",
-          formatter: {
-            date: function (date, settings) {
-              if (!date) return '';
-              var day = date.getDate();
-              var month = date.getMonth() + 1;
-              var year = date.getFullYear();
+      {
+        type: "date",
+        firstDayOfWeek: 1,
+        ampm: false,
+        monthFirst: false,
+        today: true,
+        endCalendar: endCal !== null ? $("#" + endCal).parent() : "",
+        startCalendar: startCal !== null ? $("#" + startCal).parent() : "",
+        formatter: {
+          date: function (date, settings) {
+            if (!date) return '';
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
 
-              day = day < 10 ? "0" + day : day;
-              month = month < 10 ? "0" + month : month;
-              return day + '.' + month + '.' + year;
-            }
+            day = day < 10 ? "0" + day : day;
+            month = month < 10 ? "0" + month : month;
+            return day + '.' + month + '.' + year;
+          }
+        },
+        onHidden: function () {
+          var element = document.getElementById("inpt_" + id);
+          var event = new Event('change');
+          element.dispatchEvent(event);
+        },
+        text: {
+          days: [getDayName(1, locale), getDayName(2, locale), getDayName(3, locale), getDayName(4, locale), getDayName(5, locale), getDayName(6, locale), getDayName(7, locale)],
+          months: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
+          monthsShort: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
+          today: todayText
+        }
+      });
+  },
+  InitTimeCalendar: function (id, minutesEnabled, ampm) {
+    try {
+      $("#" + id).closest('.calendar').calendar(
+        {
+          type: "time",
+          disableMinute: !minutesEnabled,
+          formatter: {
+            date: 'dd.MM.yyyy',
+            cellTime: "H:mm",
+            time: 'H:mm'
           },
           onHidden: function () {
             var element = document.getElementById("inpt_" + id);
@@ -158,15 +182,12 @@ window.SemanticDateTimeInput = {
             element.dispatchEvent(event);
           },
           text: {
-            days: [getDayName(1, locale), getDayName(2, locale), getDayName(3, locale), getDayName(4, locale), getDayName(5, locale), getDayName(6, locale), getDayName(7, locale)],
-            months: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
-            monthsShort: [getMonth(0, locale), getMonth(1, locale), getMonth(2, locale), getMonth(3, locale), getMonth(4, locale), getMonth(5, locale), getMonth(6, locale), getMonth(7, locale), getMonth(8, locale), getMonth(9, locale), getMonth(10, locale), getMonth(11, locale)],
-            today: todayText
+            now: 'Teď'
           }
         });
-  },
-  InitTimeCalendar: function (id, minutesEnabled, ampm) {
-    $("#" + id).closest('.calendar').calendar(
+    } catch {
+      // Fallback for older versions of Semantic UI
+      $("#" + id).closest('.calendar').calendar(
         {
           type: "time",
           ampm: ampm,
@@ -188,6 +209,8 @@ window.SemanticDateTimeInput = {
             now: 'Teď'
           }
         });
+    }
+
   },
   GetValue: function (id) {
     return $("#" + id).val();

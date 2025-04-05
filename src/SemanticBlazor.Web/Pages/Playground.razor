@@ -1,5 +1,6 @@
 ﻿@page "/playground"
 @using System.ComponentModel.DataAnnotations
+@using System.Globalization
 @inherits PageBase
 @inject Data.DummyDataService dummyData
 
@@ -82,12 +83,49 @@
 @* <SemDateInput @bind-Value="_nullableDate" Clearable="true"></SemDateInput> *@
 @* <SemTimeInput @bind-Value="_nullableTimespan" Clearable="true"></SemTimeInput> *@
 
-<SemFormField For="@(() => formModel.SelectedValue)">
-  <SemDataDropdownSelection @bind-Value="@formModel.SelectedValue" Items="@(Data)" ValueSelector="@(a => a.StringText)" ItemKey="@(a => a.IntValue)" ItemText="@(a => a.StringText)" Search="true" FulltextSearchMode="DropdownFulltextSearch.Exact"></SemDataDropdownSelection>
-</SemFormField>
+@*<SemFormField For="@(() => formModel.SelectedValue)">*@
 
+
+@*<SemSegment>
+  <SemDataDropdownSelection @bind-Value="@formModel.SelectedValue" DataMethod="@(() => GetStringData())" ValueSelector="@(a => a)" ItemKey="@(a => a)" ItemText="@(a => a)"></SemDataDropdownSelection>
+  <SemInput @bind-value="@formModel.TextValue" Changed="@((string _) => TextChanged())"></SemInput>
+</SemSegment>*@
+@* <SemSegment> *@
+@*   <SemDataDropdownSelection @bind-Value="@formModel2.SelectedValue" DataMethod="@(() => GetStringData())" ValueSelector="@(a => a)" ItemKey="@(a => a)" ItemText="@(a => a)" Changed="@((string _) => DoSomething())"></SemDataDropdownSelection> *@
+@*   <SemInput @bind-value="@formModel2.TextValue" Changed="@((string _) => TextChanged2())"></SemInput> *@
+@* </SemSegment> *@
+@*</SemFormField>*@
+
+@* <SemForm Model="_item"> *@
+@*   <SemFormFields> *@
+@*     <SemFormField For="@(() => _item.PeriodFrom)"> *@
+@*       <SemDateInput @bind-Value="@_item.PeriodFrom" Id="periodFromInput" EndDateInputId="periodToInput" Icon="Icon.Calendar_Alternate_Outline" Culture="cs-CZ"></SemDateInput> *@
+@*     </SemFormField> *@
+@*     <SemFormField For="@(() => _item.PeriodTo)"> *@
+@*       <SemDateInput @bind-Value="@_item.PeriodTo" Id="periodToInput" StartDateInputId="periodFromInput" Icon="Icon.Calendar_Alternate_Outline" Culture="cs-CZ"></SemDateInput> *@
+@*     </SemFormField> *@
+@*   </SemFormFields> *@
+@* </SemForm> *@
+@* <p> *@
+@*   @_item.PeriodFrom - @_item.PeriodTo *@
+@* </p> *@
 
 @code {
+  private async Task TextChanged()
+  {
+    formModel.SelectedValue = "ABC";
+  }
+
+  private async Task TextChanged2()
+  {
+    formModel2.SelectedValue = "ABC";
+  }
+
+  private async Task DoSomething()
+  {
+    await Task.Delay(100);
+  }
+
   SemModal modal1;
   SemModal modal2;
 
@@ -100,15 +138,28 @@
   List<DateTime> _events = new List<DateTime>();
   private SemDataDropdownSelection<string, string> _combo;
 
+  private PeriodModel _item = new PeriodModel();
+
   int SelectedItem { get; set; } = 0;
   List<string> SelectedItems { get; set; } = new List<string>();
   FormModel formModel { get; set; } = new()
   {
     SelectedValues = new List<string>() {"Nic", "ABC"},
-    SelectedValue = "Test"
+    SelectedValue = "ABC"
+  };
+  FormModel formModel2 { get; set; } = new()
+  {
+    SelectedValues = new List<string>() {"Nic", "ABC"},
+    SelectedValue = "ABC"
   };
 
   public string LongText { get; set; }
+
+  private class PeriodModel
+  {
+    public DateTime PeriodFrom { get; set; }
+    public DateTime PeriodTo { get; set; }
+  }
 
   private class FormModel
   {
@@ -117,6 +168,7 @@
 
     [Required, Display(Name = "Value")]
     public string SelectedValue { get; set; }
+    public string TextValue { get; set; }
   }
 
   List<string> StringData = new() {"ABC", "DEF", "GHI", "JKL"};
@@ -144,16 +196,16 @@
     }
   }
 
-  private async Task<IEnumerable<TestModel>> GetData()
-  {
-    await Task.Delay(5000);
-    return Data;
-  }
-
   private async Task<IEnumerable<string>> GetStringData()
   {
-    await Task.Delay(5000);
-    return StringData;
+    await Task.Delay(100);
+    return new List<string> {"ABC", "DEF", "GHI", "JKL"};
+  }
+
+  private async Task<IEnumerable<TestModel>> GetData()
+  {
+    //await Task.Delay(5000);
+    return Data;
   }
 
   private class DateModel
@@ -166,6 +218,4 @@
   {
     StateHasChanged();
   }
-
-
 }
