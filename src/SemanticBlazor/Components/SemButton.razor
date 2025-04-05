@@ -19,7 +19,7 @@
   }
   else if (OnClick.HasDelegate)
   {
-    <button id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" @onclick="ButtonClicked" title="@Tooltip">
+    <a id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" @onclick="ButtonClicked" title="@Tooltip">
       @if (Icon != null && IconPosition != SemanticBlazor.IconPosition.Right)
       {
         <SemIcon Icon="@Icon"></SemIcon>
@@ -29,7 +29,7 @@
       {
         <SemIcon Icon="@Icon"></SemIcon>
       }
-    </button>
+    </a>
   }
   else
   {
